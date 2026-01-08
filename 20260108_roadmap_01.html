@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>돈의 종말 2강 - 역사 속 돈의 몰락 | 미국 증시 분석</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a25;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9090a0;
+            --accent-gold: #d4af37;
+            --accent-copper: #b87333;
+            --accent-red: #dc3545;
+            --accent-green: #28a745;
+            --accent-blue: #4a90d9;
+            --border-subtle: rgba(212, 175, 55, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.8;
+            font-size: 16px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 20px 16px 60px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 40px 0 30px;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 30px;
+        }
+
+        .header-label {
+            display: inline-block;
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            background: rgba(212, 175, 55, 0.1);
+            padding: 6px 16px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .header h2 {
+            font-size: 18px;
+            font-weight: 400;
+            color: var(--accent-gold);
+            margin-bottom: 16px;
+        }
+
+        .header-meta {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-gold);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: var(--accent-gold);
+            border-radius: 2px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-title .icon {
+            font-size: 18px;
+        }
+
+        /* Key Point Box */
+        .key-point {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(184, 115, 51, 0.1) 100%);
+            border-left: 4px solid var(--accent-gold);
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .key-point-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .key-point p {
+            font-size: 15px;
+            color: var(--text-primary);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .stat-box {
+            background: var(--bg-secondary);
+            padding: 16px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--accent-gold);
+            margin-bottom: 4px;
+        }
+
+        .stat-value.negative {
+            color: var(--accent-red);
+        }
+
+        .stat-value.positive {
+            color: var(--accent-green);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 24px 0;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .chart-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 280px;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 24px;
+            margin: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent-gold) 0%, var(--accent-copper) 100%);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -22px;
+            top: 6px;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            border: 3px solid var(--bg-primary);
+        }
+
+        .timeline-stage {
+            font-size: 12px;
+            color: var(--accent-gold);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .timeline-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .timeline-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .comparison-table th {
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--accent-gold);
+            padding: 12px;
+            text-align: left;
+            font-weight: 700;
+            border-bottom: 2px solid var(--accent-gold);
+        }
+
+        .comparison-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+        }
+
+        .comparison-table tr:hover td {
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        /* Warning Box */
+        .warning-box {
+            background: rgba(220, 53, 69, 0.1);
+            border: 1px solid rgba(220, 53, 69, 0.3);
+            border-radius: 10px;
+            padding: 16px;
+            margin: 20px 0;
+        }
+
+        .warning-box-title {
+            color: var(--accent-red);
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .warning-box p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Opportunity Box */
+        .opportunity-box {
+            background: rgba(40, 167, 69, 0.1);
+            border: 1px solid rgba(40, 167, 69, 0.3);
+            border-radius: 10px;
+            padding: 16px;
+            margin: 20px 0;
+        }
+
+        .opportunity-box-title {
+            color: var(--accent-green);
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .opportunity-box p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Sector List */
+        .sector-list {
+            margin: 20px 0;
+        }
+
+        .sector-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .sector-badge {
+            background: var(--accent-gold);
+            color: var(--bg-primary);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .sector-badge.bullish {
+            background: var(--accent-green);
+        }
+
+        .sector-badge.bearish {
+            background: var(--accent-red);
+        }
+
+        .sector-badge.neutral {
+            background: var(--accent-blue);
+        }
+
+        .sector-content h4 {
+            font-size: 15px;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .sector-content p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .sector-tickers {
+            font-size: 12px;
+            color: var(--accent-gold);
+            margin-top: 6px;
+        }
+
+        /* Quote Box */
+        .quote-box {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 24px 0;
+            position: relative;
+        }
+
+        .quote-box::before {
+            content: '"';
+            font-family: 'Playfair Display', serif;
+            font-size: 60px;
+            color: var(--accent-gold);
+            opacity: 0.3;
+            position: absolute;
+            top: 0;
+            left: 16px;
+            line-height: 1;
+        }
+
+        .quote-text {
+            font-size: 16px;
+            font-style: italic;
+            color: var(--text-primary);
+            padding-left: 30px;
+            margin-bottom: 10px;
+        }
+
+        .quote-author {
+            font-size: 13px;
+            color: var(--accent-gold);
+            padding-left: 30px;
+        }
+
+        /* Paragraph */
+        p {
+            margin-bottom: 16px;
+            color: var(--text-secondary);
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .highlight {
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .text-red {
+            color: var(--accent-red);
+        }
+
+        .text-green {
+            color: var(--accent-green);
+        }
+
+        /* List */
+        ul {
+            margin: 16px 0;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+        }
+
+        li::marker {
+            color: var(--accent-gold);
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(212, 175, 55, 0.05) 100%);
+            border: 2px solid var(--accent-gold);
+            border-radius: 16px;
+            padding: 24px;
+            margin: 30px 0;
+        }
+
+        .summary-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .summary-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .summary-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .summary-number {
+            background: var(--accent-gold);
+            color: var(--bg-primary);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .summary-text {
+            font-size: 14px;
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 40px;
+        }
+
+        .footer p {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .disclaimer {
+            font-size: 11px;
+            color: var(--text-secondary);
+            opacity: 0.7;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <span class="header-label">미국 증시 분석</span>
+            <h1>돈의 종말</h1>
+            <h2>2강: 역사 속 돈의 몰락</h2>
+            <p class="header-meta">박종원의 경제 로드맵 | 2026년 1월 8일</p>
+        </header>
+
+        <!-- Executive Summary -->
+        <section class="section">
+            <h3 class="section-title">핵심 요약</h3>
+            
+            <div class="key-point">
+                <div class="key-point-title">💡 Core Insight</div>
+                <p>로마 제국 데나리우스의 300년 몰락 역사가 미국 달러에서 <strong>112년 만에 압축 재현</strong>되고 있다. 달러 구매력은 1913년 이후 <strong class="text-red">-97%</strong> 하락했으며, 패권 통화의 타락은 필연적이나 그 과정에서 <strong>자산가격 상승</strong>이라는 투자 기회가 발생한다.</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-value negative">-97%</div>
+                    <div class="stat-label">달러 구매력 하락<br>(1913→2025, 112년)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value negative">-95%</div>
+                    <div class="stat-label">로마 은화 가치 하락<br>(BC27→AD270, 300년)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">38조$</div>
+                    <div class="stat-label">美 국가부채<br>(2025년 현재)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">45조$</div>
+                    <div class="stat-label">美 국가부채 전망<br>(2029년)</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chart: Currency Devaluation Comparison -->
+        <div class="chart-container">
+            <div class="chart-title">📊 로마 은화 vs 미국 달러 가치 하락 비교</div>
+            <div class="chart-wrapper">
+                <canvas id="currencyCompareChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Historical Parallel -->
+        <section class="section">
+            <h3 class="section-title">역사적 유사성 분석</h3>
+            
+            <div class="card">
+                <div class="card-title"><span class="icon">🏛️</span> 로마 제국 데나리우스의 타락</div>
+                <p>로마 제국의 은화 데나리우스는 <strong>BC 27년 은 함유량 98%</strong>에서 시작해 <strong>AD 270년 5%</strong>까지 하락했다. 300년에 걸친 이 과정은 제국의 팽창 정지, 전쟁 비용 증가, 빈부격차 확대라는 구조적 문제에서 비롯되었다.</p>
+                
+                <div class="warning-box">
+                    <div class="warning-box-title">⚠️ 속도의 차이가 핵심</div>
+                    <p>로마가 300년 걸린 몰락을 미국 달러는 112년 만에 달성. <strong>현대 금융시스템의 속도가 역사적 사이클을 압축</strong>하고 있으며, 이는 변화에 대응할 시간이 더 짧다는 의미다.</p>
+                </div>
+            </div>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>구분</th>
+                        <th>로마 제국</th>
+                        <th>현대 미국</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>가치 하락폭</strong></td>
+                        <td>-95% (300년)</td>
+                        <td>-97% (112년)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>상위 1% 소득점유</strong></td>
+                        <td>19%</td>
+                        <td>23%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>상위 5% 소득점유</strong></td>
+                        <td>37%</td>
+                        <td>40%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>통화 타락 방식</strong></td>
+                        <td>은 함량 희석</td>
+                        <td>양적완화(QE)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>재정충당 방식</strong></td>
+                        <td>속주 관세 폭탄</td>
+                        <td>무역 관세 정책</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Chart: US National Debt -->
+        <div class="chart-container">
+            <div class="chart-title">📊 미국 국가부채 추이 및 전망</div>
+            <div class="chart-wrapper">
+                <canvas id="debtChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Five Stages of Empire Collapse -->
+        <section class="section">
+            <h3 class="section-title">제국 통화 몰락의 5단계</h3>
+            
+            <p>강의에서 제시된 제국 몰락의 5단계 프레임워크는 현재 미국 경제와 달러의 위치를 가늠하는 데 유용한 분석틀을 제공한다.</p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-stage">1단계</div>
+                    <div class="timeline-title">성장의 정체</div>
+                    <div class="timeline-desc">정복/팽창 활동 종료 → 새로운 부의 유입 중단. 미국의 경우 생산성 정체, 인구 고령화, 금리 상승 등이 해당.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-stage">2단계</div>
+                    <div class="timeline-title">자산 불평등 심화</div>
+                    <div class="timeline-desc">기득권층이 화폐 가치를 희석시켜 자산가격 상승 유도. <strong>자산 보유자 vs 비보유자 격차 확대</strong>로 중산층 몰락.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-stage">3단계</div>
+                    <div class="timeline-title">과도한 부채 누적</div>
+                    <div class="timeline-desc">세수 기반 붕괴 → 부채로 재정 충당. 미국 국가부채 2017년 20조$ → 2025년 38조$ (8년간 18조$ 증가).</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-stage">4단계</div>
+                    <div class="timeline-title">통화 신뢰 상실</div>
+                    <div class="timeline-desc">외부(속주/동맹국)가 국채 매입 거부 → 중앙은행의 자국 국채 매입(양적완화). 로마 은화의 은함량이 1%까지 하락한 것과 유사.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-stage">5단계</div>
+                    <div class="timeline-title">K자형 분화</div>
+                    <div class="timeline-desc">상류층 전용 '금화'(솔리두스) vs 서민용 '은화'(노무스) 분리. <strong>현대판: 실물자산 보유자 vs 현금 보유자의 극단적 격차</strong>.</div>
+                </div>
+            </div>
+
+            <div class="key-point">
+                <div class="key-point-title">📍 현재 미국의 위치</div>
+                <p>미국은 현재 <strong>3단계(과도한 부채)에서 4단계(양적완화 재개 압력)</strong>로 이행 중인 것으로 판단된다. 레이 달리오의 200년 사이클론에 비추어 보면, 미국은 패권국가로서 약 80~120년차에 해당하며 급격한 몰락보다는 <strong>점진적 쇠퇴 국면</strong>에 진입 중이다.</p>
+            </div>
+        </section>
+
+        <!-- Chart: Roman Silver Content -->
+        <div class="chart-container">
+            <div class="chart-title">📊 로마 은화 은함량 변화 추이</div>
+            <div class="chart-wrapper">
+                <canvas id="silverChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Fed Policy Impact -->
+        <section class="section">
+            <h3 class="section-title">연준(Fed) 정책 영향</h3>
+            
+            <div class="card">
+                <div class="card-title"><span class="icon">🏦</span> 양적완화의 구조적 딜레마</div>
+                <p>강의에서 지적한 핵심 변화는 <strong>"세계화의 종언"</strong>이다. 2008년 글로벌 금융위기 당시 양적완화에도 물가가 오르지 않았던 이유는 중국의 저가 제품 공급 덕분이었다. 그러나 현재는:</p>
+                <ul>
+                    <li><strong>미중 무역장벽</strong>: 고관세로 인한 수입물가 상승 압력</li>
+                    <li><strong>중국 인건비 상승</strong>: 디플레이션 수출 효과 약화</li>
+                    <li><strong>이민 정책 강화</strong>: 미국 내 임금 상승 압력</li>
+                </ul>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-title">⚠️ 2026년 핵심 리스크</div>
+                <p><strong>시차(Time Lag) 불확실성</strong>: 전통적으로 통화 공급 확대 후 12~18개월 후 물가 상승. 그러나 정보 확산 속도가 빨라진 현대에는 이 시차가 단축될 가능성. <strong>2026년 11월 중간선거 전 인플레이션 재점화 여부가 시장의 핵심 변수.</strong></p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-value">12~18개월</div>
+                    <div class="stat-label">통화공급→물가상승<br>전통적 시차</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">2026.11</div>
+                    <div class="stat-label">미국 중간선거<br>정책 변곡점</div>
+                </div>
+            </div>
+
+            <div class="quote-box">
+                <p class="quote-text">트럼프 대통령이나 그의 연준 의장이 돈을 마구 풀 것인가? 정답은 YES. 달러를 찍어서 자산가격을 올리는 쪽이 중간선거 승리 가능성을 높여주기 때문.</p>
+                <p class="quote-author">— 박종원, 강의 중</p>
+            </div>
+        </section>
+
+        <!-- Investment Implications -->
+        <section class="section">
+            <h3 class="section-title">투자 시사점 및 전략</h3>
+            
+            <div class="card">
+                <div class="card-title"><span class="icon">💰</span> K자형 화폐정책의 현대적 해석</div>
+                <p>로마 제국 말기 <strong>솔리두스(금화)</strong>와 <strong>노무스(은화)</strong>의 분화는 현대 금융시장에서도 재현되고 있다:</p>
+                
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>로마 시대</th>
+                            <th>현대 미국</th>
+                            <th>결과</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>솔리두스 (금화)</td>
+                            <td>주식, 부동산, 금 등 실물자산</td>
+                            <td class="text-green">가치 상승</td>
+                        </tr>
+                        <tr>
+                            <td>노무스 (은화)</td>
+                            <td>현금, 예금, 채권</td>
+                            <td class="text-red">구매력 하락</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="key-point">
+                <div class="key-point-title">💡 핵심 투자 원칙</div>
+                <p>패권통화 약화기에는 <strong>"종이돈을 실물자산으로 전환"</strong>하는 것이 자산 보존의 핵심. 로마 시대 310~340년 30년간 금화는 노무스 대비 <strong class="highlight">4,000~15,000배</strong> 상승, 곡물/토지는 <strong class="highlight">500배 이상</strong> 상승했다.</p>
+            </div>
+
+            <h4 style="font-size: 16px; color: var(--accent-gold); margin: 24px 0 16px;">섹터별 투자 전망</h4>
+            
+            <div class="sector-list">
+                <div class="sector-item">
+                    <span class="sector-badge bullish">강세</span>
+                    <div class="sector-content">
+                        <h4>금 & 귀금속</h4>
+                        <p>달러 약세 시 대표적 가치저장 수단. BRICS 국가들의 금 매집 지속. 로마 속주들이 은화 거부 후 금 결제로 전환한 역사와 유사.</p>
+                        <div class="sector-tickers">GLD, IAU, GOLD, NEM, AEM</div>
+                    </div>
+                </div>
+                
+                <div class="sector-item">
+                    <span class="sector-badge bullish">강세</span>
+                    <div class="sector-content">
+                        <h4>에너지 섹터</h4>
+                        <p>일론 머스크 언급: "앞으로 통화는 지폐가 아닌 에너지가 될 수 있다." 진영 간 교역 시 에너지가 가치 교환 수단으로 부상 가능.</p>
+                        <div class="sector-tickers">XLE, XOM, CVX, OXY, SLB</div>
+                    </div>
+                </div>
+
+                <div class="sector-item">
+                    <span class="sector-badge bullish">강세</span>
+                    <div class="sector-content">
+                        <h4>원자재 & 광물</h4>
+                        <p>로마 시대 곡물/가축이 500배 상승한 것처럼, 인플레이션 헤지 및 실물 생산수단으로서의 가치 재평가.</p>
+                        <div class="sector-tickers">DBC, GSG, PDBC, FCX, RIO</div>
+                    </div>
+                </div>
+
+                <div class="sector-item">
+                    <span class="sector-badge neutral">중립</span>
+                    <div class="sector-content">
+                        <h4>미국 대형 성장주</h4>
+                        <p>양적완화 시 유동성 수혜. 단, 인플레이션 재점화 시 금리 상승으로 밸류에이션 압박. 선별적 접근 필요.</p>
+                        <div class="sector-tickers">AAPL, MSFT, GOOGL, AMZN, NVDA</div>
+                    </div>
+                </div>
+
+                <div class="sector-item">
+                    <span class="sector-badge bearish">약세</span>
+                    <div class="sector-content">
+                        <h4>장기 국채</h4>
+                        <p>국가부채 급증 + 양적완화 재개 전망 = 장기금리 상승 압력. 채권 가격 하락 리스크.</p>
+                        <div class="sector-tickers">TLT, IEF, GOVT (비중 축소 권고)</div>
+                    </div>
+                </div>
+
+                <div class="sector-item">
+                    <span class="sector-badge bearish">약세</span>
+                    <div class="sector-content">
+                        <h4>현금성 자산</h4>
+                        <p>달러 구매력 지속 하락. 과도한 현금 보유는 "현대판 노무스"로 전락 위험.</p>
+                        <div class="sector-tickers">USD 현금, MMF 과다 보유 지양</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chart: Asset Performance -->
+        <div class="chart-container">
+            <div class="chart-title">📊 로마 말기 자산별 수익률 (AD 310~340, 30년)</div>
+            <div class="chart-wrapper">
+                <canvas id="assetChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Market Outlook -->
+        <section class="section">
+            <h3 class="section-title">시장 전망 및 리스크</h3>
+            
+            <div class="opportunity-box">
+                <div class="opportunity-box-title">✅ 긍정적 시나리오</div>
+                <p><strong>단기(2026년 상반기)</strong>: 양적완화 재개 기대감 + 유동성 확대로 자산가격 상승. 중간선거 전까지 "경기 좋아 보이게" 하려는 정책적 의지가 주식시장에 우호적.</p>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-title">⚠️ 부정적 시나리오</div>
+                <p><strong>중기(2026년 하반기~2027년)</strong>: 인플레이션 재점화 시 연준의 긴축 전환 불가피. 물가 상승이 중간선거 전 가시화될 경우 정책 혼란 및 시장 변동성 확대.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><span class="icon">🌍</span> 지정학적 리스크 - 전쟁 변수</div>
+                <p>로마 제국 3세기 은화 급락의 직접적 원인은 <strong>동시다발적 전쟁</strong>이었다. 현재 미국도 유사한 상황:</p>
+                <ul>
+                    <li><strong>우크라이나</strong>: 지속적인 군비 지출</li>
+                    <li><strong>중동</strong>: 이스라엘-팔레스타인 갈등 확산</li>
+                    <li><strong>베네수엘라</strong>: 트럼프 행정부 개입 가능성</li>
+                </ul>
+                <p>트럼프 대통령이 국방부 명칭을 <strong>"전쟁부"</strong>로 변경한 점, 지지율 하락 시 전쟁 승리로 지지율을 끌어올린 아버지 부시 대통령의 선례(40%→80%)를 고려할 때, <strong>2026년 중간선거 또는 2028년 대선 전 군사적 행동 가능성</strong>은 무시할 수 없는 변수.</p>
+            </div>
+        </section>
+
+        <!-- Ray Dalio Critique -->
+        <section class="section">
+            <h3 class="section-title">레이 달리오 이론의 한계</h3>
+            
+            <div class="card">
+                <p>레이 달리오(Ray Dalio)는 2008년부터 미국의 몰락과 중국의 부상을 주장해왔으나, 강의에서는 이에 대한 비판적 시각을 제시한다:</p>
+                
+                <div class="warning-box">
+                    <div class="warning-box-title">❌ 달리오 이론의 문제점</div>
+                    <p><strong>1. 시기 오판</strong>: 200년 사이클을 80년차 미국에 성급하게 적용. 패권국가의 쇠퇴는 수십 년에 걸쳐 진행.<br><br>
+                    <strong>2. 기계적 계승론</strong>: 패권국가가 반드시 다음 패권국으로 "배턴 터치"된다는 고정관념. 역사적으로 뚜렷한 패권 없이 다극화된 시기가 많았음(로마 멸망 후 중세).<br><br>
+                    <strong>3. 중국 과대평가</strong>: 고령화, 부동산 위기, 미국과의 기술 격차 등을 간과.</p>
+                </div>
+            </div>
+
+            <div class="key-point">
+                <div class="key-point-title">📍 현실적 전망</div>
+                <p>미국 달러 일극체제의 <strong>"점진적 약화"</strong>는 진행 중이나, 중국으로의 패권 이전보다는 <strong>달러-금-에너지가 경쟁하는 다극화 체제</strong>로의 이행 가능성이 높다. 동로마가 수백 년 지속된 것처럼, 미국의 영향력도 쇠퇴 속에서 상당 기간 유지될 전망.</p>
+            </div>
+        </section>
+
+        <!-- Korean Won Analysis -->
+        <section class="section">
+            <h3 class="section-title">원화 관점에서의 시사점</h3>
+            
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-value">1.25원</div>
+                    <div class="stat-label">1962년 환율<br>(1달러 기준)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">1,440원</div>
+                    <div class="stat-label">2025년 환율<br>(1달러 기준)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value negative">1/1,152</div>
+                    <div class="stat-label">원화 가치 하락<br>(63년간)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value negative">1/100,000</div>
+                    <div class="stat-label">원화 가치 하락<br>(1945년 대비)</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><span class="icon">🇰🇷</span> 원화의 구조적 약세</div>
+                <p>한국 원화는 달러보다 <strong>훨씬 빠른 속도로 가치가 하락</strong>해왔다. 1997년 외환위기 이후 20년간의 "대안정기"(환율 1,100원대 횡보)가 착시를 만들었으나, 2022년부터 환율이 다시 <strong>만성적 상승 추세</strong>로 전환되었다.</p>
+                
+                <div class="warning-box">
+                    <div class="warning-box-title">⚠️ 만성 vs 급성</div>
+                    <p>1998년 급성 위기(700원→2,000원)는 빠르게 치료됐지만, 현재의 만성적 상승(1,100원→1,440원)은 "고질병"으로 전환될 위험. 정책당국이 일시적으로 환율을 찍어 눌러도 <strong>6개월~1년 주기로 재상승</strong>하는 패턴 지속 전망.</p>
+                </div>
+            </div>
+
+            <div class="opportunity-box">
+                <div class="opportunity-box-title">✅ 한국 투자자 전략</div>
+                <p><strong>1. 달러 자산 비중 확대</strong>: 원화보다 "덜 휴지가 되는" 달러 표시 자산으로 이전<br>
+                <strong>2. 달러 표시 실물자산</strong>: 미국 주식, 금, 원자재 ETF 등<br>
+                <strong>3. 환헤지 전략 재고</strong>: 원화 약세 추세에서 환헤지는 오히려 손실 요인</p>
+            </div>
+        </section>
+
+        <!-- Summary -->
+        <div class="summary-box">
+            <div class="summary-title">📋 핵심 투자 포인트 요약</div>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <span class="summary-number">1</span>
+                    <span class="summary-text"><strong>패권통화 약화는 필연적</strong> - 로마 300년, 미국 112년. 속도만 다를 뿐 방향은 동일.</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-number">2</span>
+                    <span class="summary-text"><strong>양적완화 재개 가능성 높음</strong> - 2026년 중간선거 전 자산가격 부양 유인 존재.</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-number">3</span>
+                    <span class="summary-text"><strong>인플레이션 재점화 리스크</strong> - 세계화 종언으로 2008년과 달리 물가 억제 어려움.</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-number">4</span>
+                    <span class="summary-text"><strong>현대판 솔리두스를 보유하라</strong> - 금, 에너지, 주식 등 실물자산으로 종이돈 전환.</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-number">5</span>
+                    <span class="summary-text"><strong>미국 급격한 몰락은 아님</strong> - 다극화 속 점진적 쇠퇴. 달러 자산 여전히 원화보다 우위.</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-number">6</span>
+                    <span class="summary-text"><strong>전쟁 리스크 모니터링</strong> - 중간선거/대선 전 군사행동 가능성이 변동성 확대 요인.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>박종원의 경제 로드맵 | 돈의 종말 2강 분석</p>
+            <p>분석일: 2026년 1월 8일</p>
+            <p class="disclaimer">본 분석은 투자 권유가 아닌 정보 제공 목적으로 작성되었습니다. 투자 결정은 본인의 판단과 책임 하에 이루어져야 합니다.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Chart.js 기본 설정
+        Chart.defaults.color = '#9090a0';
+        Chart.defaults.borderColor = 'rgba(212, 175, 55, 0.15)';
+
+        // 1. 로마 vs 미국 통화 가치 비교 차트
+        const currencyCtx = document.getElementById('currencyCompareChart').getContext('2d');
+        new Chart(currencyCtx, {
+            type: 'bar',
+            data: {
+                labels: ['로마 은화\n(BC27→AD270)', '미국 달러\n(1913→2025)'],
+                datasets: [{
+                    label: '가치 하락률 (%)',
+                    data: [-95, -97],
+                    backgroundColor: ['rgba(184, 115, 51, 0.7)', 'rgba(220, 53, 69, 0.7)'],
+                    borderColor: ['#b87333', '#dc3545'],
+                    borderWidth: 2,
+                    borderRadius: 8
+                }, {
+                    label: '소요 기간 (년)',
+                    data: [297, 112],
+                    backgroundColor: ['rgba(212, 175, 55, 0.7)', 'rgba(74, 144, 217, 0.7)'],
+                    borderColor: ['#d4af37', '#4a90d9'],
+                    borderWidth: 2,
+                    borderRadius: 8,
+                    yAxisID: 'y1'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { padding: 20, usePointStyle: true }
+                    }
+                },
+                scales: {
+                    y: {
+                        position: 'left',
+                        title: { display: true, text: '가치 하락률 (%)', color: '#dc3545' },
+                        max: 0,
+                        min: -100,
+                        grid: { color: 'rgba(212, 175, 55, 0.1)' }
+                    },
+                    y1: {
+                        position: 'right',
+                        title: { display: true, text: '소요 기간 (년)', color: '#4a90d9' },
+                        max: 350,
+                        min: 0,
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // 2. 미국 국가부채 차트
+        const debtCtx = document.getElementById('debtChart').getContext('2d');
+        new Chart(debtCtx, {
+            type: 'line',
+            data: {
+                labels: ['2017', '2019', '2021', '2023', '2025', '2027(E)', '2029(E)'],
+                datasets: [{
+                    label: '미국 국가부채 (조 달러)',
+                    data: [20, 23, 28, 34, 38, 41, 45],
+                    fill: true,
+                    backgroundColor: 'rgba(220, 53, 69, 0.2)',
+                    borderColor: '#dc3545',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    pointBackgroundColor: '#dc3545',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { padding: 20, usePointStyle: true }
+                    },
+                    annotation: {
+                        annotations: {
+                            line1: {
+                                type: 'line',
+                                xMin: 4,
+                                xMax: 4,
+                                borderColor: 'rgba(212, 175, 55, 0.5)',
+                                borderWidth: 2,
+                                borderDash: [5, 5]
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: '조 달러' },
+                        grid: { color: 'rgba(212, 175, 55, 0.1)' }
+                    }
+                }
+            }
+        });
+
+        // 3. 로마 은화 은함량 변화 차트
+        const silverCtx = document.getElementById('silverChart').getContext('2d');
+        new Chart(silverCtx, {
+            type: 'line',
+            data: {
+                labels: ['1세기 초\n(95%)', '2세기 초\n(~70%)', '3세기 초\n(45%)', 'AD 250\n(20%)', 'AD 270\n(5%)', 'AD 300\n(1%)'],
+                datasets: [{
+                    label: '은 함유량 (%)',
+                    data: [95, 70, 45, 20, 5, 1],
+                    fill: true,
+                    backgroundColor: 'rgba(184, 115, 51, 0.3)',
+                    borderColor: '#b87333',
+                    borderWidth: 3,
+                    tension: 0.3,
+                    pointBackgroundColor: function(context) {
+                        const value = context.raw;
+                        return value > 40 ? '#d4af37' : '#dc3545';
+                    },
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { padding: 20, usePointStyle: true }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: { display: true, text: '은 함유량 (%)' },
+                        grid: { color: 'rgba(212, 175, 55, 0.1)' }
+                    }
+                }
+            }
+        });
+
+        // 4. 로마 말기 자산별 수익률 차트
+        const assetCtx = document.getElementById('assetChart').getContext('2d');
+        new Chart(assetCtx, {
+            type: 'bar',
+            data: {
+                labels: ['금화(솔리두스)\nvs 노무스', '곡물/토지/가축', '노무스(은화)\n보유자'],
+                datasets: [{
+                    label: '수익률 배수',
+                    data: [4000, 500, -99],
+                    backgroundColor: function(context) {
+                        const value = context.raw;
+                        if (value >= 1000) return 'rgba(212, 175, 55, 0.8)';
+                        if (value > 0) return 'rgba(40, 167, 69, 0.8)';
+                        return 'rgba(220, 53, 69, 0.8)';
+                    },
+                    borderColor: function(context) {
+                        const value = context.raw;
+                        if (value >= 1000) return '#d4af37';
+                        if (value > 0) return '#28a745';
+                        return '#dc3545';
+                    },
+                    borderWidth: 2,
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const value = context.raw;
+                                if (value > 0) return `+${value.toLocaleString()}배 상승`;
+                                return `${value}% 손실 (벼락거지)`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: '수익률 (배수/%)' },
+                        grid: { color: 'rgba(212, 175, 55, 0.1)' }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
