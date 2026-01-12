@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>📝 시험문제 | Q&A 1월 3주차 - 에너지 화폐와 달러의 미래</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e8e8e8;
+            line-height: 1.8;
+            padding: 16px;
+            max-width: 100%;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(231, 76, 60, 0.3);
+        }
+        .header h1 {
+            font-size: 1.4em;
+            margin-bottom: 8px;
+        }
+        .header .subtitle {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        .section-title {
+            font-size: 1.3em;
+            color: #e74c3c;
+            margin-bottom: 20px;
+            text-align: center;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(231, 76, 60, 0.3);
+        }
+        .question {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border-left: 4px solid #667eea;
+        }
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .question-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9em;
+        }
+        .difficulty {
+            font-size: 0.85em;
+        }
+        .difficulty.easy { color: #2ed573; }
+        .difficulty.medium { color: #feca57; }
+        .difficulty.hard { color: #ff6b6b; }
+        .question-type {
+            background: rgba(102, 126, 234, 0.3);
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 0.8em;
+            margin-left: 8px;
+        }
+        .question-text {
+            font-size: 1.05em;
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .option {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .option:hover {
+            background: rgba(102, 126, 234, 0.2);
+        }
+        .blank-box {
+            display: inline-block;
+            min-width: 100px;
+            border-bottom: 2px dashed #667eea;
+            margin: 0 4px;
+        }
+        .answer-section {
+            background: rgba(46, 213, 115, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(46, 213, 115, 0.3);
+        }
+        .answer-section .section-title {
+            color: #2ed573;
+            border-bottom-color: rgba(46, 213, 115, 0.3);
+        }
+        .answer-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .answer-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .answer-label {
+            background: linear-gradient(135deg, #2ed573 0%, #26de81 100%);
+            color: #1a1a2e;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9em;
+        }
+        .correct-answer {
+            color: #2ed573;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+        .explanation {
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 10px;
+            font-size: 0.95em;
+            line-height: 1.7;
+        }
+        .explanation::before {
+            content: "💡 해설: ";
+            font-weight: 700;
+            color: #a8d8ff;
+        }
+        .divider {
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #e74c3c, transparent);
+            margin: 30px 0;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #888;
+            font-size: 0.85em;
+        }
+        .print-note {
+            background: rgba(255, 193, 7, 0.2);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 헤더 -->
+        <div class="header">
+            <h1>📝 시험문제</h1>
+            <div class="subtitle">Q&A 1월 3주차 | 에너지 화폐와 달러의 미래 | 총 10문제</div>
+        </div>
+
+        <div class="print-note">
+            📌 문제지를 먼저 풀어본 후, 아래 정답지를 확인하세요!
+        </div>
+
+        <!-- 문제지 섹션 -->
+        <div class="section">
+            <div class="section-title">━━━ 📋 시험문제 (총 10문제) ━━━</div>
+
+            <!-- 문제 1 -->
+            <div class="question">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">문제 1</span>
+                        <span class="question-type">객관식</span>
+                    </div>
+                    <span class="difficulty easy">⭐ 쉬움</span>
+                </div>
+                <div class="question-text">
+                    1971년까지 미국 달러는 무엇으로 바꿀 수 있는 "교환증" 역할을 했나요?
+                </div>
+                <div class="options">
+                    <div class="option">① 석유</div>
+                    <div class="option">② 금</div>
+                    <div class="option">③ 은</div>
+                    <div class="option">④ 비트코인</div>
+                </div>
+            </div>
+
+            <!-- 문제 2 -->
+            <div class="question">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">문제 2</span>
+                        <span class="question-type">단답형</span>
+                    </div>
+                    <span class="difficulty easy">⭐ 쉬움</span>
+                </div>
+                <div class="question-text">
+                    1921년에 "에너지 화폐" 개념을 처음 주장한 인물은 누구인가요?
+                </div>
+                <div style="margin-top: 10px; color: #888;">
+                    정답: <span class="blank-box"></span>
+                </div>
+            </div>
+
+            <!-- 문제 3 -->
+            <div class="question">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">문제 3</span>
+                        <span class="question-type">O/X</span>
+                    </div>
+                    <span class="difficulty easy">⭐ 쉬움</span>
+                </div>
+                <div class="question-text">
+                    비트코인은 막대한 에너지를 투입해서 만들기 때문에, 에너지 본위제 화폐의 자격이 있다. (O / X)
+                </div>
+            </div>
+
+            <!-- 문제 4 -->
+            <div class="question">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">문제 4</span>
+                        <span class="question-type">객관식</span>
+                    </div>
+                    <span class="difficulty medium">⭐⭐ 보통</span>
+                </div>
+                <div class="question-text">
+                    경제학 교과서에서 말하는 "화폐의 3대 기능"에 해당하지 <u>않는</u> 것은?
+                </div>
+                <div class="options">
+                    <div class="option">① 가치척도의 기준</div>
+                    <div class="option">② 교환의 매개체</div>
+                    <div class="option">③ 가치의 저장 수단</div>
+                    <div class="option">④ 가치의 증식 수단</div>
+                </div>
+            </div>
+
+            <!-- 문제 5 -->
+            <div class="question">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">문제 5</span>
+                        <span class="question-type">빈칸채우기</span>
+                    </div>
+                    <span class="difficulty medium">⭐⭐ 보통</span>
+                </div>
+                <div class="question-text">
+                    테슬라는 단순한 자동차 회사가 아니라 에너지 생태계를 구축하고 있다.<br><br>
+                    • <span class="blank-box"></span>(으)로 에너지를 생산하고<br>
+                    • <span class="blank-box"></span>(으)로 에너지를 저장하고<br>
+                    • 전기차로 에너지를 소비한다.
+                </div>
+            </div>
+
+            <!-- 문제 6 -->
+            <div class="question">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">문제 6</span>
+                        <span class="question-type">객관식</span>
+                    </div>
+                    <span class="difficulty medium">⭐⭐ 보통</span>
+                </div>
+                <div class="question-text">
+                    2025년 11월 기준, 각국 중앙은행의 GDP 대비 자산 규모가 가장 <u>낮은</u> 나라는? (즉, 돈을 가장 적게 찍은 나라는?)
+                </div>
+                <div class="options">
+                    <div class="option">① 일본 (105%)</div>
+                    <div class="option">② 유럽 (39%)</div>
+                    <div class="option">③ 중국 (35%)</div>
+                    <div class="option">④ 미국 (21%)</div>
+                </div>
+            </div>
+
+            <!-- 문제 7 -->
+            <div class="question">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">문제 7</span>
+                        <span class="question-type">객관식</span>
+                    </div>
+                    <span class="difficulty medium">⭐⭐ 보통</span>
+                </div>
+                <div class="question-text">
+                    베네수엘라 주가지수가 2022년 1월부터 현재까지 약 1,000배 상승한 주된 이유는?
+                </div>
+                <div class="options">
+                    <div class="option">① 베네수엘라 경제가 급성장했기 때문</div>
+                    <div class="option">② 베네수엘라 통화(볼리바르) 가치가 폭락했기 때문</div>
+                    <div class="option">③ 해외 투자자들이 대거 유입되었기 때문</div>
+                    <div class="option">④ 석유 가격이 급등했기 때문</div>
+                </div>
+            </div>
+
+            <!-- 문제 8 -->
+            <div class="question">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">문제 8</span>
+                        <span class="question-type">단답형</span>
+                    </div>
+                    <span class="difficulty medium">⭐⭐ 보통</span>
+                </div>
+                <div class="question-text">
+                    강의에서 미국 10년물 국채금리가 몇 %를 넘으면 "경계경보", 몇 %를 넘으면 "위기단계"라고 했나요?
+                </div>
+                <div style="margin-top: 10px; color: #888;">
+                    경계경보: <span class="blank-box"></span>% / 위기단계: <span class="blank-box"></span>%
+                </div>
+            </div>
+
+            <!-- 문제 9 -->
+            <div class="question">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">문제 9</span>
+                        <span class="question-type">서술형</span>
+                    </div>
+                    <span class="difficulty hard">⭐⭐⭐ 어려움</span>
+                </div>
+                <div class="question-text">
+                    에너지가 "가치 저장 수단"으로서 금보다 한계가 있는 이유를 "엔트로피 법칙"과 연관 지어 간단히 설명하세요.
+                </div>
+                <div style="margin-top: 10px; color: #888; border: 1px dashed #667eea; border-radius: 8px; padding: 20px; min-height: 80px;">
+                    서술 공간
+                </div>
+            </div>
+
+            <!-- 문제 10 -->
+            <div class="question">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">문제 10</span>
+                        <span class="question-type">서술형</span>
+                    </div>
+                    <span class="difficulty hard">⭐⭐⭐ 어려움</span>
+                </div>
+                <div class="question-text">
+                    달러 가치가 떨어질 때 미국 빅테크 기업(구글, 아마존 등)의 영업이익이 오히려 증가할 수 있는 이유를 "해외 매출"과 연관 지어 설명하세요.
+                </div>
+                <div style="margin-top: 10px; color: #888; border: 1px dashed #667eea; border-radius: 8px; padding: 20px; min-height: 80px;">
+                    서술 공간
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 정답지 섹션 -->
+        <div class="answer-section">
+            <div class="section-title">━━━ 📝 정답 및 해설 ━━━</div>
+
+            <!-- 정답 1 -->
+            <div class="answer-item">
+                <div class="answer-header">
+                    <span class="answer-label">문제 1</span>
+                    <span class="correct-answer">정답: ② 금</span>
+                </div>
+                <div class="explanation">
+                    1971년까지 미국 달러는 금본위제 하에서 금으로 바꿀 수 있는 "금 교환증" 역할을 했습니다. 달러를 미국 연준에 가져가면 정해진 비율로 금으로 교환해주었기 때문에, 사람들이 달러를 신뢰하고 사용할 수 있었습니다. 1971년 닉슨 대통령이 금태환 중단을 선언하면서 이 제도가 폐지되었습니다.
+                </div>
+            </div>
+
+            <!-- 정답 2 -->
+            <div class="answer-item">
+                <div class="answer-header">
+                    <span class="answer-label">문제 2</span>
+                    <span class="correct-answer">정답: 헨리 포드</span>
+                </div>
+                <div class="explanation">
+                    1921년, 컨베이어 벨트 시스템을 발명한 헨리 포드가 "에너지 화폐" 개념을 처음 주장했습니다. 포드는 금본위제를 "월가의 약탈 시스템"이라 비판하며, 달러의 가치를 에너지(예: 10킬로와트)에 고정해야 한다고 주장했습니다. 일론 머스크는 이 생각을 이어받은 것입니다.
+                </div>
+            </div>
+
+            <!-- 정답 3 -->
+            <div class="answer-item">
+                <div class="answer-header">
+                    <span class="answer-label">문제 3</span>
+                    <span class="correct-answer">정답: X (틀림)</span>
+                </div>
+                <div class="explanation">
+                    비트코인은 막대한 에너지를 투입해서 채굴하는 것은 맞지만, 비트코인을 가져간다고 해서 전기나 석유 등 에너지로 바꿔주는 보장이 없습니다. 에너지 본위제가 되려면 "화폐를 가져가면 일정량의 에너지로 교환해준다"는 약속이 있어야 하는데, 비트코인에는 그런 담보가 없습니다.
+                </div>
+            </div>
+
+            <!-- 정답 4 -->
+            <div class="answer-item">
+                <div class="answer-header">
+                    <span class="answer-label">문제 4</span>
+                    <span class="correct-answer">정답: ④ 가치의 증식 수단</span>
+                </div>
+                <div class="explanation">
+                    화폐의 3대 기능은 ① 가치척도의 기준 (물건 값을 재는 기준), ② 교환의 매개체 (물건을 사고팔 때 주고받는 수단), ③ 가치의 저장 수단 (나중에 써도 가치가 유지)입니다. "가치의 증식 수단"은 화폐의 기본 기능이 아니며, 투자의 개념입니다.
+                </div>
+            </div>
+
+            <!-- 정답 5 -->
+            <div class="answer-item">
+                <div class="answer-header">
+                    <span class="answer-label">문제 5</span>
+                    <span class="correct-answer">정답: 솔라시티 / 메가팩</span>
+                </div>
+                <div class="explanation">
+                    테슬라의 에너지 생태계: 솔라시티(태양광)로 에너지를 생산하고, 메가팩(대형 배터리)으로 에너지를 저장하고, 전기차로 에너지를 소비합니다. 이는 에디슨이 발전소-전선-가정으로 이어지는 전력 생태계를 만든 것과 유사한 전략입니다.
+                </div>
+            </div>
+
+            <!-- 정답 6 -->
+            <div class="answer-item">
+                <div class="answer-header">
+                    <span class="answer-label">문제 6</span>
+                    <span class="correct-answer">정답: ④ 미국 (21%)</span>
+                </div>
+                <div class="explanation">
+                    2025년 11월 기준, GDP 대비 중앙은행 자산 규모: 일본 105%, 유럽 39%, 중국 35%, 미국 21%입니다. 이 수치가 높을수록 돈을 많이 찍었다는 의미입니다. 미국이 가장 낮기 때문에, 달러가 다른 주요 통화(엔화, 유로화, 위안화)보다 상대적으로 안전한 이유입니다.
+                </div>
+            </div>
+
+            <!-- 정답 7 -->
+            <div class="answer-item">
+                <div class="answer-header">
+                    <span class="answer-label">문제 7</span>
+                    <span class="correct-answer">정답: ② 베네수엘라 통화(볼리바르) 가치가 폭락했기 때문</span>
+                </div>
+                <div class="explanation">
+                    베네수엘라 경제는 박살났지만 주가는 1,000배 상승했습니다. 이는 "파멸적 상승(Catastrophic Boom)" 현상으로, 화폐 가치가 급락하면 사람들이 "종이돈 들고 있으면 안 되겠다"는 심리로 실물자산(주식 등)을 사기 때문입니다. 같은 기간 볼리바르 가치가 약 1/1,000로 폭락했습니다.
+                </div>
+            </div>
+
+            <!-- 정답 8 -->
+            <div class="answer-item">
+                <div class="answer-header">
+                    <span class="answer-label">문제 8</span>
+                    <span class="correct-answer">정답: 경계경보 4.5% / 위기단계 5.0%</span>
+                </div>
+                <div class="explanation">
+                    미국 10년물 국채금리는 시장의 온도계 역할을 합니다. 연준이 기준금리를 낮춰도 시장금리(10년물 국채금리)가 계속 오르면 문제입니다. 4.5%를 넘으면 경계해야 하고, 5.0%를 넘으면 심각한 위기 상황으로 봐야 합니다. 현재(2026.1) 4.1% 수준입니다.
+                </div>
+            </div>
+
+            <!-- 정답 9 -->
+            <div class="answer-item">
+                <div class="answer-header">
+                    <span class="answer-label">문제 9</span>
+                    <span class="correct-answer">정답 예시:</span>
+                </div>
+                <div class="explanation">
+                    엔트로피 법칙에 따르면, 에너지는 시간이 지나면서 "새어나가는" 성질이 있습니다. 
+                    <br><br>
+                    <strong>예시 답안:</strong><br>
+                    • 배터리에 전기를 저장해도 시간이 지나면 용량이 줄어듭니다.<br>
+                    • 수소는 분자가 작아서 저장해도 날아갑니다.<br>
+                    • 석유는 오래 저장할 수 있지만, 탈탄소 시대에 가치가 하락합니다.<br>
+                    • 반면 금은 영원히 질량이 변하지 않고 보존됩니다.<br><br>
+                    따라서 에너지는 "가치 저장 수단"으로서 금보다 근본적인 한계가 있습니다.
+                </div>
+            </div>
+
+            <!-- 정답 10 -->
+            <div class="answer-item">
+                <div class="answer-header">
+                    <span class="answer-label">문제 10</span>
+                    <span class="correct-answer">정답 예시:</span>
+                </div>
+                <div class="explanation">
+                    미국 빅테크 기업(구글, 아마존 등)은 해외 매출이 50% 이상입니다.
+                    <br><br>
+                    <strong>예시 답안:</strong><br>
+                    달러 가치가 떨어지면, 해외에서 번 돈(유로, 엔화 등)을 달러로 환전할 때 더 많은 달러를 받게 됩니다.
+                    <br><br>
+                    예를 들어, 구글이 유럽에서 100유로를 벌었을 때:<br>
+                    • 환율이 1유로=1달러면 → 100달러<br>
+                    • 달러 가치가 떨어져 1유로=1.5달러가 되면 → 150달러<br><br>
+                    따라서 달러 가치 하락은 오히려 빅테크의 영업이익을 증가시키는 효과가 있어, 미국 주식 보유가 달러 가치 하락 위험을 헤지(방어)하는 수단이 될 수 있습니다.
+                </div>
+            </div>
+        </div>
+
+        <!-- 채점 기준 -->
+        <div class="section">
+            <div class="section-title">📊 채점 기준</div>
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+                <tr style="background: rgba(102, 126, 234, 0.2);">
+                    <th style="padding: 10px; text-align: center;">문제 유형</th>
+                    <th style="padding: 10px; text-align: center;">문제 번호</th>
+                    <th style="padding: 10px; text-align: center;">배점</th>
+                </tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    <td style="padding: 10px; text-align: center;">객관식</td>
+                    <td style="padding: 10px; text-align: center;">1, 4, 6, 7</td>
+                    <td style="padding: 10px; text-align: center;">각 8점 (32점)</td>
+                </tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    <td style="padding: 10px; text-align: center;">O/X</td>
+                    <td style="padding: 10px; text-align: center;">3</td>
+                    <td style="padding: 10px; text-align: center;">8점</td>
+                </tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    <td style="padding: 10px; text-align: center;">단답형</td>
+                    <td style="padding: 10px; text-align: center;">2, 8</td>
+                    <td style="padding: 10px; text-align: center;">각 10점 (20점)</td>
+                </tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    <td style="padding: 10px; text-align: center;">빈칸채우기</td>
+                    <td style="padding: 10px; text-align: center;">5</td>
+                    <td style="padding: 10px; text-align: center;">10점 (각 5점)</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; text-align: center;">서술형</td>
+                    <td style="padding: 10px; text-align: center;">9, 10</td>
+                    <td style="padding: 10px; text-align: center;">각 15점 (30점)</td>
+                </tr>
+            </table>
+            <div style="text-align: center; margin-top: 16px; font-size: 1.1em; color: #2ed573;">
+                <strong>총점: 100점</strong>
+            </div>
+        </div>
+
+        <div class="footer">
+            📝 Q&A 1월 3주차 시험문제<br>
+            에너지 화폐와 달러의 미래 | 2026년 1월 12일
+        </div>
+    </div>
+</body>
+</html>
