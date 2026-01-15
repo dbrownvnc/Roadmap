@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>고물가가 뉴노멀이 된 시대 - 시험문제</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+            line-height: 1.8;
+            background: #f8f9fa;
+            color: #333;
+            padding: 16px;
+            max-width: 100%;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .header {
+            background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
+            color: white;
+            padding: 24px 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+        }
+        .header .meta {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .section-title {
+            font-size: 1.2rem;
+            color: #2d3436;
+            text-align: center;
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e94560;
+            font-weight: 700;
+        }
+        .question-box {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+        .question-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .question-num {
+            background: #3498db;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .difficulty {
+            font-size: 0.8rem;
+        }
+        .difficulty.easy {
+            color: #27ae60;
+        }
+        .difficulty.medium {
+            color: #f39c12;
+        }
+        .difficulty.hard {
+            color: #e74c3c;
+        }
+        .question-type {
+            background: #e9ecef;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: #666;
+        }
+        .question-text {
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 14px;
+            font-weight: 500;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .option {
+            background: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            font-size: 0.9rem;
+        }
+        .blank-line {
+            border-bottom: 2px solid #333;
+            display: inline-block;
+            min-width: 100px;
+            margin: 0 4px;
+        }
+        .divider {
+            height: 3px;
+            background: linear-gradient(90deg, #e94560, #f39c12, #27ae60);
+            margin: 30px 0;
+            border-radius: 2px;
+        }
+        .answer-section {
+            background: #1a1a2e;
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        .answer-section .section-title {
+            color: white;
+            border-bottom-color: #e94560;
+        }
+        .answer-box {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .answer-box:last-child {
+            margin-bottom: 0;
+        }
+        .answer-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .answer-num {
+            background: #e94560;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .answer-text {
+            background: #28a745;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .explanation {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: rgba(255,255,255,0.9);
+        }
+        .highlight {
+            color: #ffc107;
+            font-weight: 600;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #888;
+            font-size: 0.8rem;
+        }
+        .ox-options {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        .ox-option {
+            background: white;
+            padding: 8px 24px;
+            border-radius: 8px;
+            border: 2px solid #dee2e6;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 시험문제</h1>
+            <div class="meta">고물가가 뉴노멀이 된 시대 | 총 10문제</div>
+        </div>
+
+        <!-- 문제지 -->
+        <div class="section">
+            <h2 class="section-title">━━━ 문제지 ━━━</h2>
+
+            <!-- 문제 1 -->
+            <div class="question-box">
+                <div class="question-header">
+                    <span class="question-num">문제 1</span>
+                    <span class="difficulty easy">⭐ 쉬움</span>
+                    <span class="question-type">객관식</span>
+                </div>
+                <div class="question-text">
+                    지난 40년 동안 인플레이션이 억제될 수 있었던 가장 큰 원인은 무엇인가?
+                </div>
+                <div class="options">
+                    <div class="option">① 중앙은행의 효과적인 금리 정책</div>
+                    <div class="option">② 세계화를 통한 저가 생산 및 자원 조달</div>
+                    <div class="option">③ 기술 발전으로 인한 생산성 향상</div>
+                    <div class="option">④ 인구 고령화로 인한 소비 감소</div>
+                </div>
+            </div>
+
+            <!-- 문제 2 -->
+            <div class="question-box">
+                <div class="question-header">
+                    <span class="question-num">문제 2</span>
+                    <span class="difficulty easy">⭐ 쉬움</span>
+                    <span class="question-type">OX문제</span>
+                </div>
+                <div class="question-text">
+                    한국은 일본과 마찬가지로 G2 국가였기 때문에, 고령화가 진행되면 일본처럼 디플레이션이 올 가능성이 높다.
+                </div>
+                <div class="ox-options">
+                    <span class="ox-option">O</span>
+                    <span class="ox-option">X</span>
+                </div>
+            </div>
+
+            <!-- 문제 3 -->
+            <div class="question-box">
+                <div class="question-header">
+                    <span class="question-num">문제 3</span>
+                    <span class="difficulty medium">⭐⭐ 보통</span>
+                    <span class="question-type">단답형</span>
+                </div>
+                <div class="question-text">
+                    M2(광의의 통화)에 대한 설명이다. 빈칸에 들어갈 알맞은 말을 쓰시오.<br><br>
+                    M2란 시중에 유통되는 돈의 총량으로, 현금, 보통예금, 2년 이하 저축예금, MMF, CMA 등을 포함한다. 쉽게 말해 <span class="blank-line"></span> 의 총량이다.
+                </div>
+            </div>
+
+            <!-- 문제 4 -->
+            <div class="question-box">
+                <div class="question-header">
+                    <span class="question-num">문제 4</span>
+                    <span class="difficulty medium">⭐⭐ 보통</span>
+                    <span class="question-type">객관식</span>
+                </div>
+                <div class="question-text">
+                    2008년 글로벌 금융위기 이후 연준이 도입한 새로운 통화정책 수단으로, M0(본원통화)를 직접 찍어내 시장에 공급하는 정책은?
+                </div>
+                <div class="options">
+                    <div class="option">① 오퍼레이션 트위스트</div>
+                    <div class="option">② 양적완화(QE)</div>
+                    <div class="option">③ 제로금리 정책</div>
+                    <div class="option">④ 포워드 가이던스</div>
+                </div>
+            </div>
+
+            <!-- 문제 5 -->
+            <div class="question-box">
+                <div class="question-header">
+                    <span class="question-num">문제 5</span>
+                    <span class="difficulty medium">⭐⭐ 보통</span>
+                    <span class="question-type">빈칸채우기</span>
+                </div>
+                <div class="question-text">
+                    다음은 통화승수의 작동 원리에 대한 설명이다. 빈칸에 들어갈 숫자를 쓰시오.<br><br>
+                    한국의 통화승수는 약 <span class="blank-line"></span>로, 한국은행이 100원을 찍어서 공급하면 시중에서 약 <span class="blank-line"></span>원으로 불어난다.
+                </div>
+            </div>
+
+            <!-- 문제 6 -->
+            <div class="question-box">
+                <div class="question-header">
+                    <span class="question-num">문제 6</span>
+                    <span class="difficulty medium">⭐⭐ 보통</span>
+                    <span class="question-type">객관식</span>
+                </div>
+                <div class="question-text">
+                    캔틸런 효과(Cantillon Effect)에 대한 설명으로 옳지 않은 것은?
+                </div>
+                <div class="options">
+                    <div class="option">① 중앙은행이 돈을 풀면 부유층이 먼저 저금리로 접근한다</div>
+                    <div class="option">② 부유층은 자산을 저점에 매입하고, 서민은 고점에 매입하게 된다</div>
+                    <div class="option">③ 이 효과로 인해 빈부격차가 자연스럽게 해소된다</div>
+                    <div class="option">④ 삼성전자가 반도체 불황기에 시장 진입한 것이 역이용 사례다</div>
+                </div>
+            </div>
+
+            <!-- 문제 7 -->
+            <div class="question-box">
+                <div class="question-header">
+                    <span class="question-num">문제 7</span>
+                    <span class="difficulty medium">⭐⭐ 보통</span>
+                    <span class="question-type">단답형</span>
+                </div>
+                <div class="question-text">
+                    미국 역사상 상위 1%의 자산이 하위 90%의 자산을 역전한 시기는 두 번 있었다. 하나는 2015년이고, 다른 하나는 대공황 직전인 몇 년인가?
+                </div>
+            </div>
+
+            <!-- 문제 8 -->
+            <div class="question-box">
+                <div class="question-header">
+                    <span class="question-num">문제 8</span>
+                    <span class="difficulty hard">⭐⭐⭐ 어려움</span>
+                    <span class="question-type">객관식</span>
+                </div>
+                <div class="question-text">
+                    튀르키예 사례(2012~2025년)에서 확인할 수 있는 사실로 옳은 것은?
+                </div>
+                <div class="options">
+                    <div class="option">① M2가 30배 증가했을 때 집값도 30배 상승했다</div>
+                    <div class="option">② 환율은 M2 증가율을 정직하게 반영하여 24배 상승했다</div>
+                    <div class="option">③ 금리 인하 정책으로 인플레이션이 성공적으로 억제됐다</div>
+                    <div class="option">④ 달러 투자자보다 부동산 투자자의 수익률이 더 높았다</div>
+                </div>
+            </div>
+
+            <!-- 문제 9 -->
+            <div class="question-box">
+                <div class="question-header">
+                    <span class="question-num">문제 9</span>
+                    <span class="difficulty easy">⭐ 쉬움</span>
+                    <span class="question-type">빈칸채우기</span>
+                </div>
+                <div class="question-text">
+                    중앙은행이 돈을 풀면 일반적으로 <span class="blank-line"></span>개월에서 <span class="blank-line"></span>개월 뒤에 인플레이션이 발생한다.
+                </div>
+            </div>
+
+            <!-- 문제 10 -->
+            <div class="question-box">
+                <div class="question-header">
+                    <span class="question-num">문제 10</span>
+                    <span class="difficulty hard">⭐⭐⭐ 어려움</span>
+                    <span class="question-type">서술형</span>
+                </div>
+                <div class="question-text">
+                    1972년 닉슨 대통령의 금리 인하 전략과 2026년 트럼프 대통령의 예상 전략 사이의 유사점을 설명하고, 현재 상황에서 차이점이 될 수 있는 요소 하나를 서술하시오.
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 정답지 -->
+        <div class="answer-section">
+            <h2 class="section-title">━━━ 정답 및 해설 ━━━</h2>
+
+            <!-- 정답 1 -->
+            <div class="answer-box">
+                <div class="answer-header">
+                    <span class="answer-num">문제 1</span>
+                    <span class="answer-text">정답: ②</span>
+                </div>
+                <div class="explanation">
+                    세계화를 통해 중국에서 값싸게 물건을 만들고, 아프리카·남미에서 자원을 조달할 수 있었기 때문에 40년간 물가가 억제됐습니다. 하지만 <span class="highlight">세계화가 끝나고 블록화가 진행</span>되면서 인플레이션이 상시화되는 뉴노멀 시대가 됐습니다.
+                </div>
+            </div>
+
+            <!-- 정답 2 -->
+            <div class="answer-box">
+                <div class="answer-header">
+                    <span class="answer-num">문제 2</span>
+                    <span class="answer-text">정답: X</span>
+                </div>
+                <div class="explanation">
+                    일본은 G2까지 올라갔지만, 한국은 <span class="highlight">최고 9위</span>까지밖에 가지 못했습니다. 원화는 국제통화가 아니기 때문에, 고령화 시 일본처럼 디플레이션이 오기보다는 <span class="highlight">환율 상승 → 수입물가 상승 → 인플레이션</span>이 올 가능성이 더 큽니다.
+                </div>
+            </div>
+
+            <!-- 정답 3 -->
+            <div class="answer-box">
+                <div class="answer-header">
+                    <span class="answer-num">문제 3</span>
+                    <span class="answer-text">정답: 언제든 끌어다 쓸 수 있는 현금</span>
+                </div>
+                <div class="explanation">
+                    M2는 광의의 통화로, 시중에 유통되는 돈의 총량을 나타냅니다. 현금, 예금, 즉시 현금화 가능한 금융상품을 모두 포함하여 <span class="highlight">"언제든 끌어다 쓸 수 있는 현금의 총량"</span>으로 정의됩니다.
+                </div>
+            </div>
+
+            <!-- 정답 4 -->
+            <div class="answer-box">
+                <div class="answer-header">
+                    <span class="answer-num">문제 4</span>
+                    <span class="answer-text">정답: ②</span>
+                </div>
+                <div class="explanation">
+                    <span class="highlight">양적완화(Quantitative Easing, QE)</span>는 2008년 글로벌 금융위기 때 연준이 처음 도입한 정책입니다. M0(본원통화, 하이파워드 머니)를 직접 찍어내 시장에 공급함으로써, 신용경색 상황에서도 M2를 증가시킬 수 있는 "무시무시한 신무기"입니다.
+                </div>
+            </div>
+
+            <!-- 정답 5 -->
+            <div class="answer-box">
+                <div class="answer-header">
+                    <span class="answer-num">문제 5</span>
+                    <span class="answer-text">정답: 14, 1,400</span>
+                </div>
+                <div class="explanation">
+                    한국의 통화승수는 약 <span class="highlight">14</span>로 알려져 있습니다. 지급준비율에 따라 한국은행이 100원을 공급하면 대출과 예금이 반복되면서 시중에서 약 <span class="highlight">1,400원</span>으로 불어납니다. 위기 때는 이 승수가 낮아졌다가, 신용경색이 풀리면 급격히 M2가 증가합니다.
+                </div>
+            </div>
+
+            <!-- 정답 6 -->
+            <div class="answer-box">
+                <div class="answer-header">
+                    <span class="answer-num">문제 6</span>
+                    <span class="answer-text">정답: ③</span>
+                </div>
+                <div class="explanation">
+                    캔틸런 효과는 중앙은행의 돈 풀기가 <span class="highlight">빈부격차를 확대</span>시키는 현상입니다. 부유층이 먼저 저금리로 자금에 접근하여 저점에 자산을 매입하고, 서민은 나중에 고점에 매입하게 됩니다. 삼성전자가 반도체 불황기에 시장 진입한 것은 이 시차를 역이용한 대표적 성공 사례입니다.
+                </div>
+            </div>
+
+            <!-- 정답 7 -->
+            <div class="answer-box">
+                <div class="answer-header">
+                    <span class="answer-num">문제 7</span>
+                    <span class="answer-text">정답: 1927년</span>
+                </div>
+                <div class="explanation">
+                    미국 역사상 상위 1% 자산이 하위 90% 자산을 역전한 시기는 <span class="highlight">1927년</span>과 <span class="highlight">2015년</span> 두 번입니다. 1927년 이후 1929년 대공황이 발생했으며, 현재도 유사한 구조적 위험이 존재합니다.
+                </div>
+            </div>
+
+            <!-- 정답 8 -->
+            <div class="answer-box">
+                <div class="answer-header">
+                    <span class="answer-num">문제 8</span>
+                    <span class="answer-text">정답: ②</span>
+                </div>
+                <div class="explanation">
+                    튀르키예에서 M2가 30배 증가했을 때, 집값은 13.75배 상승에 그쳤지만 <span class="highlight">환율은 24배</span>나 상승했습니다. 경제가 나쁜 상황에서 돈만 찍으면 집값은 M2 증가율을 따라가지 못하지만, 환율은 비교적 정직하게 반영됩니다. 따라서 달러 투자자(24배)가 부동산 투자자(14배 미만)보다 높은 수익을 얻었습니다.
+                </div>
+            </div>
+
+            <!-- 정답 9 -->
+            <div class="answer-box">
+                <div class="answer-header">
+                    <span class="answer-num">문제 9</span>
+                    <span class="answer-text">정답: 12, 18</span>
+                </div>
+                <div class="explanation">
+                    중앙은행이 돈을 풀면 <span class="highlight">12개월에서 18개월</span> 뒤에 인플레이션이 발생합니다. 이 시차 때문에 현직 정권이 다음 정권에게 인플레 책임을 떠넘길 수 있고, 투자자들도 "인플레가 끝났다"는 착각에 빠지기 쉽습니다.
+                </div>
+            </div>
+
+            <!-- 정답 10 -->
+            <div class="answer-box">
+                <div class="answer-header">
+                    <span class="answer-num">문제 10</span>
+                    <span class="answer-text">정답: 모범답안</span>
+                </div>
+                <div class="explanation">
+                    <span class="highlight">[유사점]</span><br>
+                    ① 선거(대선/중간선거) 승리를 위해 금리를 인하하고 유동성을 공급<br>
+                    ② 주가 상승으로 경제가 좋아졌다는 인식 유도<br>
+                    ③ 인플레이션은 12~18개월 시차를 두고 발생하므로, 선거 이후에 부작용 발생<br><br>
+                    <span class="highlight">[차이점]</span><br>
+                    1972년에는 TV가 가장 빠른 매체였지만, 현재는 인터넷/SNS로 정보 확산 및 시장 대응 속도가 훨씬 빠릅니다. 따라서 <span class="highlight">인플레이션 도달 시점이 앞당겨질 수 있습니다</span>. (또는: 이미 2022년 인플레 경험으로 시장 참여자들의 인플레 민감도가 높아졌다, 미국 국가부채가 38조 달러로 과거보다 훨씬 많다 등도 정답으로 인정)
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            본 시험문제는 교육 목적으로 작성되었습니다.<br>
+            채점 기준은 핵심 키워드 포함 여부를 기준으로 합니다.
+        </div>
+    </div>
+</body>
+</html>
