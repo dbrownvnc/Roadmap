@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>패권전쟁과 돈의 미래 분석</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e8e8e8;
+            line-height: 1.8;
+            padding: 20px;
+            max-width: 100%;
+        }
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 2px solid #e94560;
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 1.6rem;
+            color: #e94560;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        .meta-info {
+            font-size: 0.85rem;
+            color: #888;
+        }
+        h2 {
+            font-size: 1.3rem;
+            color: #0f4c75;
+            background: linear-gradient(90deg, #e94560, #0f4c75);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 35px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
+        }
+        h3 {
+            font-size: 1.1rem;
+            color: #3282b8;
+            margin: 25px 0 15px;
+        }
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, #1f4068 0%, #162447 100%);
+            border-left: 4px solid #e94560;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+        .key-point {
+            background: rgba(233, 69, 96, 0.1);
+            border: 1px solid #e94560;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+        .key-point strong {
+            color: #e94560;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #e94560;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-top: 5px;
+        }
+        .chart-container {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        .chart-title {
+            text-align: center;
+            color: #3282b8;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+        .comparison-table th {
+            background: #e94560;
+            color: white;
+            padding: 12px 8px;
+            text-align: center;
+        }
+        .comparison-table td {
+            padding: 12px 8px;
+            border-bottom: 1px solid #333;
+            text-align: center;
+        }
+        .comparison-table tr:nth-child(even) {
+            background: rgba(255,255,255,0.03);
+        }
+        .warning-box {
+            background: linear-gradient(135deg, #5c2626 0%, #3d1a1a 100%);
+            border: 1px solid #e94560;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        .warning-box::before {
+            content: "⚠️ ";
+        }
+        .info-box {
+            background: linear-gradient(135deg, #1a3a5c 0%, #162447 100%);
+            border: 1px solid #3282b8;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            margin: 20px 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e94560;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: #e94560;
+            border-radius: 50%;
+        }
+        .timeline-year {
+            font-weight: bold;
+            color: #e94560;
+        }
+        .concept-box {
+            background: rgba(50, 130, 184, 0.1);
+            border: 1px dashed #3282b8;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+        .concept-box .term {
+            font-weight: bold;
+            color: #3282b8;
+        }
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 40px;
+            border-top: 1px solid #333;
+            color: #666;
+            font-size: 0.85rem;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        @media (max-width: 500px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+        }
+        .badge-red { background: #e94560; color: white; }
+        .badge-blue { background: #3282b8; color: white; }
+        .badge-gold { background: #d4af37; color: #1a1a2e; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌐 패권전쟁과 돈의 미래</h1>
+            <p class="meta-info">Part 1 - 4강 | 2026년 1월 22일</p>
+        </header>
+
+        <!-- 핵심 요약 -->
+        <section>
+            <h2>📌 핵심 요약</h2>
+            <div class="highlight-box">
+                <p>미중 패권전쟁은 과거 미소 냉전과 달리 <strong>'장기적 질식전'</strong> 양상으로 전개되고 있다. 양국 모두 저성장과 부채 문제를 안고 있어 한 방에 승부가 나지 않으며, 오히려 동맹국의 부를 약탈하는 형태로 변화했다. 이 과정에서 화폐 시스템의 근본적인 변화가 불가피하다.</p>
+            </div>
+        </section>
+
+        <!-- 패권전쟁의 발단 -->
+        <section>
+            <h2>1️⃣ 패권전쟁의 발단: GDP 격차 축소</h2>
+            
+            <p>미중 패권전쟁의 시작은 <strong>중국 GDP의 급격한 성장</strong>이었다. 2000년 미국 대비 12%에 불과했던 중국 GDP는 20년 만에 70%까지 추격했다.</p>
+
+            <div class="chart-container">
+                <div class="chart-title">📊 미국 대비 중국 GDP 비율 변화</div>
+                <canvas id="gdpRatioChart"></canvas>
+            </div>
+
+            <div class="key-point">
+                <strong>반전:</strong> 2030년대 중국의 GDP가 미국을 추월할 것이라는 전망과 달리, 2025년 현재 격차는 다시 63%로 벌어졌다.
+            </div>
+
+            <h3>격차 재확대의 원인</h3>
+            <div class="info-box">
+                <p>① <strong>중국 성장 둔화</strong> - 구조적 문제 누적</p>
+                <p>② <strong>위안화 가치 하락</strong> - 달러 환산 시 GDP 감소</p>
+                <p>③ <strong>미국의 압박</strong> - 패권전쟁 과정에서 경제 제재</p>
+            </div>
+        </section>
+
+        <!-- 중국 경제의 구조적 문제 -->
+        <section>
+            <h2>2️⃣ 중국 경제의 치명적 약점</h2>
+
+            <h3>📈 GDP 대비 총부채 비율</h3>
+            <p>선진국일수록 금융이 고도화되어 부채가 늘어나는 것이 일반적이다. 그러나 아직 개도국인 중국의 총부채 비율이 <strong>미국보다 높다</strong>는 것은 심각한 문제다.</p>
+
+            <div class="concept-box">
+                <p><span class="term">GDP 대비 총부채 비율</span> = (기업부채 + 가계부채 + 정부부채) ÷ GDP</p>
+                <p style="margin-top:10px; color:#aaa;">부채는 초기에 성장을 촉진하지만, 과도해지면 오히려 성장을 방해하는 짐이 된다.</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">비유: 전기차와 배터리</div>
+                <p style="margin-top:10px; font-size:0.9rem;">배터리를 추가하면 속도가 빨라지지만, 8배·16배로 늘리면 무게 때문에 오히려 느려진다. 중국의 부채가 바로 이 상태.</p>
+            </div>
+
+            <h3>🏭 과잉생산과 디플레이션</h3>
+            <p>중국은 일본의 '플라자 합의' 실패를 교훈삼아 <strong>더 값싸게, 더 많이</strong> 생산하는 전략을 택했다. 그러나 전 세계가 중국에 관세 장벽을 세우면서 이 전략은 역효과를 냈다.</p>
+
+            <div class="warning-box">
+                <strong>일본화(Japanification) 우려</strong><br>
+                성장동력 상실 → 디플레이션 → 자산가격(특히 부동산) 폭락 → 장기 침체
+            </div>
+        </section>
+
+        <!-- 성장률 비교 -->
+        <section>
+            <h2>3️⃣ 작아지는 파이: 성장률 하락</h2>
+
+            <p>패권전쟁이 GDP 격차가 재확대됐는데도 오히려 격화되는 이유는 <strong>양국 모두 성장률이 하락</strong>하고 있기 때문이다.</p>
+
+            <div class="chart-container">
+                <div class="chart-title">📊 미국 10년 단위 연평균 성장률 (%)</div>
+                <canvas id="usGrowthChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">📊 중국 10년 단위 연평균 성장률 (%)</div>
+                <canvas id="chinaGrowthChart"></canvas>
+            </div>
+
+            <div class="grid-2">
+                <div class="stat-card">
+                    <div class="stat-number">1.6%</div>
+                    <div class="stat-label">미국 2030년대 전망</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2.5%</div>
+                    <div class="stat-label">중국 2030년대 전망</div>
+                </div>
+            </div>
+
+            <div class="key-point">
+                <strong>핵심 논리:</strong> 파이가 작아지니 남의 파이를 뺏어와야 한다. 이것이 패권전쟁 격화의 본질적 원인이다.
+            </div>
+
+            <h3>🇺🇸 미국 내부 상황</h3>
+            <div class="info-box">
+                <p>• <strong>상위 20%</strong>: 자산가격 상승으로 더 부유해짐</p>
+                <p>• <strong>하위 80%</strong>: 점점 가난해지는 중</p>
+                <p style="margin-top:10px;">→ 하위 80%가 원하는 것: 중국과 동맹국의 성장을 빼앗아오는 <strong>"스트롱맨"</strong></p>
+            </div>
+        </section>
+
+        <!-- 미소 냉전 vs 미중 패권전쟁 -->
+        <section>
+            <h2>4️⃣ 미소 냉전 vs 미중 패권전쟁</h2>
+
+            <table class="comparison-table">
+                <tr>
+                    <th>구분</th>
+                    <th>미소 냉전</th>
+                    <th>미중 패권전쟁</th>
+                </tr>
+                <tr>
+                    <td><strong>성격</strong></td>
+                    <td>누가 더 빨리 달리나<br>(경쟁)</td>
+                    <td>누가 먼저 죽나<br>(질식전)</td>
+                </tr>
+                <tr>
+                    <td><strong>원동력</strong></td>
+                    <td>낙관과 희망</td>
+                    <td>증오와 공포</td>
+                </tr>
+                <tr>
+                    <td><strong>동맹 정책</strong></td>
+                    <td>동맹 강화<br>(마셜 플랜)</td>
+                    <td>동맹 약탈<br>(관세, 투자 강요)</td>
+                </tr>
+                <tr>
+                    <td><strong>결말</strong></td>
+                    <td>소련 붕괴<br>(한방에 종결)</td>
+                    <td>장기 지구전<br>(완벽한 승리 불가)</td>
+                </tr>
+            </table>
+
+            <div class="concept-box">
+                <p><span class="term">마셜 플랜 (Marshall Plan)</span></p>
+                <p>2차 대전 후 미국이 유럽 경제 재건을 위해 대규모 원조를 제공한 정책. 동맹을 부유하게 만들어 공산주의 확산을 막으려는 전략이었다.</p>
+            </div>
+
+            <div class="warning-box">
+                <strong>약탈의 전쟁</strong><br>
+                중국: 일대일로로 주변국 부 흡수 (원조인 척 부채의 덫)<br>
+                미국: 관세, 투자 강요로 동맹국 부 흡수
+            </div>
+        </section>
+
+        <!-- 장기적 질식전의 특징 -->
+        <section>
+            <h2>5️⃣ 장기적 질식전의 3대 특징</h2>
+
+            <h3>특징 ① 효율의 종말</h3>
+            <div class="info-box">
+                <p>• 공급망 차단 → 자국/우방국 물건만 구매</p>
+                <p>• <strong>구조적 고비용 구조</strong> 고착화</p>
+                <p>• 인플레이션 요인 지속 → 화폐가치 하락</p>
+            </div>
+
+            <div class="concept-box">
+                <p><span class="term">인플레이션의 맥박</span></p>
+                <p>물가는 선형이 아닌 맥박처럼 움직인다. 튀었다가 긴축으로 내려오고, 다시 튀는 패턴. 따라서 <strong>돈의 가치는 계단식으로 하락</strong>한다.</p>
+            </div>
+
+            <h3>특징 ② 화폐의 무기화</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <span class="timeline-year">2022년</span><br>
+                    러시아를 SWIFT(달러 결제망)에서 퇴출, 자산 동결
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-year">이후</span><br>
+                    신흥국들의 탈달러화(De-dollarization) 욕구 자극
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-year">현재</span><br>
+                    달러 블록 vs 탈달러 블록으로 세계 분열
+                </div>
+            </div>
+
+            <h3>금(金)의 귀환</h3>
+            <p>1971년 닉슨의 금태환 중단 이후 달러는 <strong>신용화폐</strong>가 되었다. 달러의 신뢰는 미국 국채에서 나오는 구조다. 그러나 미국의 자산 동결 위험에 신흥국 중앙은행들이 반응했다.</p>
+
+            <div class="key-point">
+                <strong>2025년 금의 대이동:</strong> 신흥국 중앙은행들이 뉴욕·런던에 보관 중이던 실물금을 자국으로 이동. 종이금(금 보관 증서)에 대한 신뢰 붕괴.
+            </div>
+
+            <div class="warning-box">
+                <strong>종이금 스캔들</strong><br>
+                • 2007년: 모건스탠리 - 실물금 없이 보관료만 징수 (소송 패소)<br>
+                • 2020년: JP모건 - 8년간(2008~2016) 가짜금으로 시세 조종 적발
+            </div>
+
+            <h3>특징 ③ 화폐의 타락</h3>
+            <p>미중 모두 구조적 재정적자 악화로 천문학적 부채의 늪에 빠졌다. 그러나 질식전에서 이기려면 <strong>경쟁적 경기부양</strong>이 불가피하다.</p>
+
+            <div class="info-box">
+                <p><strong>질식전의 딜레마:</strong></p>
+                <p>허리띠를 졸라매야 하지만 → 상대보다 성장해야 살아남음 → 국채 발행 급증 → 화폐 타락 가속</p>
+            </div>
+
+            <h3>🎯 AI 전쟁 & 군비 경쟁</h3>
+            <p>미중 양국이 가장 치열하게 싸우는 두 분야. "이 전쟁에서 뒤처지면 죽는다"는 공포가 천문학적 투자를 강제하고 있다.</p>
+        </section>
+
+        <!-- 트럼프와 군비 경쟁 -->
+        <section>
+            <h2>6️⃣ 트럼프 2기와 군비 경쟁</h2>
+
+            <p>트럼프 대통령은 1기 때 전쟁 기피 성향이었으나, 2기에는 완전히 달라졌다.</p>
+
+            <div class="grid-2">
+                <div class="stat-card">
+                    <div class="stat-number">$9,000억+</div>
+                    <div class="stat-label">기존 국방비 (≈1,400조원)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">$1.5조</div>
+                    <div class="stat-label">트럼프 목표 (≈2,200조원)</div>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <strong>총과 버터의 딜레마</strong><br>
+                전쟁도 해야 하고, 국민도 먹여 살려야 한다. 패권국 쇠락의 가장 대표적 원인은 항상 <strong>잦은 전쟁</strong>이었다.
+            </div>
+
+            <h3>역사적 교훈</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <span class="timeline-year">16~17세기 스페인</span><br>
+                    신대륙 금·은으로 부국 → 펠리페 2세의 잦은 전쟁 → 4번 연속 파산
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-year">19~20세기 영국</span><br>
+                    금본위제 기축통화 → 1·2차 세계대전 비용 → 패권 상실
+                </div>
+            </div>
+
+            <h3>레이건 시대 vs 현재</h3>
+            <div class="chart-container">
+                <div class="chart-title">📊 GDP 대비 미국 국가부채 비율</div>
+                <canvas id="debtChart"></canvas>
+            </div>
+
+            <div class="key-point">
+                <strong>차이점:</strong> 레이건 시대에는 부채 비율 30%로 군비 경쟁을 감당할 여력이 있었다. 현재는 120%로 4배나 높아 같은 전략이 훨씬 위험하다.
+            </div>
+        </section>
+
+        <!-- 달러의 미래 -->
+        <section>
+            <h2>7️⃣ 종이돈의 미래</h2>
+
+            <p>달러가 타락한다고 위안화가 뜨는 것은 <strong>절대 아니다</strong>. 종이돈 시스템 전체가 동반 침몰하고 있으며, 달러는 그 중 가장 늦게 침몰할 가능성이 높다.</p>
+
+            <h3>국제통화 비교 우위</h3>
+            <table class="comparison-table">
+                <tr>
+                    <th>통화</th>
+                    <th>약점</th>
+                </tr>
+                <tr>
+                    <td><span class="badge badge-blue">유로</span></td>
+                    <td>우크라이나 지원 부담, 에너지 위기, 고령화</td>
+                </tr>
+                <tr>
+                    <td><span class="badge badge-red">엔화</span></td>
+                    <td>선행 고령화, 천문학적 국가부채 (미국·유럽 비교 불가)</td>
+                </tr>
+                <tr>
+                    <td><span class="badge badge-gold">위안화</span></td>
+                    <td>부동산 붕괴, 경기 침체, 자본 통제</td>
+                </tr>
+            </table>
+
+            <div class="highlight-box">
+                <p><strong>"썩어도 준치"</strong></p>
+                <p>달러가 기축통화이기 때문에 타락하더라도 순서상 가장 마지막에 타락할 가능성이 높다. 부자가 망해도 3대는 가듯이.</p>
+            </div>
+        </section>
+
+        <!-- 원화의 위기 -->
+        <section>
+            <h2>8️⃣ 한국 원화의 위기</h2>
+
+            <p>장기적 질식전 구도에서 원화는 특히 취약한 모습을 보이고 있다.</p>
+
+            <div class="info-box">
+                <h3>원화 약세의 3가지 원인</h3>
+                <p><strong>① 동맹 부 약탈:</strong> 매년 약 200억 달러가 미국으로 유출</p>
+                <p><strong>② 디커플링 피해:</strong> 미중 양쪽에서 이득을 얻던 한국이 한 진영 선택 강요받음</p>
+                <p><strong>③ 자체 타락:</strong> 2022년 1월 이후 통화량 증가 속도가 미국보다 빠름</p>
+            </div>
+
+            <div class="warning-box">
+                <strong>장기적 인구구조 악화</strong><br>
+                G2까지 갔던 일본도 인구구조 악화로 엔화 가치가 추락 중. 최고 세계 9위였던 한국도 같은 경로를 밟을 위험.
+            </div>
+        </section>
+
+        <!-- 결론 -->
+        <section>
+            <h2>🎯 핵심 결론</h2>
+
+            <div class="highlight-box">
+                <p><strong>1.</strong> 미중 패권전쟁은 '장기적 질식전'으로, 한 방에 끝나지 않고 주변국을 끌어들이며 장기화될 것</p>
+                <p style="margin-top:10px;"><strong>2.</strong> 효율의 종말, 화폐 무기화, 화폐 타락이 동시 진행 중</p>
+                <p style="margin-top:10px;"><strong>3.</strong> 종이돈 시스템 전체가 동반 침몰하되, 달러가 가장 늦게 침몰할 가능성</p>
+                <p style="margin-top:10px;"><strong>4.</strong> 원화는 구조적으로 취약한 상황, 화폐 진화에 대비 필요</p>
+            </div>
+
+            <div class="key-point">
+                <strong>다음 강의 예고 (5강):</strong> 화폐의 혁명과 미래 모습, 중국의 디지털 위안화(CBDC), 구체적인 자산 전략
+            </div>
+        </section>
+
+        <footer>
+            <p>본 문서는 강의 내용을 정리한 것으로, 투자 조언이 아닙니다.</p>
+            <p>© 2026 분석 문서</p>
+        </footer>
+    </div>
+
+    <script>
+        // 미국 대비 중국 GDP 비율 차트
+        new Chart(document.getElementById('gdpRatioChart'), {
+            type: 'line',
+            data: {
+                labels: ['2000년', '2010년', '2020년', '2025년'],
+                datasets: [{
+                    label: '미국 대비 중국 GDP (%)',
+                    data: [12, 41, 70, 63],
+                    borderColor: '#e94560',
+                    backgroundColor: 'rgba(233, 69, 96, 0.1)',
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 6,
+                    pointBackgroundColor: '#e94560'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: { color: '#aaa' },
+                        grid: { color: 'rgba(255,255,255,0.1)' }
+                    },
+                    x: {
+                        ticks: { color: '#aaa' },
+                        grid: { color: 'rgba(255,255,255,0.1)' }
+                    }
+                }
+            }
+        });
+
+        // 미국 성장률 차트
+        new Chart(document.getElementById('usGrowthChart'), {
+            type: 'bar',
+            data: {
+                labels: ['1960s', '1970s', '1990s', '2000s', '2010s', '2020s', '2030s(E)'],
+                datasets: [{
+                    label: '성장률 (%)',
+                    data: [4.4, 3.2, 3.4, 2.0, 2.3, 2.1, 1.6],
+                    backgroundColor: [
+                        '#3282b8', '#3282b8', '#3282b8', '#3282b8', 
+                        '#3282b8', '#3282b8', 'rgba(50, 130, 184, 0.5)'
+                    ],
+                    borderColor: '#3282b8',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 5,
+                        ticks: { color: '#aaa' },
+                        grid: { color: 'rgba(255,255,255,0.1)' }
+                    },
+                    x: {
+                        ticks: { color: '#aaa' },
+                        grid: { color: 'rgba(255,255,255,0.1)' }
+                    }
+                }
+            }
+        });
+
+        // 중국 성장률 차트
+        new Chart(document.getElementById('chinaGrowthChart'), {
+            type: 'bar',
+            data: {
+                labels: ['1980s', '1990s', '2000s', '2010s', '2020s', '2030s(E)'],
+                datasets: [{
+                    label: '성장률 (%)',
+                    data: [9.7, 10.0, 10.3, 7.7, 4.8, 2.5],
+                    backgroundColor: [
+                        '#e94560', '#e94560', '#e94560', '#e94560', 
+                        '#e94560', 'rgba(233, 69, 96, 0.5)'
+                    ],
+                    borderColor: '#e94560',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 12,
+                        ticks: { color: '#aaa' },
+                        grid: { color: 'rgba(255,255,255,0.1)' }
+                    },
+                    x: {
+                        ticks: { color: '#aaa' },
+                        grid: { color: 'rgba(255,255,255,0.1)' }
+                    }
+                }
+            }
+        });
+
+        // 국가부채 비율 차트
+        new Chart(document.getElementById('debtChart'), {
+            type: 'bar',
+            data: {
+                labels: ['레이건 시대 (1980s)', '현재 (2025)'],
+                datasets: [{
+                    label: 'GDP 대비 국가부채 (%)',
+                    data: [30, 120],
+                    backgroundColor: ['#3282b8', '#e94560'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                indexAxis: 'y',
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 150,
+                        ticks: { color: '#aaa' },
+                        grid: { color: 'rgba(255,255,255,0.1)' }
+                    },
+                    y: {
+                        ticks: { color: '#aaa' },
+                        grid: { color: 'rgba(255,255,255,0.1)' }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
