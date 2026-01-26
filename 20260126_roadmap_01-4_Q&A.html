@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>급락 예측 시그널 & 그린란드 이슈 분석</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+            line-height: 1.7;
+            background: #f8f9fa;
+            color: #333;
+            padding: 16px;
+            max-width: 100%;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 1.5rem;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+            border-bottom: 3px solid #e94560;
+            padding-bottom: 12px;
+        }
+        .meta {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 24px;
+        }
+        h2 {
+            font-size: 1.25rem;
+            color: #16213e;
+            margin: 28px 0 16px 0;
+            padding-left: 12px;
+            border-left: 4px solid #e94560;
+        }
+        h3 {
+            font-size: 1.1rem;
+            color: #0f3460;
+            margin: 20px 0 12px 0;
+        }
+        p {
+            margin-bottom: 14px;
+            text-align: justify;
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        .highlight-box h3 {
+            color: white;
+            margin-top: 0;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 14px;
+            margin: 16px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .danger-box {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 14px;
+            margin: 16px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .info-box {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 14px;
+            margin: 16px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 14px;
+            margin: 16px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .key-point {
+            background: #e8f4f8;
+            padding: 14px;
+            border-radius: 8px;
+            margin: 16px 0;
+            border: 1px solid #bee5eb;
+        }
+        strong {
+            color: #e94560;
+        }
+        .chart-container {
+            background: white;
+            padding: 16px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .chart-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 12px;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.9rem;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        th {
+            background: #16213e;
+            color: white;
+            padding: 12px 8px;
+            text-align: center;
+        }
+        td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+        tr:hover {
+            background: #f8f9fa;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 24px;
+            margin: 16px 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e94560;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 16px;
+            width: 10px;
+            height: 10px;
+            background: #e94560;
+            border-radius: 50%;
+        }
+        .timeline-date {
+            font-size: 0.8rem;
+            color: #666;
+            font-weight: 600;
+        }
+        .stage-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin: 16px 0;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .stage {
+            text-align: center;
+            flex: 1;
+            padding: 8px 4px;
+            font-size: 0.75rem;
+        }
+        .stage.active {
+            background: #e94560;
+            color: white;
+            border-radius: 6px;
+        }
+        .stage-num {
+            font-weight: bold;
+            font-size: 1rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .summary-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .summary-card h4 {
+            color: #16213e;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+        .tag {
+            display: inline-block;
+            background: #e94560;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin: 2px;
+        }
+        .tag.blue {
+            background: #667eea;
+        }
+        .tag.green {
+            background: #28a745;
+        }
+        .tag.orange {
+            background: #fd7e14;
+        }
+        footer {
+            margin-top: 32px;
+            padding-top: 16px;
+            border-top: 1px solid #ddd;
+            font-size: 0.8rem;
+            color: #666;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📉 급락 예측 시그널 & 그린란드 이슈 분석</h1>
+        <p class="meta">📅 2026년 1월 27일 | Q&A 강의 VOD 1월 5주차</p>
+
+        <!-- 핵심 요약 -->
+        <div class="highlight-box">
+            <h3>💡 핵심 요약</h3>
+            <p>• <strong>미국 급락 신호:</strong> 금리가 가장 결정적 (10년물 국채 금리 주시)</p>
+            <p>• <strong>한국 급락 신호:</strong> 환율이 핵심 (1,500원 경계 → 1,600원 비상)</p>
+            <p>• <strong>그린란드:</strong> 트럼프의 희토류 확보 전략 진행 중 (절대 끝난 이슈 아님)</p>
+        </div>
+
+        <!-- Part 1: 급락 예측 신호 -->
+        <h2>📊 Part 1. 주가 급락 예측 시그널</h2>
+
+        <h3>존 템플턴의 강세장 4단계</h3>
+        <p>전설적인 투자자 존 템플턴 경의 명언에 따르면, 강세장은 4단계를 거쳐 발전하고 종료됩니다. 현재 시장은 <strong>최소 3단계(낙관)</strong>에 진입한 상태로 분석됩니다.</p>
+
+        <div class="stage-indicator">
+            <div class="stage">
+                <span class="stage-num">1️⃣</span>
+                비관
+            </div>
+            <div class="stage">
+                <span class="stage-num">2️⃣</span>
+                회의
+            </div>
+            <div class="stage active">
+                <span class="stage-num">3️⃣</span>
+                낙관
+            </div>
+            <div class="stage">
+                <span class="stage-num">4️⃣</span>
+                유포리아
+            </div>
+        </div>
+
+        <div class="warning-box">
+            <strong>⚠️ 현재 상황:</strong> 신규 증권 계좌 급증 기사 등장 → 새로운 투자자 유입 증가. 모두가 극한의 행복감(유포리아)을 느끼면 더 이상 매수할 사람이 없어 조정장 불가피.
+        </div>
+
+        <h3>외생변수 vs 내생변수</h3>
+        <div class="summary-card">
+            <h4>🔸 외생변수 (예측 불가)</h4>
+            <p>팬데믹처럼 경제 외부에서 발생하는 변수. 어떤 지표로도 미리 예측 불가능. 단, 발생 후 <strong>양적완화 → 주가 반등</strong> 패턴은 명확함.</p>
+        </div>
+        <div class="summary-card">
+            <h4>🔹 내생변수 (예측 가능)</h4>
+            <p>현재 상승장은 <strong>의도적 과열</strong>에 의한 것. 바이든 정부의 2024년 경기 과열 정책을 트럼프 정부가 계승. <strong>2026년 11월 중간선거</strong>가 핵심 타임라인.</p>
+        </div>
+
+        <h3>미국 주가 급락의 주요 신호 4가지</h3>
+
+        <div class="chart-container">
+            <div class="chart-title">📈 급락 신호 중요도 및 현재 상태</div>
+            <canvas id="signalChart"></canvas>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>신호</th>
+                    <th>기준</th>
+                    <th>현재 상태</th>
+                    <th>유효성</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>인플레이션</strong></td>
+                    <td>전년비 3%<br>(위험: 5%)</td>
+                    <td>3%대 유지</td>
+                    <td><span class="tag orange">마비</span></td>
+                </tr>
+                <tr>
+                    <td><strong>노동시장</strong><br>(샴 법칙)</td>
+                    <td>-</td>
+                    <td>후행지표</td>
+                    <td><span class="tag">무의미</span></td>
+                </tr>
+                <tr>
+                    <td><strong>달러 가치</strong></td>
+                    <td>달러 인덱스</td>
+                    <td>트럼프 환호</td>
+                    <td><span class="tag">무의미</span></td>
+                </tr>
+                <tr>
+                    <td><strong>금리</strong></td>
+                    <td>10년물 국채</td>
+                    <td>4.2% (2010년대 1.5%)</td>
+                    <td><span class="tag green">핵심!</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="key-point">
+            <strong>💡 핵심 포인트: 왜 금리가 결정적인가?</strong><br><br>
+            • 2016년 발행 10년물 국채가 2026년 만기 도래<br>
+            • 발행 당시 금리: <strong>1.5%</strong> → 현재 재발행 금리: <strong>4.2%</strong> (약 3배)<br>
+            • 미국 적자 증가로 국채 상환 불가 → 롤오버 필수<br>
+            • 이자 부담 급증 → 트럼프도 금리만은 무시 불가<br>
+            • 베센트 재무장관: 단기채 위주 발행으로 장기금리 억제 중
+        </div>
+
+        <div class="danger-box">
+            <strong>🚨 위험 신호:</strong> 장기채 금리가 억지로 억제되고 있음에도 상승한다면, 이는 매우 강력한 하락 신호로 해석 가능.
+        </div>
+
+        <h3>한국 주가 급락 신호: 환율</h3>
+
+        <div class="chart-container">
+            <div class="chart-title">🇰🇷 원/달러 환율 경계 구간</div>
+            <canvas id="exchangeChart"></canvas>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>환율 구간</th>
+                    <th>경보 수준</th>
+                    <th>의미</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1,500원</strong></td>
+                    <td><span class="tag orange">1차 경계</span></td>
+                    <td>주의 필요</td>
+                </tr>
+                <tr>
+                    <td><strong>1,550원</strong></td>
+                    <td><span class="tag" style="background:#dc3545">압박 구간</span></td>
+                    <td>주가 압박 시작</td>
+                </tr>
+                <tr>
+                    <td><strong>1,600원</strong></td>
+                    <td><span class="tag" style="background:#721c24">비상</span></td>
+                    <td>통화정책 제약</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="info-box">
+            <strong>📌 한국 시장 현황:</strong><br>
+            • 2025년 경제 상황: 2024년보다 악화<br>
+            • 2025년 주가 상승률: 2024년(마이너스)보다 훨씬 높음<br>
+            • 원인: 막대한 재정지출 + 한국은행 통화정책 + 국민연금 매수<br>
+            • 국민연금 국내 주식 비중: 기존 15% → 현재 16~17% 초과
+        </div>
+
+        <!-- Part 2: 그린란드 이슈 -->
+        <h2>🌍 Part 2. 그린란드 이슈 분석</h2>
+
+        <h3>트럼프의 그린란드 전략: "살라미 전법"</h3>
+        <p>트럼프 대통령의 그린란드 야욕은 끝난 것이 아닙니다. 무력 침공과 관세 위협은 협상 테이블로 끌어내기 위한 전략이었으며, <strong>협상장에 나오게 만든 것 자체가 절반의 승리</strong>입니다.</p>
+
+        <div class="summary-card">
+            <h4>🔪 살라미 전법 3단계</h4>
+            <p><strong>1단계:</strong> 그린란드 자원 독점권/우선 접근권 확보<br>
+            <strong>2단계:</strong> 군사기지 강화<br>
+            <strong>3단계:</strong> 매입 토지 점진적 확대</p>
+        </div>
+
+        <div class="success-box">
+            <strong>✅ 트럼프의 현재 성과:</strong><br>
+            • NATO와 "합의 틀" 마련<br>
+            • 그린란드를 "골든돔" 방어시스템에 포함 선언<br>
+            → 미국 영토 방어체계에 타국 영토 편입 = 장기적 병합 포석
+        </div>
+
+        <h3>희토류: 그린란드의 진정한 가치</h3>
+
+        <div class="chart-container">
+            <div class="chart-title">🏔️ 주요국 희토류 매장량 비교 (만 톤)</div>
+            <canvas id="rareEarthChart"></canvas>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>국가</th>
+                    <th>공식 매장량</th>
+                    <th>비고</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>🇨🇳 중국</td>
+                    <td><strong>4,400만 톤</strong></td>
+                    <td>대미 반격 카드</td>
+                </tr>
+                <tr>
+                    <td>🇺🇸 미국</td>
+                    <td>190만 톤</td>
+                    <td>탐사 미완료</td>
+                </tr>
+                <tr>
+                    <td>🇬🇱 그린란드</td>
+                    <td>150만 톤<br>(추정 3,600만 톤)</td>
+                    <td><strong>80% 미탐사</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="key-point">
+            <strong>💎 네오디뮴(Neodymium) 문제:</strong><br>
+            현재 가장 중요한 희토류 원소. 미국 땅에는 거의 없으나, 그린란드에는 존재할 가능성이 제기되고 있음.
+        </div>
+
+        <h3>미국-사우디-그린란드 삼각 협력</h3>
+        <p>희토류 채굴보다 <strong>정제 과정</strong>이 더 위험합니다. 방사성 물질이 다량 발생하기 때문에 선진국에서는 정제를 기피합니다.</p>
+
+        <div class="info-box">
+            <strong>🤝 해결책: 사우디</strong><br>
+            • 무인지대 보유 + 환경 규제 낮음<br>
+            • 물 부족 → 해수 담수화로 해결 가능<br>
+            • 그린란드에서 비교적 가까운 거리
+        </div>
+
+        <h3>크리티컬 메탈즈(Critical Metals)의 움직임</h3>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-date">📅 2026년 1월 7일</div>
+                <p>그린란드 현지 시범 공장 건설 계획 발표</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">📅 2026년 1월 15일</div>
+                <p>사우디에 <strong>15억 달러</strong> 규모 희토류 정제시설 건설 합의</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">📅 2026년 1월 22일</div>
+                <p>그린란드 시범 공장 관련 비즈니스 콜(Q&A) 진행</p>
+            </div>
+        </div>
+
+        <div class="warning-box">
+            <strong>⚠️ 투자 시사점:</strong> 중국과 분리된 희토류 밸류체인 형성 시, 관련 미국/유럽/사우디 기업들의 수혜 예상. 한국은 희토류 수요국으로서 밸류체인 참여 기회 모색 필요.
+        </div>
+
+        <!-- Part 3: 덴마크 국채 매도 -->
+        <h2>💰 Part 3. 덴마크 국채 매도 이슈</h2>
+
+        <h3>규모와 영향</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>항목</th>
+                    <th>수치</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>덴마크 매도 규모</td>
+                    <td><strong>1억 달러</strong> (약 1,460억 원)</td>
+                </tr>
+                <tr>
+                    <td>미국 국채시장 규모</td>
+                    <td>31조 달러</td>
+                </tr>
+                <tr>
+                    <td>비중</td>
+                    <td><strong>0.003%</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="info-box">
+            <strong>📊 결론:</strong> 금액적 영향은 "바다에 떨어진 잉크 한 방울" 수준. 그러나 <strong>상징적 의미</strong>가 있음.
+        </div>
+
+        <div class="summary-card">
+            <h4>🔮 장기적 시사점</h4>
+            <p>• 기존: 중국, 러시아, 인도, 브라질만 미국 국채 매도<br>
+            • 변화: <strong>미국 동맹국도</strong> 국채 매도 가능성 시사<br>
+            • 결과: 그린란드 사태 완화에도 <strong>금값 하락 없음</strong><br>
+            • 의미: 달러/미국 국채 신뢰도 장기 하락 우려</p>
+        </div>
+
+        <!-- 최종 요약 -->
+        <h2>📋 최종 정리</h2>
+
+        <div class="highlight-box">
+            <h3>🎯 핵심 체크포인트</h3>
+            <p><strong>🇺🇸 미국:</strong> 10년물 국채 금리 상승 여부 모니터링</p>
+            <p><strong>🇰🇷 한국:</strong> 원/달러 환율 1,500원 이상 경계</p>
+            <p><strong>🌍 지정학:</strong> 그린란드 희토류 개발 진행 상황 주시</p>
+            <p><strong>💎 투자:</strong> 희토류 밸류체인 관련주 관심</p>
+        </div>
+
+        <div class="danger-box">
+            <strong>❌ 무시해도 되는 지표:</strong><br>
+            • 샴 법칙(Sahm Rule) - 후행지표로 예측 가치 없음<br>
+            • 달러 인덱스 - 트럼프 정책상 신호 기능 상실
+        </div>
+
+        <footer>
+            <p>📌 본 문서는 유튜브 강의 내용을 정리한 것으로, 투자 판단의 참고자료로만 활용하시기 바랍니다.</p>
+            <p>© 2026년 1월 27일 분석 정리</p>
+        </footer>
+    </div>
+
+    <script>
+        // 급락 신호 중요도 차트
+        const signalCtx = document.getElementById('signalChart').getContext('2d');
+        new Chart(signalCtx, {
+            type: 'bar',
+            data: {
+                labels: ['인플레이션', '노동시장\n(샴 법칙)', '달러 가치', '금리'],
+                datasets: [{
+                    label: '현재 유효성',
+                    data: [30, 10, 10, 100],
+                    backgroundColor: [
+                        'rgba(253, 126, 20, 0.8)',
+                        'rgba(108, 117, 125, 0.8)',
+                        'rgba(108, 117, 125, 0.8)',
+                        'rgba(40, 167, 69, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgb(253, 126, 20)',
+                        'rgb(108, 117, 125)',
+                        'rgb(108, 117, 125)',
+                        'rgb(40, 167, 69)'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const labels = ['마비 (트럼프 압박)', '무의미 (후행지표)', '무의미 (정책 영향)', '핵심 신호!'];
+                                return labels[context.dataIndex];
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: { display: true, text: '신호 유효성 (%)' }
+                    }
+                }
+            }
+        });
+
+        // 환율 경계 차트
+        const exchangeCtx = document.getElementById('exchangeChart').getContext('2d');
+        new Chart(exchangeCtx, {
+            type: 'bar',
+            data: {
+                labels: ['1,500원\n(1차 경계)', '1,550원\n(압박)', '1,600원\n(비상)'],
+                datasets: [{
+                    label: '위험도',
+                    data: [40, 70, 100],
+                    backgroundColor: [
+                        'rgba(255, 193, 7, 0.8)',
+                        'rgba(253, 126, 20, 0.8)',
+                        'rgba(220, 53, 69, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgb(255, 193, 7)',
+                        'rgb(253, 126, 20)',
+                        'rgb(220, 53, 69)'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                indexAxis: 'y',
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: { display: true, text: '위험도 (%)' }
+                    }
+                }
+            }
+        });
+
+        // 희토류 매장량 차트
+        const rareEarthCtx = document.getElementById('rareEarthChart').getContext('2d');
+        new Chart(rareEarthCtx, {
+            type: 'bar',
+            data: {
+                labels: ['중국', '미국', '그린란드\n(공식)', '그린란드\n(추정)'],
+                datasets: [{
+                    label: '매장량 (만 톤)',
+                    data: [4400, 190, 150, 3600],
+                    backgroundColor: [
+                        'rgba(220, 53, 69, 0.8)',
+                        'rgba(0, 123, 255, 0.8)',
+                        'rgba(40, 167, 69, 0.5)',
+                        'rgba(40, 167, 69, 0.9)'
+                    ],
+                    borderColor: [
+                        'rgb(220, 53, 69)',
+                        'rgb(0, 123, 255)',
+                        'rgb(40, 167, 69)',
+                        'rgb(40, 167, 69)'
+                    ],
+                    borderWidth: 2,
+                    borderDash: [0, 0, 5, 0]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            afterLabel: function(context) {
+                                if (context.dataIndex === 3) return '* 80% 미탐사 지역 포함 추정치';
+                                return '';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: '만 톤' }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
