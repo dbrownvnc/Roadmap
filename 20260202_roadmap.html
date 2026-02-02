@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>금값 폭락에서 배우는 자산 매수 기회 | 긴급 매크로 브리핑 2강</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap');
+
+        :root {
+            --gold-dark: #8B6914;
+            --gold: #C9A227;
+            --gold-light: #F0D060;
+            --gold-bg: #FFF8E7;
+            --bg: #0F0F0F;
+            --bg-card: #1A1A1A;
+            --bg-card-alt: #222222;
+            --text: #E8E8E8;
+            --text-dim: #999999;
+            --text-bright: #FFFFFF;
+            --red: #FF4444;
+            --red-dark: #CC2222;
+            --red-bg: rgba(255, 68, 68, 0.08);
+            --green: #00C853;
+            --green-bg: rgba(0, 200, 83, 0.08);
+            --blue: #448AFF;
+            --blue-bg: rgba(68, 138, 255, 0.08);
+            --orange: #FF9100;
+            --border: #333333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.75;
+            font-size: 15px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* Header */
+        .hero {
+            background: linear-gradient(165deg, #1A1200 0%, #2D2000 30%, #0F0F0F 100%);
+            padding: 40px 16px 32px;
+            border-bottom: 2px solid var(--gold-dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(201, 162, 39, 0.12) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--red);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+        }
+
+        .hero h1 {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--gold-light);
+            line-height: 1.35;
+            margin-bottom: 10px;
+        }
+
+        .hero .subtitle {
+            font-size: 14px;
+            color: var(--text-dim);
+            line-height: 1.5;
+        }
+
+        .hero .meta {
+            margin-top: 16px;
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+
+        .hero .meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Section */
+        .section {
+            padding: 28px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text-bright);
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+
+        p {
+            margin-bottom: 14px;
+            color: var(--text);
+        }
+
+        strong, b {
+            color: var(--text-bright);
+            font-weight: 700;
+        }
+
+        .highlight {
+            color: var(--gold-light);
+            font-weight: 700;
+        }
+
+        .highlight-red {
+            color: var(--red);
+            font-weight: 700;
+        }
+
+        .highlight-green {
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .highlight-blue {
+            color: var(--blue);
+            font-weight: 700;
+        }
+
+        /* Insight Box */
+        .insight-box {
+            background: var(--bg-card);
+            border-left: 3px solid var(--gold);
+            padding: 16px 18px;
+            margin: 18px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .insight-box.red {
+            border-left-color: var(--red);
+            background: var(--red-bg);
+        }
+
+        .insight-box.green {
+            border-left-color: var(--green);
+            background: var(--green-bg);
+        }
+
+        .insight-box.blue {
+            border-left-color: var(--blue);
+            background: var(--blue-bg);
+        }
+
+        .insight-box .box-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 6px;
+        }
+
+        .insight-box.red .box-title { color: var(--red); }
+        .insight-box.green .box-title { color: var(--green); }
+        .insight-box.blue .box-title { color: var(--blue); }
+
+        .insight-box p {
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        .insight-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px 16px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+
+        .chart-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-bright);
+            margin-bottom: 4px;
+        }
+
+        .chart-subtitle {
+            font-size: 12px;
+            color: var(--text-dim);
+            margin-bottom: 16px;
+        }
+
+        canvas {
+            max-width: 100%;
+        }
+
+        /* Table */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 18px 0;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        thead th {
+            background: var(--bg-card-alt);
+            color: var(--gold-light);
+            font-weight: 700;
+            padding: 12px 14px;
+            text-align: left;
+            white-space: nowrap;
+            border-bottom: 2px solid var(--gold-dark);
+        }
+
+        tbody td {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .rank-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .rank-1 { background: var(--red); }
+        .rank-2 { background: #E64A19; }
+        .rank-3 { background: #F57C00; }
+        .rank-mid { background: #555; }
+        .rank-low { background: #333; color: var(--gold-light); border: 1px solid var(--gold-dark); }
+
+        /* Flow Diagram */
+        .flow-container {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 24px 16px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+
+        .flow-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-bright);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 4px;
+            position: relative;
+        }
+
+        .flow-num {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--gold-dark);
+            color: var(--gold-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .flow-content {
+            flex: 1;
+            font-size: 14px;
+            padding-top: 3px;
+        }
+
+        .flow-arrow {
+            width: 28px;
+            display: flex;
+            justify-content: center;
+            padding: 2px 0;
+            color: var(--text-dim);
+            font-size: 14px;
+        }
+
+        /* Comparison Cards */
+        .compare-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 18px 0;
+        }
+
+        .compare-card {
+            background: var(--bg-card);
+            border-radius: 10px;
+            padding: 16px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .compare-card.v-type {
+            border-color: var(--green);
+            background: var(--green-bg);
+        }
+
+        .compare-card.u-type {
+            border-color: var(--orange);
+            background: rgba(255, 145, 0, 0.08);
+        }
+
+        .compare-card .card-icon {
+            font-size: 32px;
+            margin-bottom: 6px;
+        }
+
+        .compare-card .card-label {
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .v-type .card-label { color: var(--green); }
+        .u-type .card-label { color: var(--orange); }
+
+        .compare-card .card-desc {
+            font-size: 12px;
+            color: var(--text-dim);
+            line-height: 1.5;
+        }
+
+        /* Stat Row */
+        .stat-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        .stat-item {
+            background: var(--bg-card);
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--gold-light);
+            margin-bottom: 2px;
+        }
+
+        .stat-value.red { color: var(--red); }
+        .stat-value.green { color: var(--green); }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-dim);
+            font-weight: 500;
+        }
+
+        /* Principle Cards */
+        .principle-card {
+            background: linear-gradient(135deg, var(--bg-card) 0%, #1F1A10 100%);
+            border: 1px solid var(--gold-dark);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 14px 0;
+        }
+
+        .principle-card .num {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--gold-dark);
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .principle-card .title {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--gold-light);
+            margin-bottom: 8px;
+        }
+
+        .principle-card p {
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 32px 0;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer p {
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+
+        .disclaimer {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            margin: 20px 0;
+            font-size: 12px;
+            color: var(--text-dim);
+            line-height: 1.6;
+        }
+
+        /* Recovery Shape SVG */
+        .shape-svg-container {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0 4px;
+        }
+
+        .shape-svg-container svg {
+            width: 80px;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+    <div class="container">
+        <div class="hero-badge">🔴 긴급 매크로 브리핑</div>
+        <h1>금값 폭락에서 배우는<br>자산 매수 기회</h1>
+        <p class="subtitle">선물시장의 구조적 메커니즘과 대형 은행의 가격 조정 전략 — 개인 투자자를 위한 실전 가이드</p>
+        <div class="meta">
+            <span>📅 2026.02.02</span>
+            <span>📺 박종훈</span>
+            <span>📌 2강</span>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- Section 1: 핵심 전제 -->
+    <div class="section">
+        <div class="section-label">OVERVIEW</div>
+        <div class="section-title">왜 선물 가격이 현물을 지배하는가</div>
+
+        <p>금의 <strong>실물 거래량</strong>은 연간 4,000~5,000톤에 불과합니다. 그러나 <strong>뉴욕 상품거래소(COMEX)</strong> 한 곳에서만 연간 <span class="highlight">40~50만 톤</span>이 거래됩니다. 실물의 약 100배에 달하는 규모입니다.</p>
+
+        <div class="stat-row">
+            <div class="stat-item">
+                <div class="stat-value">~5,000톤</div>
+                <div class="stat-label">연간 실물 금 거래량</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" style="color: var(--gold-light);">~50만톤</div>
+                <div class="stat-label">COMEX 선물 거래량</div>
+            </div>
+        </div>
+
+        <p>이 막대한 차이가 발생하는 이유는 <strong>선물 거래가 종이만 주고받는 구조</strong>이기 때문입니다. 실물 인도 없이 차액만 정산하는 투기적 거래가 대부분이며, 이로 인해 <span class="highlight-red">"꼬리(선물)가 몸통(현물)을 흔드는" 현상</span>이 구조적으로 발생합니다.</p>
+
+        <div class="insight-box">
+            <div class="box-title">💡 핵심 원리</div>
+            <p>미국의 대형은행과 헤지펀드는 <strong>선물시장을 통해 현물가격을 조정</strong>합니다. 이 원리는 금뿐 아니라 코스피, 코스닥, 은, 원자재 등 다양한 시장에 동일하게 적용됩니다.</p>
+        </div>
+    </div>
+
+    <!-- Section 2: 먹잇감 순위 -->
+    <div class="section">
+        <div class="section-label">MARKET RANKING</div>
+        <div class="section-title">초대형 은행의 "놀이터" — 조작 용이성 순위</div>
+
+        <p>대형 은행이나 헤지펀드가 시장을 쥐락펴락하려면 두 가지 조건이 필요합니다: ① <strong>시장 규모가 적당히 작을 것</strong>, ② <strong>유동성이 풍부할 것</strong>. S&P 500이나 원유처럼 초대형 시장은 국가급 자금력이 필요하기 때문에 함부로 건드릴 수 없습니다.</p>
+
+        <div class="chart-container">
+            <div class="chart-title">시장별 조작 용이성 순위 (1위=가장 취약)</div>
+            <div class="chart-subtitle">시장 규모가 작고 레버리지가 높을수록 취약</div>
+            <canvas id="rankChart" height="300"></canvas>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>순위</th>
+                        <th>시장</th>
+                        <th>특징</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="rank-badge rank-1">1</span></td>
+                        <td><strong>알트코인</strong></td>
+                        <td>규모 극소, 변동성 극대</td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank-badge rank-2">2</span></td>
+                        <td><strong>은(Silver)</strong></td>
+                        <td>과거 1위, 중국 참전 후 순위 하락</td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank-badge rank-3">3~5</span></td>
+                        <td><strong>코코아, 니켈, 백금 등</strong></td>
+                        <td>개인 투자자 적은 원자재</td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank-badge rank-mid">6~8</span></td>
+                        <td><strong>코스닥</strong></td>
+                        <td>시장 규모 대비 외국인 자금력 우위</td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank-badge rank-mid">9</span></td>
+                        <td><strong>코스피</strong></td>
+                        <td>외국인 선물옵션으로 지수 조정 가능</td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank-badge rank-low">10</span></td>
+                        <td><strong>금(Gold)</strong></td>
+                        <td>규모 대비 높은 레버리지 거래</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="insight-box blue">
+            <div class="box-title">🔎 은(Silver)의 변화</div>
+            <p>과거에는 미국 대형은행의 대표적 놀이터(2위)였으나, <strong>중국이 실물 사용 목적으로 참전</strong>하면서 가격 조작 난이도가 상승. 현재는 8~9위 수준으로 하락. 다만 이번에도 30% 급락을 보여 완전히 벗어나지는 못한 상태.</p>
+        </div>
+    </div>
+
+    <!-- Section 3: 누가, 어떻게 -->
+    <div class="section">
+        <div class="section-label">KEY PLAYERS</div>
+        <div class="section-title">금 시장을 쥐락펴락하는 세 부류</div>
+
+        <div class="principle-card">
+            <div class="num">01</div>
+            <div class="title">불리온 은행 (Bullion Banks)</div>
+            <p>영국·미국·스위스 소재 초대형 은행들. <strong>JP모건</strong>이 가장 악명 높으며, 내부 정보를 활용한 스탑로스 헌팅으로 적발된 전력이 있음. 그럼에도 솜방망이 처벌에 그침 — 금값 하락이 미국 정부에도 이로운 구조이기 때문.</p>
+        </div>
+
+        <div class="principle-card">
+            <div class="num">02</div>
+            <div class="title">글로벌 대형 헤지펀드</div>
+            <p>수조 달러 규모의 자금력으로 금·은·원자재 시장에서 레버리지 50~100배까지 동원. 개인 투자자(12.5배)와는 차원이 다른 자금력을 보유.</p>
+        </div>
+
+        <div class="principle-card">
+            <div class="num">03</div>
+            <div class="title">HFT (고빈도 거래 업체)</div>
+            <p>2000년대 이후 등장한 알고리즘 기반 초고속 거래 시스템. 인간보다 <strong>1만~10만 배 빠른 속도</strong>로 주문을 집행. 가격 급변 시 개인이 진입 타이밍을 잡는 것을 사실상 불가능하게 만드는 주범.</p>
+        </div>
+
+        <div class="insight-box red">
+            <div class="box-title">⚠️ 네이키드 공매도의 위력</div>
+            <p>미국에서는 초대형 은행들이 <strong>실물 금 없이 공매도(네이키드 공매도)</strong>가 가능합니다. 중앙은행 금 리스 또는 고객 금 해제라는 합법적 명목으로 <strong>종이금을 무제한 발행</strong>하여 가격을 끌어내릴 수 있는 구조입니다.</p>
+        </div>
+    </div>
+
+    <!-- Section 4: 왜 하락 베팅인가 -->
+    <div class="section">
+        <div class="section-label">STRATEGY</div>
+        <div class="section-title">"공포는 희망보다 빠르다"</div>
+
+        <p>초대형 은행들이 <strong>매도 포지션(숏)을 선호</strong>하는 이유는 단순합니다. 상승장에서 10% 수익을 내려면 수개월이 걸리지만, <span class="highlight-red">하락장에서는 1~2시간 만에 10% 수익</span>이 가능하기 때문입니다.</p>
+
+        <div class="chart-container">
+            <div class="chart-title">상승 vs 하락 — 속도와 수익의 비대칭</div>
+            <div class="chart-subtitle">같은 10% 변동이지만 소요 시간은 극적으로 다름</div>
+            <canvas id="asymmetryChart" height="220"></canvas>
+        </div>
+
+        <div class="stat-row">
+            <div class="stat-item">
+                <div class="stat-value green">수주~수개월</div>
+                <div class="stat-label">10% 상승 소요 시간</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value red">1~2시간</div>
+                <div class="stat-label">10% 하락 소요 시간</div>
+            </div>
+        </div>
+
+        <p>초대형 은행에게 <strong>시간 = 돈</strong>입니다. 1년간 10% 수익보다 1시간에 10% 수익이 압도적으로 높은 가성비를 보이며, 여기에 50~100배 레버리지까지 더하면 수익률은 기하급수적으로 증가합니다.</p>
+    </div>
+
+    <!-- Section 5: 스탑로스 헌팅 -->
+    <div class="section">
+        <div class="section-label">MECHANISM</div>
+        <div class="section-title">스탑로스 헌팅 — 개미가 먹히는 원리</div>
+
+        <p><strong>스탑로스(Stop-Loss)</strong>란 미리 설정한 가격에 도달하면 자동으로 매도되는 주문입니다. 예: "$5,500에 매수한 금이 $5,300으로 떨어지면 자동 매도" → 손실을 $200로 제한하려는 방어 전략.</p>
+
+        <div class="insight-box red">
+            <div class="box-title">🎯 스탑로스 헌팅이란?</div>
+            <p>대형 은행들이 <strong>개미들의 스탑로스 설정 가격대를 파악</strong>한 뒤, 의도적으로 가격을 해당 지점까지 끌어내려 <strong>자동 매도를 대량 유발</strong>시키는 전략. 쏟아지는 매도 물량이 추가 하락을 만들어 은행들의 숏 포지션 수익을 극대화합니다.</p>
+        </div>
+
+        <div class="flow-container">
+            <div class="flow-title">스탑로스 헌팅 작동 메커니즘</div>
+
+            <div class="flow-step">
+                <div class="flow-num">1</div>
+                <div class="flow-content">개미들이 급등 구간에서 FOMO(나만 놓침 공포)로 고가에 진입<br><span style="color:var(--text-dim); font-size:12px;">예: 금 $5,400~$5,500에 매수</span></div>
+            </div>
+            <div class="flow-arrow">↓</div>
+
+            <div class="flow-step">
+                <div class="flow-num">2</div>
+                <div class="flow-content">스탑로스를 <strong>"0"이 붙는 심리적 지지선</strong>에 집중 설정<br><span style="color:var(--text-dim); font-size:12px;">$5,200 / $5,100 / $5,000 / $4,900 등</span></div>
+            </div>
+            <div class="flow-arrow">↓</div>
+
+            <div class="flow-step">
+                <div class="flow-num">3</div>
+                <div class="flow-content">대형 은행들이 레버리지 + 네이키드 공매도로 <span class="highlight-red">가격을 의도적 하락</span></div>
+            </div>
+            <div class="flow-arrow">↓</div>
+
+            <div class="flow-step">
+                <div class="flow-num">4</div>
+                <div class="flow-content"><strong>$5,000 돌파</strong> → 스탑로스 대량 발동 → 자동 매도 폭주</div>
+            </div>
+            <div class="flow-arrow">↓</div>
+
+            <div class="flow-step">
+                <div class="flow-num">5</div>
+                <div class="flow-content">$4,900까지 연쇄 돌파 → <span class="highlight-red">기계적 매도 쏟아짐</span></div>
+            </div>
+            <div class="flow-arrow">↓</div>
+
+            <div class="flow-step">
+                <div class="flow-num">6</div>
+                <div class="flow-content">알고리즘(HFT)이 하락 추세에 편승 → <strong>폭락 가속화</strong></div>
+            </div>
+            <div class="flow-arrow">↓</div>
+
+            <div class="flow-step">
+                <div class="flow-num">7</div>
+                <div class="flow-content">대형 은행들 숏 포지션으로 <span class="highlight">막대한 수익 확보</span> → 전쟁 종료</div>
+            </div>
+        </div>
+
+        <div class="insight-box">
+            <div class="box-title">🧠 인간 심리의 패턴</div>
+            <p>사람들은 $5,000, $4,900처럼 <strong>끝자리 "000"이나 "00"에 스탑로스를 집중</strong>합니다. 기관들은 이 심리를 정확히 파악하고 있으며, 해당 가격대를 <strong>의도적으로 돌파</strong>합니다. $5,000을 뚫으면 "설마 $4,900도?"라는 상식까지 깨는 것이 전략의 핵심입니다.</p>
+        </div>
+    </div>
+
+    <!-- Section 6: 1월 29~30일 실전 사례 -->
+    <div class="section">
+        <div class="section-label">CASE STUDY</div>
+        <div class="section-title">1월 29~30일 금값 대폭락 해부</div>
+
+        <div class="chart-container">
+            <div class="chart-title">금 선물가격 급락 경로 (2026년 1월)</div>
+            <div class="chart-subtitle">선물 기준 $5,600대 → $4,700대 | 약 16% 하락</div>
+            <canvas id="crashChart" height="280"></canvas>
+        </div>
+
+        <div class="stat-row">
+            <div class="stat-item">
+                <div class="stat-value red">~$900</div>
+                <div class="stat-label">선물 기준 하락폭</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value red">~16%</div>
+                <div class="stat-label">하락률</div>
+            </div>
+        </div>
+
+        <p><strong>배경:</strong> 베센트 재무부 장관의 발언과 연준 의장 지명자의 매파(강경론자) 성향 보도가 방아쇠가 되었습니다. 그러나 이것은 <span class="highlight-red">펀더멘탈 변화가 아닌 대형 은행들의 작전</span>이었습니다.</p>
+
+        <p><strong>정상가 조작:</strong> 주목할 점은 <strong>정상가(Settlement Price)와 종가의 괴리</strong>입니다. 새벽 3~4시에 결정되는 정상가를 $4,700대로 밀어놓아 다음 날 투자자들이 "폭락"을 인식하게 만든 뒤, 4~5시 사이에는 이미 롱으로 전환하여 금값을 올려놓는 전략을 사용했습니다.</p>
+
+        <div class="insight-box">
+            <div class="box-title">📊 핵심 수치 비교</div>
+            <p>• 현물 금값 마감: <strong>$4,880</strong></p>
+            <p>• 선물 정상가: <strong>$4,700대</strong> (의도적으로 밀어놓음)</p>
+            <p>• 선물 종가: 정상가보다 <strong>높은 수준</strong> (은행들이 롱 전환 후)</p>
+        </div>
+
+        <p>불리온 은행들은 2025년 12월 금·은값 급등으로 <strong>파산 위기</strong>에 직면했었으나, 이번 폭락을 통해 위기를 완전히 해소하고 <span class="highlight">막대한 수익을 거둔 것으로 추정</span>됩니다. 은 30%, 금 10% 하락에 50~100배 레버리지를 적용하면 천문학적 이익입니다.</p>
+    </div>
+
+    <!-- Section 7: 마진콜 지옥 -->
+    <div class="section">
+        <div class="section-label">RISK</div>
+        <div class="section-title">마진콜 지옥 — 선물 투자의 치명적 위험</div>
+
+        <p><strong>마진콜</strong>이란 선물 투자 시 증거금이 부족해지면 추가 자금을 요구하는 것이며, 미충족 시 <span class="highlight-red">강제 청산(강제 매각)</span>이 발생합니다.</p>
+
+        <div class="chart-container">
+            <div class="chart-title">레버리지의 양날의 검: 8% 증거금 시뮬레이션</div>
+            <div class="chart-subtitle">금 선물 100만원 기준 / 증거금 8만원</div>
+            <canvas id="leverageChart" height="250"></canvas>
+        </div>
+
+        <div class="stat-row">
+            <div class="stat-item">
+                <div class="stat-value green">+100%</div>
+                <div class="stat-label">금값 8% 상승 시 수익률</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value red">강제청산</div>
+                <div class="stat-label">금값 8% 하락 시</div>
+            </div>
+        </div>
+
+        <p>2026년 1월 기준 금 선물 <strong>표준 증거금: 8%</strong>. 즉 100만원 포지션에 8만원만 필요하며, 12.5배 레버리지에 해당합니다. 금값이 8% 오르면 수익률 100%(재산 2배)이지만, 8% 하락하면 <strong>증거금 전액 소실 + 강제 청산</strong>.</p>
+
+        <div class="insight-box red">
+            <div class="box-title">⚠️ 24시간 마진콜 연쇄</div>
+            <p>금 시장은 <strong>사실상 23시간 운영</strong>(1시간 휴장). 아시아 → 런던 → 미국 순서로 돌아가기 때문에, 한 시간대의 폭락이 다음 시간대에서 <strong>마진콜 → 추가 하락 → 또 마진콜</strong>의 연쇄를 일으킵니다.</p>
+        </div>
+    </div>
+
+    <!-- Section 8: 반등 패턴 -->
+    <div class="section">
+        <div class="section-label">RECOVERY</div>
+        <div class="section-title">폭락 이후 — V자 vs U자 반등</div>
+
+        <p>마진콜로 대규모 매도가 쏟아진 이후, 시장 반응에 따라 두 가지 경로가 갈립니다. <strong>초대형 은행들도 사전에 결정할 수 없으며</strong>, 실시간으로 시장의 매수세 강도를 "테스트"한 뒤 방향을 결정합니다.</p>
+
+        <div class="compare-grid">
+            <div class="compare-card v-type">
+                <div class="shape-svg-container">
+                    <svg viewBox="0 0 80 50">
+                        <path d="M5 10 L40 42 L75 10" stroke="#00C853" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="card-label">V자 반등</div>
+                <div class="card-desc">중국 등 대형 매수세 진입 → 은행들도 롱 전환 → <strong>빠른 반등</strong></div>
+            </div>
+            <div class="compare-card u-type">
+                <div class="shape-svg-container">
+                    <svg viewBox="0 0 80 50">
+                        <path d="M5 10 Q15 42 40 42 Q65 42 75 10" stroke="#FF9100" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="card-label">U자 회복</div>
+                <div class="card-desc">매수세 약함 → 추가 하락 시도 → 바닥 다지기 후 <strong>느린 회복</strong></div>
+            </div>
+        </div>
+
+        <div class="flow-container">
+            <div class="flow-title">반등 분기 결정 요인</div>
+            <div class="flow-step">
+                <div class="flow-num" style="background:var(--green);">V</div>
+                <div class="flow-content"><strong>강한 매수세 감지</strong> — 중국이 현물 확보 목적으로 선물 매수 → "니들 싸게 해놨네, 몽땅 긁어모아" → 은행들도 눈치 보고 롱 전환</div>
+            </div>
+            <div style="height:12px;"></div>
+            <div class="flow-step">
+                <div class="flow-num" style="background:var(--orange);">U</div>
+                <div class="flow-content"><strong>약한 매수세</strong> — 은행들이 "조금 더 떨어뜨릴 수 있겠는데?" → 추가 숏 → 마지막 개미까지 청산 → 서서히 바닥 형성</div>
+            </div>
+        </div>
+
+        <div class="insight-box green">
+            <div class="box-title">✅ 긍정적 시그널</div>
+            <p>한 방에 급격히 내린 경우 → <strong>반등 시기가 짧을 가능성이 높음</strong>. 다만 그 과정에서 레버리지를 사용한 개인 투자자들의 피해는 이미 돌이킬 수 없는 상태.</p>
+        </div>
+    </div>
+
+    <!-- Section 9: 코스피/코스닥 적용 -->
+    <div class="section">
+        <div class="section-label">KOREA MARKET</div>
+        <div class="section-title">코스피·코스닥에도 동일한 원리 적용</div>
+
+        <p>금시장의 메커니즘은 <strong>코스피·코스닥에 그대로 적용</strong>됩니다. 외국인들은 선물·옵션 시장에서 대규모 숏 포지션이 가능하며, 코스피·코스닥 규모는 미국 대형 은행 입장에서 "작은 시장"입니다.</p>
+
+        <div class="chart-container">
+            <div class="chart-title">기울어진 운동장: 외국인 vs 개인</div>
+            <div class="chart-subtitle">정보 비대칭과 자금력 격차</div>
+            <canvas id="koreaChart" height="240"></canvas>
+        </div>
+
+        <div class="flow-container">
+            <div class="flow-title">코스피·코스닥 하락 유도 패턴</div>
+
+            <div class="flow-step">
+                <div class="flow-num">1</div>
+                <div class="flow-content">주가 상승 후기 — 뒤늦은 개미 진입 (FOMO)<br><span style="color:var(--text-dim);font-size:12px;">신용융자, 미결제약정 급증 → 기사로 공개됨</span></div>
+            </div>
+            <div class="flow-arrow">↓</div>
+
+            <div class="flow-step">
+                <div class="flow-num">2</div>
+                <div class="flow-content">외국인, <strong>빅데이터로 개미 진입가·레버리지 수준 파악</strong><br><span style="color:var(--text-dim);font-size:12px;">강제청산 트리거 지수까지 정확히 계산</span></div>
+            </div>
+            <div class="flow-arrow">↓</div>
+
+            <div class="flow-step">
+                <div class="flow-num">3</div>
+                <div class="flow-content">선물 시장에서 레버리지 숏 → <strong>지수 하락 개시</strong></div>
+            </div>
+            <div class="flow-arrow">↓</div>
+
+            <div class="flow-step">
+                <div class="flow-num">4</div>
+                <div class="flow-content">레버리지 개미 손절/강제청산 → 알고리즘 편승 → <span class="highlight-red">폭락 가속</span></div>
+            </div>
+            <div class="flow-arrow">↓</div>
+
+            <div class="flow-step">
+                <div class="flow-num">5</div>
+                <div class="flow-content">외국인 숏 포지션 수익 확보 → 빠른 전쟁 종료</div>
+            </div>
+        </div>
+
+        <div class="insight-box blue">
+            <div class="box-title">📌 코스피 5,000 돌파의 의미</div>
+            <p>최근 코스피가 5,000을 넘어서며 한국 시장이 과거보다 대형화되었지만, <strong>완전히 안전하다는 확신이 생기기 전까지는 경계를 늦추지 말아야</strong> 합니다. 과거 외국인의 패턴이 변했는지 확인되기까지 유념이 필요합니다.</p>
+        </div>
+    </div>
+
+    <!-- Section 10: 투자 원칙 -->
+    <div class="section">
+        <div class="section-label">INVESTMENT PRINCIPLES</div>
+        <div class="section-title">폭락에서 살아남는 실전 투자 원칙</div>
+
+        <div class="principle-card">
+            <div class="num">01</div>
+            <div class="title">선물·레버리지 투자는 개인에게 극도로 위험</div>
+            <p>대형 은행은 무한대에 가까운 자금력으로 50~100배 레버리지도 감당합니다. 개인은 <strong>현물 투자가 원칙</strong>입니다. 현물은 가격이 밀려도 강제 매각이 없지만, 선물은 증거금 부족 시 자동 청산됩니다.</p>
+        </div>
+
+        <div class="principle-card">
+            <div class="num">02</div>
+            <div class="title">"0"이 바뀌는 구간을 주시하라</div>
+            <p>$5,000→$4,000, $10,000→$9,000 등 <strong>앞자리가 바뀌는 심리적 지수대</strong>에서 스탑로스 헌팅이 집중됩니다. 이 구간이 곧 <span class="highlight">매수 기회</span>가 될 수 있습니다. 대량 스탑로스 발동으로 가격이 과도하게 밀린 시점이 저가 매수의 찬스.</p>
+        </div>
+
+        <div class="principle-card">
+            <div class="num">03</div>
+            <div class="title">폭락은 펀더멘탈이 아닌 "작전"일 수 있다</div>
+            <p>이번 금 폭락처럼 <strong>본질적 가치 변화 없이</strong> 선물 시장 조작으로 발생한 급락은 일시적입니다. 공포에 따라 팔지 말고, 원인이 펀더멘탈인지 기관 작전인지를 먼저 판별해야 합니다.</p>
+        </div>
+
+        <div class="principle-card">
+            <div class="num">04</div>
+            <div class="title">생존이 최우선이다</div>
+            <p>금의 장기 방향성은 우상향입니다(→ $6,000 → $7,000 → $10,000). 핵심은 <strong>언제 오느냐가 아니라, 그날까지 살아남느냐</strong>입니다. 빚투·레버리지를 피하고, 폭락을 기회로 바꿀 수 있는 여유 자금을 확보해두는 것이 핵심.</p>
+        </div>
+
+        <div class="principle-card">
+            <div class="num">05</div>
+            <div class="title">에브리싱 랠리 후에는 항상 조정이 온다</div>
+            <p>모든 자산이 동반 상승하는 <strong>에브리싱 랠리</strong> 이후에는 어떤 자산이든 대형 은행의 타겟이 될 수 있습니다. 이번에는 금이었지만 다음은 어떤 시장일지 모릅니다. <strong>방아쇠는 예측 불가하지만, 원리를 아는 것이 대응의 시작</strong>입니다.</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="disclaimer">
+        ⚠️ <strong>투자 유의사항:</strong> 본 문서는 유튜브 콘텐츠를 정리·분석한 것으로, 특정 금융 상품의 매수·매도를 권유하지 않습니다. 모든 투자 결정은 본인의 판단과 책임 하에 이루어져야 합니다.
+    </div>
+
+    <div class="footer">
+        <p>원본: 박정원 — 긴급 매크로 브리핑 2강 (2026.02.02)</p>
+        <p style="margin-top:4px;">분석 정리 문서 | HTML 형식</p>
+    </div>
+</div>
+
+<script>
+// Chart.js 글로벌 설정
+Chart.defaults.color = '#999';
+Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
+Chart.defaults.font.size = 11;
+
+// 1. 시장별 조작 용이성 순위 차트
+const rankCtx = document.getElementById('rankChart').getContext('2d');
+new Chart(rankCtx, {
+    type: 'bar',
+    data: {
+        labels: ['알트코인', '은', '코코아·니켈\n백금 등', '코스닥', '코스피', '금'],
+        datasets: [{
+            label: '취약도 점수',
+            data: [98, 75, 65, 55, 40, 35],
+            backgroundColor: [
+                '#FF4444',
+                '#E64A19',
+                '#F57C00',
+                '#FFA726',
+                '#C9A227',
+                '#8B6914'
+            ],
+            borderRadius: 6,
+            barPercentage: 0.7,
+        }]
+    },
+    options: {
+        indexAxis: 'y',
+        responsive: true,
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                callbacks: {
+                    label: function(ctx) {
+                        return '취약도: ' + ctx.raw + '/100';
+                    }
+                }
+            }
+        },
+        scales: {
+            x: {
+                grid: { color: 'rgba(255,255,255,0.05)' },
+                max: 100,
+                ticks: {
+                    callback: function(v) { return v + '점'; }
+                }
+            },
+            y: {
+                grid: { display: false },
+                ticks: { font: { weight: '600', size: 12 } }
+            }
+        }
+    }
+});
+
+// 2. 상승 vs 하락 비대칭 차트
+const asymCtx = document.getElementById('asymmetryChart').getContext('2d');
+new Chart(asymCtx, {
+    type: 'bar',
+    data: {
+        labels: ['10% 상승 소요 시간', '10% 하락 소요 시간'],
+        datasets: [{
+            data: [720, 2],
+            backgroundColor: ['#00C853', '#FF4444'],
+            borderRadius: 8,
+            barPercentage: 0.5,
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                callbacks: {
+                    label: function(ctx) {
+                        if (ctx.dataIndex === 0) return '수주~수개월 (≈720시간)';
+                        return '1~2시간';
+                    }
+                }
+            }
+        },
+        scales: {
+            y: {
+                grid: { color: 'rgba(255,255,255,0.05)' },
+                ticks: {
+                    callback: function(v) { return v + '시간'; }
+                }
+            },
+            x: {
+                grid: { display: false },
+                ticks: { font: { weight: '600' } }
+            }
+        }
+    }
+});
+
+// 3. 금값 폭락 경로 차트
+const crashCtx = document.getElementById('crashChart').getContext('2d');
+new Chart(crashCtx, {
+    type: 'line',
+    data: {
+        labels: ['1/24', '1/25', '1/26', '1/27', '1/28', '1/29\n폭락시작', '1/30\n정상가', '1/30\n종가'],
+        datasets: [{
+            label: '금 선물가격 ($)',
+            data: [5520, 5560, 5600, 5580, 5500, 5100, 4700, 4880],
+            borderColor: '#F0D060',
+            backgroundColor: 'rgba(240, 208, 96, 0.1)',
+            fill: true,
+            tension: 0.3,
+            pointRadius: 5,
+            pointBackgroundColor: function(ctx) {
+                const idx = ctx.dataIndex;
+                if (idx === 5 || idx === 6) return '#FF4444';
+                if (idx === 7) return '#00C853';
+                return '#F0D060';
+            },
+            pointBorderColor: function(ctx) {
+                const idx = ctx.dataIndex;
+                if (idx === 5 || idx === 6) return '#FF4444';
+                if (idx === 7) return '#00C853';
+                return '#F0D060';
+            },
+            pointRadius: function(ctx) {
+                const idx = ctx.dataIndex;
+                if (idx === 2 || idx === 6) return 7;
+                return 4;
+            },
+            borderWidth: 2.5,
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                callbacks: {
+                    label: function(ctx) {
+                        return '$' + ctx.raw.toLocaleString();
+                    }
+                }
+            }
+        },
+        scales: {
+            y: {
+                grid: { color: 'rgba(255,255,255,0.05)' },
+                min: 4500,
+                max: 5800,
+                ticks: {
+                    callback: function(v) { return '$' + v.toLocaleString(); }
+                }
+            },
+            x: {
+                grid: { color: 'rgba(255,255,255,0.03)' },
+                ticks: { font: { size: 10 } }
+            }
+        }
+    }
+});
+
+// 4. 레버리지 시뮬레이션 차트
+const levCtx = document.getElementById('leverageChart').getContext('2d');
+new Chart(levCtx, {
+    type: 'bar',
+    data: {
+        labels: ['-8% 하락', '-4% 하락', '변동 없음', '+4% 상승', '+8% 상승'],
+        datasets: [{
+            label: '수익률 (%)',
+            data: [-100, -50, 0, 50, 100],
+            backgroundColor: [
+                '#FF4444', '#FF7777', '#555555', '#66BB6A', '#00C853'
+            ],
+            borderRadius: 6,
+            barPercentage: 0.6,
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                callbacks: {
+                    label: function(ctx) {
+                        const v = ctx.raw;
+                        if (v === -100) return '강제청산 (증거금 전액 소실)';
+                        return '수익률: ' + v + '%';
+                    }
+                }
+            }
+        },
+        scales: {
+            y: {
+                grid: { color: 'rgba(255,255,255,0.05)' },
+                ticks: {
+                    callback: function(v) { return v + '%'; }
+                }
+            },
+            x: {
+                grid: { display: false },
+                ticks: { font: { weight: '600', size: 11 } }
+            }
+        }
+    }
+});
+
+// 5. 한국 시장 외국인 vs 개인 비교 차트
+const koreaCtx = document.getElementById('koreaChart').getContext('2d');
+new Chart(koreaCtx, {
+    type: 'radar',
+    data: {
+        labels: ['자금력', '정보 접근', '거래 속도', '레버리지 한도', '시장 영향력'],
+        datasets: [{
+            label: '외국인 기관',
+            data: [95, 90, 95, 85, 90],
+            borderColor: '#FF4444',
+            backgroundColor: 'rgba(255, 68, 68, 0.15)',
+            borderWidth: 2,
+            pointBackgroundColor: '#FF4444',
+        }, {
+            label: '개인 투자자',
+            data: [20, 30, 15, 30, 10],
+            borderColor: '#448AFF',
+            backgroundColor: 'rgba(68, 138, 255, 0.15)',
+            borderWidth: 2,
+            pointBackgroundColor: '#448AFF',
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: { padding: 20, usePointStyle: true }
+            }
+        },
+        scales: {
+            r: {
+                grid: { color: 'rgba(255,255,255,0.08)' },
+                angleLines: { color: 'rgba(255,255,255,0.08)' },
+                ticks: { display: false },
+                min: 0,
+                max: 100,
+                pointLabels: { font: { size: 11, weight: '600' }, color: '#ccc' }
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>
