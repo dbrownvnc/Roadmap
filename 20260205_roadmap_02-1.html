@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>돈 가격을 알아야 돈 번다 - 금리와 자산가격 분석</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+            line-height: 1.7;
+            color: #1a1a1a;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 16px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 28px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .header .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 12px;
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        .content {
+            padding: 24px 20px;
+        }
+        .section {
+            margin-bottom: 32px;
+        }
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .subsection {
+            margin: 20px 0;
+        }
+        .subsection-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #2a5298;
+            margin-bottom: 12px;
+            padding-left: 12px;
+            border-left: 4px solid #667eea;
+        }
+        p {
+            margin-bottom: 14px;
+            text-align: justify;
+            word-break: keep-all;
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px 0;
+            border-left: 4px solid #667eea;
+        }
+        .warning-box {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px 0;
+            border-left: 4px solid #e53e3e;
+        }
+        .success-box {
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px 0;
+            border-left: 4px solid #38a169;
+        }
+        .quote-box {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+            font-style: italic;
+        }
+        .quote-box::before {
+            content: '"';
+            font-size: 3rem;
+            color: #667eea;
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            opacity: 0.3;
+        }
+        .quote-source {
+            text-align: right;
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 10px;
+            font-style: normal;
+        }
+        .key-point {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            margin: 16px 0;
+            font-weight: 500;
+        }
+        .stat-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 12px 0;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e3c72;
+        }
+        .stat-label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 4px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .chart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .chart-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.9rem;
+        }
+        th, td {
+            padding: 12px 10px;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        th {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            font-weight: 600;
+        }
+        tr:hover {
+            background: #f7fafc;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-green {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        .badge-yellow {
+            background: #fefcbf;
+            color: #744210;
+        }
+        .badge-red {
+            background: #fed7d7;
+            color: #822727;
+        }
+        .comparison-table {
+            margin: 16px 0;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 24px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #667eea;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 6px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #667eea;
+            border: 2px solid white;
+        }
+        .formula-box {
+            background: #1a1a2e;
+            color: #a5d6ff;
+            padding: 16px;
+            border-radius: 12px;
+            margin: 16px 0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        .emoji-icon {
+            font-size: 1.2rem;
+        }
+        .traffic-light {
+            display: flex;
+            justify-content: space-around;
+            margin: 16px 0;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+        .light {
+            text-align: center;
+            padding: 12px;
+        }
+        .light-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin: 0 auto 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+        .green-light { background: #38a169; }
+        .yellow-light { background: #ecc94b; }
+        .red-light { background: #e53e3e; }
+        .light-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        .light-range {
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+        .numbered-list {
+            counter-reset: item;
+            list-style: none;
+            padding: 0;
+        }
+        .numbered-list li {
+            counter-increment: item;
+            margin-bottom: 16px;
+            padding-left: 40px;
+            position: relative;
+        }
+        .numbered-list li::before {
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .summary-section {
+            background: linear-gradient(135deg, #f6f8fc 0%, #eef1f8 100%);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 24px 0;
+        }
+        .footer {
+            background: #1a1a2e;
+            color: #a0aec0;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+        strong {
+            color: #1e3c72;
+        }
+        .red-text {
+            color: #e53e3e;
+            font-weight: 600;
+        }
+        .blue-text {
+            color: #2b6cb0;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💰 돈 가격을 알아야 돈 번다</h1>
+            <div class="subtitle">금리와 자산가격의 관계 완벽 분석</div>
+            <div class="meta-info">
+                <span>📅 2026.02.05</span>
+                <span>📚 Part 2 - 1강</span>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- 핵심 메시지 -->
+            <div class="key-point">
+                <strong>💡 핵심 메시지:</strong> 금리는 돈의 가격이며, 특히 미국 10년물 국채금리 5%는 자산시장의 '발작 버튼'으로 작동한다. 금리를 알면 자산가격의 미래를 읽을 수 있다.
+            </div>
+
+            <!-- 섹션 1: 금리란 무엇인가 -->
+            <div class="section">
+                <h2 class="section-title"><span class="emoji-icon">📊</span> 금리의 정의와 중요성</h2>
+                
+                <div class="highlight-box">
+                    <strong>금리 = 돈의 가격</strong><br>
+                    금리는 돈을 빌리거나 빌려줄 때의 비용으로, 자산가격을 좌우하는 가장 중요한 요소다.
+                </div>
+
+                <div class="quote-box">
+                    "만약 10년물 국채금리가 5%를 넘는 순간 주가는 급락합니다. 5%를 넘는 시나리오는 아직까지 살아있다."
+                    <div class="quote-source">— 래리 핑크, 블랙록 CEO (2026.01.15 CNBC 인터뷰)</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-value">1경 4천조원</div>
+                    <div class="stat-label">블랙록 운용자산 (세계 최대 자산운용사)</div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">명목금리 vs 실질금리</h3>
+                    
+                    <div class="formula-box">
+                        실질금리 = 명목금리 - 기대인플레이션
+                    </div>
+
+                    <p>경제학에서는 실질금리를 중시하지만, <strong>실제 시장은 명목금리에 더 민감하게 반응</strong>한다. 래리 핑크도 명목금리 5%를 경고했지, 기대인플레이션을 빼라고 하지 않았다. 단기적 주가 흐름은 눈에 보이는 명목금리로 충분히 대비 가능하다.</p>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">금리의 종류와 별명</h3>
+                    
+                    <table>
+                        <tr>
+                            <th>금리 종류</th>
+                            <th>별명</th>
+                            <th>특징</th>
+                        </tr>
+                        <tr>
+                            <td>2년물 이하<br>(단기)</td>
+                            <td><strong>연준의 입</strong></td>
+                            <td>기준금리에 따라 움직임</td>
+                        </tr>
+                        <tr>
+                            <td><strong>10년물</strong></td>
+                            <td><strong>시장의 뇌</strong></td>
+                            <td>미래 예측이 담긴 핵심 지표</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 차트: 금리와 주가 관계 -->
+            <div class="chart-container">
+                <div class="chart-title">📈 10년물 국채금리 변동과 S&P500 수익률 (역상관 관계)</div>
+                <canvas id="rateVsStockChart"></canvas>
+            </div>
+
+            <!-- 섹션 2: 금리가 주가에 미치는 영향 -->
+            <div class="section">
+                <h2 class="section-title"><span class="emoji-icon">⚡</span> 금리가 자산가격에 미치는 3가지 영향</h2>
+
+                <div class="highlight-box">
+                    <strong>금리 = 자산가격의 중력</strong><br>
+                    금리가 오르면 중력이 강해져 대부분 자산이 하락한다. 극히 일부 '압도적 엔진'을 가진 자산만 중력을 뚫고 상승한다.
+                </div>
+
+                <ol class="numbered-list">
+                    <li>
+                        <strong>방향성</strong><br>
+                        금리가 전년 대비 상승하면 주가 하락, 하락하면 주가 상승. 오늘 4%라도 작년 5%에서 내려온 것이면 주가에 긍정적.
+                    </li>
+                    <li>
+                        <strong>속도</strong><br>
+                        금리 상승 속도가 빠르면 주가 하락폭이 커진다. 2022년 6~10월: 10년물 금리 3%→4.24% 급등 시 S&P500 4,180→3,580으로 급락.
+                    </li>
+                    <li>
+                        <strong>절대 수준 (5% 임계점)</strong><br>
+                        10년물 금리가 5%에 육박하면 주가 급락. 2023년 10월 5.02% 도달 시 S&P500 4,600→4,100 하락.
+                    </li>
+                </ol>
+
+                <!-- 2022년 금리 급등 사례 -->
+                <div class="chart-container">
+                    <div class="chart-title">📉 2022년 금리 급등과 주가 하락 사례</div>
+                    <canvas id="case2022Chart"></canvas>
+                </div>
+            </div>
+
+            <!-- 섹션 3: 금리의 마법 렌즈 효과 -->
+            <div class="section">
+                <h2 class="section-title"><span class="emoji-icon">🔮</span> 금리의 마법 렌즈 효과</h2>
+
+                <p>금리는 <strong>먼 미래의 돈 크기를 다르게 보이게 만드는 마법의 렌즈</strong>다. 같은 10년 뒤 1억 원이라도:</p>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" style="color:#38a169;">1억원</div>
+                        <div class="stat-label">금리 0%일 때<br>10년 뒤 현재가치</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color:#e53e3e;">6,100만원</div>
+                        <div class="stat-label">금리 5%일 때<br>10년 뒤 현재가치</div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>주식 vs 국채 경쟁 효과:</strong><br>
+                    금리가 3~4%일 때는 주식이 매력적이지만, <strong>5%를 넘으면 "확정 5% 수익 국채"로 자금 이동</strong> → 주가 하락
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">자산별 금리 반응 속도</h3>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <strong>1위: 비트코인</strong> — 빛의 속도로 반응
+                        </div>
+                        <div class="timeline-item">
+                            <strong>2위: 환율</strong> — 거의 즉시 반응
+                        </div>
+                        <div class="timeline-item">
+                            <strong>3위: 주식</strong> — 비교적 빠르게 반응
+                        </div>
+                        <div class="timeline-item">
+                            <strong>4위: 부동산</strong> — 6개월~1년 후 반응
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 섹션 4: 5%가 발작 버튼인 이유 -->
+            <div class="section">
+                <h2 class="section-title"><span class="emoji-icon">🚨</span> 5%가 '발작 버튼'인 4가지 이유</h2>
+
+                <div class="warning-box">
+                    <strong>⚠️ 핵심 경고:</strong> 미국 10년물 국채금리 5%는 단순한 숫자가 아닌, 수학적·실물적·역사적·경제적 임계점이다.
+                </div>
+
+                <ol class="numbered-list">
+                    <li>
+                        <strong>수학적 이유: PER과 이익수익률</strong><br>
+                        월가 경험상 PER은 통상 20배. 이익수익률 = 1/20 = <strong>5%</strong>. 금리가 5%를 넘으면 "위험자산인 주식 대신 안전한 국채 사자"는 심리 발동.
+                    </li>
+                    <li>
+                        <strong>실물적 이유: 주택담보대출</strong><br>
+                        미국 모기지 금리 = 10년물 금리 + 2.5~3%. 국채금리 5% 초과 시 <strong>주담대 8% 돌파</strong> → 주택 수요 급감, 월세 선호로 전환.
+                    </li>
+                    <li>
+                        <strong>역사적 이유: 2008년 금융위기</strong><br>
+                        2007년 금리 5% 초과 직후 <strong>글로벌 금융위기 발생</strong>. 주택시장 붕괴와 은행 연쇄 파산의 뼈아픈 기억이 투매 유발.
+                    </li>
+                    <li>
+                        <strong>실물경제 임계점: 기업 투자 질식</strong><br>
+                        국채금리 5% 초과 시 기업 차입비용: 빅테크 5.5~6%, S&P500 기업 6~7%, <strong>러셀2000 중소기업 9~11%</strong> → 신규투자·고용 불가능
+                    </li>
+                </ol>
+
+                <!-- 기업별 차입비용 차트 -->
+                <div class="chart-container">
+                    <div class="chart-title">💼 국채금리 5% 초과 시 기업별 차입비용</div>
+                    <canvas id="borrowingCostChart"></canvas>
+                </div>
+
+                <div class="quote-box">
+                    "10년물 금리가 5%로 다시 오르면, 이건 저금리 시대가 끝났다는 선언과 똑같이 시장에 받아들여질 것이다."
+                    <div class="quote-source">— 래리 핑크의 해석</div>
+                </div>
+            </div>
+
+            <!-- 섹션 5: 미국 금리와 한국 영향 -->
+            <div class="section">
+                <h2 class="section-title"><span class="emoji-icon">🇺🇸🇰🇷</span> 미국 금리가 한국에 미치는 영향</h2>
+
+                <div class="highlight-box">
+                    <strong>"달러는 우리 돈이다. 하지만 문제는 너희들의 것이다."</strong><br>
+                    — 존 코널리, 미국 재무장관 (1971년 브레튼우즈 회의)
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">달러 패권의 변화: 턴 프리미엄 등장</h3>
+                    
+                    <p>과거 미국은 1개월이든 10년이든 금리 차이가 거의 없었다(턴 프리미엄 0%). 그러나 <strong>미국 국가부채가 GDP 대비 120%를 넘어서면서</strong> 상황이 변화:</p>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">0.5%</div>
+                            <div class="stat-label">2020년 7월<br>10년물 국채금리<br>(턴프리미엄 0%)</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">5%+</div>
+                            <div class="stat-label">미래 전망<br>기준금리 3%에도<br>(턴프리미엄 발생)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">한국이 미국 금리에 취약한 3가지 이유</h3>
+                    
+                    <ol class="numbered-list">
+                        <li><strong>높은 수출 의존도</strong> — 자원과 식량 수입 필수, 금융시장은 아직 개도국 취급</li>
+                        <li><strong>거대한 가계부채</strong> — 해외 투자자들의 주요 우려 포인트</li>
+                        <li><strong>높은 금융시장 개방도</strong> — 외국인들이 ATM처럼 자금 인출</li>
+                    </ol>
+                </div>
+
+                <div class="warning-box">
+                    <strong>환율 = 탄광 속의 카나리아</strong><br>
+                    환율이 자꾸 오르면 시장을 있는 그대로 해석해야 한다. "환율이 틀렸다"고 무시하면 안 된다. 시장은 집단지성이다.
+                </div>
+            </div>
+
+            <!-- 섹션 6: 신호등 지표 -->
+            <div class="section">
+                <h2 class="section-title"><span class="emoji-icon">🚦</span> 금리 신호등: 위험 감지 지표</h2>
+
+                <h3 class="subsection-title">미국 10년물 국채금리 기준</h3>
+                <div class="traffic-light">
+                    <div class="light">
+                        <div class="light-circle green-light">✓</div>
+                        <div class="light-label">안전</div>
+                        <div class="light-range">3.5% ~ 4.3%</div>
+                    </div>
+                    <div class="light">
+                        <div class="light-circle yellow-light">!</div>
+                        <div class="light-label">경계</div>
+                        <div class="light-range">4.5% 돌파</div>
+                    </div>
+                    <div class="light">
+                        <div class="light-circle red-light">✕</div>
+                        <div class="light-label">위험</div>
+                        <div class="light-range">5.0% 육박</div>
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">한국 10년물 국고채금리 기준</h3>
+                <div class="traffic-light">
+                    <div class="light">
+                        <div class="light-circle green-light">✓</div>
+                        <div class="light-label">안전</div>
+                        <div class="light-range">3.5% 이하</div>
+                    </div>
+                    <div class="light">
+                        <div class="light-circle yellow-light">!</div>
+                        <div class="light-label">경계</div>
+                        <div class="light-range">4.0% 돌파</div>
+                    </div>
+                    <div class="light">
+                        <div class="light-circle red-light">✕</div>
+                        <div class="light-label">위험</div>
+                        <div class="light-range">4.5% 돌파</div>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <strong>왜 한국이 미국보다 0.5%p 낮은 임계점인가?</strong>
+                    <ul style="margin-top:10px; padding-left:20px;">
+                        <li>변동금리 위주 대출 구조 (미국 90%는 30년 고정)</li>
+                        <li>낮은 잠재성장률 (1%대 vs 미국 2%대)</li>
+                        <li>비기축 통화 (원화 발행 시 환율 폭등 위험)</li>
+                    </ul>
+                </div>
+
+                <!-- 미국 vs 한국 금리 임계점 비교 차트 -->
+                <div class="chart-container">
+                    <div class="chart-title">🇺🇸 vs 🇰🇷 금리 위험 수준 비교</div>
+                    <canvas id="usKrCompareChart"></canvas>
+                </div>
+            </div>
+
+            <!-- 섹션 7: 2022 레고랜드 사태 -->
+            <div class="section">
+                <h2 class="section-title"><span class="emoji-icon">📉</span> 사례 연구: 2022년 레고랜드 사태</h2>
+
+                <p>2022년 한국 국고채 10년물 금리가 <strong>4.5%를 돌파</strong>했을 때, "강남 불패" 신화가 깨졌다.</p>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" style="color:#e53e3e;">4.5%+</div>
+                        <div class="stat-label">한국 국고채 10년물 금리</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color:#e53e3e;">-5~10%</div>
+                        <div class="stat-label">서울 강남 일부 지역<br>집값 하락률</div>
+                    </div>
+                </div>
+
+                <p>금리 4.5% 돌파 시 주담대 금리 약 7%에 달해, 많은 사람들이 대출을 감당하기 어려워진 결과다.</p>
+            </div>
+
+            <!-- 결론 섹션 -->
+            <div class="summary-section">
+                <h2 class="section-title"><span class="emoji-icon">🎯</span> 핵심 요약 및 투자 전략</h2>
+
+                <div class="key-point">
+                    <strong>파티는 즐기되, 비상구 근처에서 춤을 춰라!</strong>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">핵심 모니터링 지표</h3>
+                    <table>
+                        <tr>
+                            <th>우선순위</th>
+                            <th>지표</th>
+                            <th>의미</th>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td><strong>미국 10년물 국채금리</strong></td>
+                            <td>글로벌 자산가격의 중력</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>원/달러 환율</td>
+                            <td>한국 경제 건강의 바로미터</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>한국 국고채 금리</td>
+                            <td>국내 자산시장 압력 지표</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>비트코인</td>
+                            <td>유동성 선행지표</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="success-box">
+                    <strong>💡 투자 인사이트:</strong>
+                    <ul style="margin-top:10px; padding-left:20px;">
+                        <li>금리 상승기에는 "중력을 뚫을 수 있는 강한 엔진"을 가진 자산 보유</li>
+                        <li>환율이 1,500원 돌파 시 정부의 유동성 공급 제한 예상</li>
+                        <li>위기는 준비된 자에게 기회가 된다</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>📚 박종훈의 경제 로드맵 | Part 2 - 1강</p>
+            <p style="margin-top:8px;">본 문서는 교육 목적으로 작성되었습니다.</p>
+        </div>
+    </div>
+
+    <script>
+        // 차트 1: 금리와 주가 역상관 관계
+        const ctx1 = document.getElementById('rateVsStockChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: ['2020', '2021', '2022 상반기', '2022 하반기', '2023 상반기', '2023 하반기', '2024'],
+                datasets: [{
+                    label: '10년물 금리 변동 (전년비)',
+                    data: [-1.5, 0.5, 2.5, 3.0, 1.5, 1.0, -0.5],
+                    borderColor: '#1a1a2e',
+                    backgroundColor: 'rgba(26, 26, 46, 0.1)',
+                    tension: 0.4,
+                    yAxisID: 'y'
+                }, {
+                    label: 'S&P500 수익률 (전년비)',
+                    data: [-5, 25, -10, -15, 10, 20, 25],
+                    borderColor: '#e53e3e',
+                    backgroundColor: 'rgba(229, 62, 62, 0.1)',
+                    tension: 0.4,
+                    yAxisID: 'y1'
+                }]
+            },
+            options: {
+                responsive: true,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { font: { size: 11 } }
+                    }
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: { display: true, text: '금리 변동 (%p)' }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: { display: true, text: '주가 수익률 (%)' },
+                        grid: { drawOnChartArea: false }
+                    }
+                }
+            }
+        });
+
+        // 차트 2: 2022년 금리 급등 사례
+        const ctx2 = document.getElementById('case2022Chart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['2022년 6월', '2022년 10월'],
+                datasets: [{
+                    label: '10년물 국채금리 (%)',
+                    data: [3.0, 4.24],
+                    backgroundColor: ['#667eea', '#e53e3e'],
+                    borderRadius: 8
+                }, {
+                    label: 'S&P500 지수',
+                    data: [4180, 3580],
+                    backgroundColor: ['rgba(102, 126, 234, 0.5)', 'rgba(229, 62, 62, 0.5)'],
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { font: { size: 11 } }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
+        });
+
+        // 차트 3: 기업별 차입비용
+        const ctx3 = document.getElementById('borrowingCostChart').getContext('2d');
+        new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: ['미국 국채', '빅테크 기업', 'S&P500 기업', '러셀2000 기업'],
+                datasets: [{
+                    label: '차입 비용 (%)',
+                    data: [5, 5.75, 6.5, 10],
+                    backgroundColor: [
+                        '#38a169',
+                        '#667eea',
+                        '#ecc94b',
+                        '#e53e3e'
+                    ],
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                indexAxis: 'y',
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        min: 0,
+                        max: 12,
+                        title: { display: true, text: '금리 (%)' }
+                    }
+                }
+            }
+        });
+
+        // 차트 4: 미국 vs 한국 금리 임계점
+        const ctx4 = document.getElementById('usKrCompareChart').getContext('2d');
+        new Chart(ctx4, {
+            type: 'bar',
+            data: {
+                labels: ['안전 구간 상한', '경계 구간', '위험 구간'],
+                datasets: [{
+                    label: '🇺🇸 미국',
+                    data: [4.3, 4.5, 5.0],
+                    backgroundColor: 'rgba(102, 126, 234, 0.7)',
+                    borderRadius: 8
+                }, {
+                    label: '🇰🇷 한국',
+                    data: [3.5, 4.0, 4.5],
+                    backgroundColor: 'rgba(229, 62, 62, 0.7)',
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { font: { size: 11 } }
+                    }
+                },
+                scales: {
+                    y: {
+                        min: 0,
+                        max: 6,
+                        title: { display: true, text: '금리 (%)' }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

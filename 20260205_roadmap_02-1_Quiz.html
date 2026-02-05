@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>돈 가격을 알아야 돈 번다 - 시험문제</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+            line-height: 1.7;
+            color: #1a1a1a;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 16px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 28px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .header .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 24px 20px;
+        }
+        .section-divider {
+            text-align: center;
+            margin: 32px 0;
+            padding: 16px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 12px;
+        }
+        .question-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .question-number {
+            font-weight: 700;
+            color: #1e3c72;
+            font-size: 1rem;
+        }
+        .question-meta {
+            display: flex;
+            gap: 8px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .badge-easy {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        .badge-medium {
+            background: #fefcbf;
+            color: #744210;
+        }
+        .badge-hard {
+            background: #fed7d7;
+            color: #822727;
+        }
+        .badge-type {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+        .question-text {
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+        }
+        .option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        .blank-box {
+            display: inline-block;
+            min-width: 120px;
+            border-bottom: 2px solid #667eea;
+            margin: 0 4px;
+        }
+        .ox-options {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+        .ox-option {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border: 2px solid #e2e8f0;
+            background: white;
+        }
+        .short-answer-box {
+            width: 100%;
+            padding: 12px;
+            border: 2px dashed #667eea;
+            border-radius: 8px;
+            min-height: 60px;
+            background: white;
+        }
+        .essay-box {
+            width: 100%;
+            padding: 12px;
+            border: 2px dashed #667eea;
+            border-radius: 8px;
+            min-height: 120px;
+            background: white;
+        }
+        /* 정답 섹션 스타일 */
+        .answer-card {
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #38a169;
+        }
+        .answer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .answer-text {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            color: #22543d;
+            margin-bottom: 12px;
+        }
+        .explanation {
+            font-size: 0.9rem;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .explanation strong {
+            color: #1e3c72;
+        }
+        .footer {
+            background: #1a1a2e;
+            color: #a0aec0;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+        .page-break {
+            page-break-before: always;
+        }
+        @media print {
+            .page-break {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📝 돈 가격을 알아야 돈 번다</h1>
+            <div class="subtitle">시험문제 (총 10문제)</div>
+        </div>
+
+        <div class="content">
+            <!-- 문제지 섹션 -->
+            <div class="section-divider">
+                📋 문제지 (총 10문제)
+            </div>
+
+            <!-- 문제 1 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">[문제 1]</span>
+                    <div class="question-meta">
+                        <span class="badge badge-easy">⭐ 쉬움</span>
+                        <span class="badge badge-type">객관식</span>
+                    </div>
+                </div>
+                <div class="question-text">
+                    블랙록 CEO 래리 핑크가 2026년 1월 CNBC 인터뷰에서 경고한 "미국 10년물 국채금리가 이 수치를 넘으면 주가가 급락할 수 있다"고 언급한 금리 수준은?
+                </div>
+                <div class="options">
+                    <div class="option">① 3%</div>
+                    <div class="option">② 4%</div>
+                    <div class="option">③ 5%</div>
+                    <div class="option">④ 6%</div>
+                </div>
+            </div>
+
+            <!-- 문제 2 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">[문제 2]</span>
+                    <div class="question-meta">
+                        <span class="badge badge-easy">⭐ 쉬움</span>
+                        <span class="badge badge-type">빈칸채우기</span>
+                    </div>
+                </div>
+                <div class="question-text">
+                    다음 빈칸에 알맞은 용어를 쓰시오.<br><br>
+                    금리의 종류 중 2년물 이하의 단기 국채금리는 <span class="blank-box"></span>(이)라고 불리며, 10년물 국채금리는 <span class="blank-box"></span>(이)라고 불린다.
+                </div>
+            </div>
+
+            <!-- 문제 3 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">[문제 3]</span>
+                    <div class="question-meta">
+                        <span class="badge badge-medium">⭐⭐ 보통</span>
+                        <span class="badge badge-type">객관식</span>
+                    </div>
+                </div>
+                <div class="question-text">
+                    다음 중 금리 변동에 가장 빠르게 반응하는 자산부터 느리게 반응하는 순서로 올바르게 나열된 것은?
+                </div>
+                <div class="options">
+                    <div class="option">① 주식 → 환율 → 비트코인 → 부동산</div>
+                    <div class="option">② 비트코인 → 환율 → 주식 → 부동산</div>
+                    <div class="option">③ 환율 → 비트코인 → 부동산 → 주식</div>
+                    <div class="option">④ 부동산 → 주식 → 환율 → 비트코인</div>
+                </div>
+            </div>
+
+            <!-- 문제 4 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">[문제 4]</span>
+                    <div class="question-meta">
+                        <span class="badge badge-medium">⭐⭐ 보통</span>
+                        <span class="badge badge-type">OX문제</span>
+                    </div>
+                </div>
+                <div class="question-text">
+                    "미국의 주택담보대출(모기지) 금리는 일반적으로 30년물 국채금리에 연동되어 결정된다."<br><br>
+                    위 문장이 맞으면 O, 틀리면 X를 선택하시오.
+                </div>
+                <div class="ox-options">
+                    <div class="ox-option">O</div>
+                    <div class="ox-option">X</div>
+                </div>
+            </div>
+
+            <!-- 문제 5 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">[문제 5]</span>
+                    <div class="question-meta">
+                        <span class="badge badge-medium">⭐⭐ 보통</span>
+                        <span class="badge badge-type">객관식</span>
+                    </div>
+                </div>
+                <div class="question-text">
+                    미국 10년물 국채금리 5%가 '발작 버튼'으로 작용하는 이유로 <strong>올바르지 않은</strong> 것은?
+                </div>
+                <div class="options">
+                    <div class="option">① 월가 경험상 평균 PER이 20배이므로 이익수익률이 5%이기 때문</div>
+                    <div class="option">② 국채금리 5% 초과 시 주택담보대출 금리가 8%를 넘어 주택 수요가 급감하기 때문</div>
+                    <div class="option">③ 2007년 금리 5% 초과 후 글로벌 금융위기가 발생한 역사적 경험 때문</div>
+                    <div class="option">④ 연준이 기준금리를 5% 이상으로 올리지 않겠다고 약속했기 때문</div>
+                </div>
+            </div>
+
+            <!-- 문제 6 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">[문제 6]</span>
+                    <div class="question-meta">
+                        <span class="badge badge-medium">⭐⭐ 보통</span>
+                        <span class="badge badge-type">단답형</span>
+                    </div>
+                </div>
+                <div class="question-text">
+                    금리가 0%일 때와 5%일 때, 10년 뒤 1억 원의 현재가치는 각각 얼마로 보이는가? (단위: 원)
+                </div>
+                <div class="short-answer-box">
+                    금리 0%일 때: <br><br>
+                    금리 5%일 때:
+                </div>
+            </div>
+
+            <!-- 문제 7 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">[문제 7]</span>
+                    <div class="question-meta">
+                        <span class="badge badge-medium">⭐⭐ 보통</span>
+                        <span class="badge badge-type">객관식</span>
+                    </div>
+                </div>
+                <div class="question-text">
+                    한국이 미국 금리 상승에 특히 취약한 이유로 <strong>올바르지 않은</strong> 것은?
+                </div>
+                <div class="options">
+                    <div class="option">① 높은 수출 의존도</div>
+                    <div class="option">② 거대한 가계부채</div>
+                    <div class="option">③ 높은 금융시장 개방도</div>
+                    <div class="option">④ 기축통화 보유국 지위</div>
+                </div>
+            </div>
+
+            <!-- 문제 8 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">[문제 8]</span>
+                    <div class="question-meta">
+                        <span class="badge badge-hard">⭐⭐⭐ 어려움</span>
+                        <span class="badge badge-type">객관식</span>
+                    </div>
+                </div>
+                <div class="question-text">
+                    한국 10년물 국고채금리의 위험 수준에 대한 설명으로 올바른 것은?
+                </div>
+                <div class="options">
+                    <div class="option">① 4.0% 이하가 안정기이며, 5.0%가 위기 구간이다</div>
+                    <div class="option">② 3.5% 이하가 안정기이며, 4.5%가 위기 구간이다</div>
+                    <div class="option">③ 3.0% 이하가 안정기이며, 4.0%가 위기 구간이다</div>
+                    <div class="option">④ 미국과 동일하게 5.0%가 위기 구간이다</div>
+                </div>
+            </div>
+
+            <!-- 문제 9 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">[문제 9]</span>
+                    <div class="question-meta">
+                        <span class="badge badge-hard">⭐⭐⭐ 어려움</span>
+                        <span class="badge badge-type">서술형</span>
+                    </div>
+                </div>
+                <div class="question-text">
+                    '턴 프리미엄(Term Premium)'이란 무엇이며, 최근 미국에서 턴 프리미엄이 증가하고 있는 이유를 설명하시오.
+                </div>
+                <div class="essay-box"></div>
+            </div>
+
+            <!-- 문제 10 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">[문제 10]</span>
+                    <div class="question-meta">
+                        <span class="badge badge-easy">⭐ 쉬움</span>
+                        <span class="badge badge-type">OX문제</span>
+                    </div>
+                </div>
+                <div class="question-text">
+                    "경제학자들이 중시하는 실질금리보다, 단기 주가 흐름은 명목금리에 더 민감하게 반응하는 경우가 많다."<br><br>
+                    위 문장이 맞으면 O, 틀리면 X를 선택하시오.
+                </div>
+                <div class="ox-options">
+                    <div class="ox-option">O</div>
+                    <div class="ox-option">X</div>
+                </div>
+            </div>
+
+            <!-- 정답지 섹션 -->
+            <div class="section-divider page-break">
+                📝 정답 및 해설
+            </div>
+
+            <!-- 정답 1 -->
+            <div class="answer-card">
+                <div class="answer-header">
+                    <span class="question-number">[문제 1] 정답</span>
+                </div>
+                <div class="answer-text">③ 5%</div>
+                <div class="explanation">
+                    <strong>해설:</strong> 블랙록 CEO 래리 핑크는 2026년 1월 15일 CNBC 인터뷰에서 "미국 10년물 국채금리가 <strong>5%를 넘는 순간 주가는 급락한다</strong>"고 경고했으며, "5%를 넘는 시나리오는 아직까지 살아있다"고 언급했다. 블랙록은 1경 4천조 원을 운용하는 세계 최대 자산운용사다.
+                </div>
+            </div>
+
+            <!-- 정답 2 -->
+            <div class="answer-card">
+                <div class="answer-header">
+                    <span class="question-number">[문제 2] 정답</span>
+                </div>
+                <div class="answer-text">연준의 입, 시장의 뇌</div>
+                <div class="explanation">
+                    <strong>해설:</strong> 2년물 이하 단기 국채금리는 기준금리에 따라 움직이므로 <strong>"연준의 입"</strong>이라 불린다. 10년물 국채금리는 시장이 판단하는 미래가 담겨 있어 <strong>"시장의 뇌(Market's Brain)"</strong>라 불리며, 자산가격 분석에서 가장 중요한 금리다.
+                </div>
+            </div>
+
+            <!-- 정답 3 -->
+            <div class="answer-card">
+                <div class="answer-header">
+                    <span class="question-number">[문제 3] 정답</span>
+                </div>
+                <div class="answer-text">② 비트코인 → 환율 → 주식 → 부동산</div>
+                <div class="explanation">
+                    <strong>해설:</strong> 금리 변동에 대한 자산별 반응 속도는 다음과 같다:<br>
+                    1) <strong>비트코인</strong> - 빛의 속도로 반응<br>
+                    2) <strong>환율</strong> - 거의 즉시 반응<br>
+                    3) <strong>주식</strong> - 비교적 빠르게 반응<br>
+                    4) <strong>부동산</strong> - 6개월~1년 후 반응 (가장 느림)
+                </div>
+            </div>
+
+            <!-- 정답 4 -->
+            <div class="answer-card">
+                <div class="answer-header">
+                    <span class="question-number">[문제 4] 정답</span>
+                </div>
+                <div class="answer-text">X (틀림)</div>
+                <div class="explanation">
+                    <strong>해설:</strong> 미국의 30년 주택담보대출 금리는 <strong>30년물이 아닌 10년물 국채금리</strong>에 연동되어 결정된다. 이는 미국인들이 30년 만기 전에 조기 상환하는 경우가 많기 때문에, 은행들이 실제 대출 기간을 약 10년 정도로 예상하여 10년물 금리에 연동하는 것이다.
+                </div>
+            </div>
+
+            <!-- 정답 5 -->
+            <div class="answer-card">
+                <div class="answer-header">
+                    <span class="question-number">[문제 5] 정답</span>
+                </div>
+                <div class="answer-text">④ 연준이 기준금리를 5% 이상으로 올리지 않겠다고 약속했기 때문</div>
+                <div class="explanation">
+                    <strong>해설:</strong> 연준이 그러한 약속을 한 적은 없다. 5%가 발작 버튼인 진짜 이유는:<br>
+                    ① <strong>수학적</strong>: PER 20배 = 이익수익률 5%<br>
+                    ② <strong>실물적</strong>: 국채 5% → 모기지 8%+ → 주택 수요 급감<br>
+                    ③ <strong>역사적</strong>: 2007년 5% 초과 후 금융위기<br>
+                    ④ <strong>경제적</strong>: 중소기업 차입비용 9~11%로 투자 불가
+                </div>
+            </div>
+
+            <!-- 정답 6 -->
+            <div class="answer-card">
+                <div class="answer-header">
+                    <span class="question-number">[문제 6] 정답</span>
+                </div>
+                <div class="answer-text">금리 0%: 1억 원 / 금리 5%: 약 6,100만 원</div>
+                <div class="explanation">
+                    <strong>해설:</strong> 금리는 먼 미래의 돈 크기를 다르게 보이게 하는 "마법의 렌즈"와 같다. 금리가 0%일 때는 10년 뒤 1억 원이 그대로 1억 원으로 보이지만, 금리가 5%일 때는 현재가치로 환산하면 약 <strong>6,100만 원</strong>으로 축소되어 보인다. 이것이 고금리 시 자산가격이 하락하는 핵심 원리다.
+                </div>
+            </div>
+
+            <!-- 정답 7 -->
+            <div class="answer-card">
+                <div class="answer-header">
+                    <span class="question-number">[문제 7] 정답</span>
+                </div>
+                <div class="answer-text">④ 기축통화 보유국 지위</div>
+                <div class="explanation">
+                    <strong>해설:</strong> 한국은 기축통화 보유국이 <strong>아니다</strong>. 미국 달러가 기축통화이며, 한국 원화는 비기축통화다. 한국이 미국 금리에 취약한 진짜 이유는:<br>
+                    ① <strong>높은 수출 의존도</strong> - 자원/식량 수입 필수<br>
+                    ② <strong>거대한 가계부채</strong> - 해외 투자자 우려<br>
+                    ③ <strong>높은 개방도</strong> - 외국인의 ATM 역할
+                </div>
+            </div>
+
+            <!-- 정답 8 -->
+            <div class="answer-card">
+                <div class="answer-header">
+                    <span class="question-number">[문제 8] 정답</span>
+                </div>
+                <div class="answer-text">② 3.5% 이하가 안정기이며, 4.5%가 위기 구간이다</div>
+                <div class="explanation">
+                    <strong>해설:</strong> 한국 10년물 국고채금리 기준:<br>
+                    • <strong>안정기</strong>: 3.5% 이하<br>
+                    • <strong>경계</strong>: 4.0% 돌파<br>
+                    • <strong>위기</strong>: 4.5% 돌파<br><br>
+                    미국(5%)보다 <strong>0.5%p 낮은</strong> 이유는 변동금리 대출 구조, 낮은 잠재성장률(1%대), 비기축통화 지위 때문이다. 2022년 레고랜드 사태 때 4.5% 돌파 후 강남 집값도 5~10% 하락했다.
+                </div>
+            </div>
+
+            <!-- 정답 9 -->
+            <div class="answer-card">
+                <div class="answer-header">
+                    <span class="question-number">[문제 9] 정답</span>
+                </div>
+                <div class="answer-text">모범답안</div>
+                <div class="explanation">
+                    <strong>턴 프리미엄(Term Premium)이란:</strong><br>
+                    장기 채권을 보유하는 대가로 요구하는 추가 수익률. 즉, 단기(1개월)와 장기(10년) 국채 금리의 차이를 의미한다.<br><br>
+                    
+                    <strong>최근 미국에서 턴 프리미엄 증가 이유:</strong><br>
+                    1) <strong>국가부채 급증</strong>: 미국 GDP 대비 국가부채가 120%를 넘어서면서 장기적 상환 능력에 대한 우려 증가<br>
+                    2) <strong>재정 불안</strong>: 2035년 GDP 대비 160% 전망으로 투자자들이 장기 국채에 추가 보상(프리미엄) 요구<br>
+                    3) <strong>정책 불확실성</strong>: 트럼프 행정부 등 정치적 변수로 인한 장기 리스크 증가<br><br>
+                    
+                    과거에는 연준이 기준금리를 0%로 낮추면 10년물도 0.5%였으나, 이제는 기준금리 3%에도 턴 프리미엄으로 인해 10년물이 5%를 넘을 수 있다.
+                </div>
+            </div>
+
+            <!-- 정답 10 -->
+            <div class="answer-card">
+                <div class="answer-header">
+                    <span class="question-number">[문제 10] 정답</span>
+                </div>
+                <div class="answer-text">O (맞음)</div>
+                <div class="explanation">
+                    <strong>해설:</strong> 경제학 이론상 실질금리(명목금리 - 기대인플레이션)가 중요하지만, 실제 시장에서 인간은 그렇게 합리적으로 행동하지 않는다. 래리 핑크도 <strong>"5%"라는 명목금리</strong>를 경고했지, 기대인플레이션을 빼라고 하지 않았다. 단기적 주가 흐름은 눈에 보이는 명목금리에 더 민감하게 반응하는 경향이 있다.
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <p>📚 박종훈의 경제 로드맵 | Part 2 - 1강</p>
+            <p style="margin-top:8px;">본 시험문제는 교육 목적으로 작성되었습니다.</p>
+        </div>
+    </div>
+</body>
+</html>
