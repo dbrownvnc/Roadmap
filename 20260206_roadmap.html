@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>외국인 코스피 5조 매도, 현 시장 대응 기준 분석</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  :root {
+    --bg: #0a0e17;
+    --bg-card: #111827;
+    --bg-card-alt: #1a2235;
+    --accent-red: #ef4444;
+    --accent-red-dim: rgba(239,68,68,0.15);
+    --accent-blue: #3b82f6;
+    --accent-blue-dim: rgba(59,130,246,0.15);
+    --accent-gold: #f59e0b;
+    --accent-gold-dim: rgba(245,158,11,0.12);
+    --accent-green: #10b981;
+    --accent-green-dim: rgba(16,185,129,0.12);
+    --text: #e5e7eb;
+    --text-dim: #9ca3af;
+    --text-bright: #f9fafb;
+    --border: #1f2937;
+    --border-light: #374151;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.75;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 16px 80px;
+  }
+
+  /* Header */
+  .header {
+    position: relative;
+    padding: 48px 20px 36px;
+    text-align: center;
+    background: linear-gradient(180deg, rgba(239,68,68,0.08) 0%, transparent 100%);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
+
+  .header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent-red-dim);
+    border: 1px solid rgba(239,68,68,0.3);
+    color: var(--accent-red);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    letter-spacing: 0.5px;
+  }
+
+  .header h1 {
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--text-bright);
+    line-height: 1.35;
+    margin-bottom: 12px;
+    word-break: keep-all;
+  }
+
+  .header-meta {
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  .header-meta span { margin: 0 6px; }
+
+  /* Section */
+  .section {
+    margin-bottom: 32px;
+  }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--text-bright);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border-light);
+  }
+
+  .section-title .icon {
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  /* Card */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  .card-alt {
+    background: var(--bg-card-alt);
+  }
+
+  .card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--accent-gold);
+    margin-bottom: 10px;
+  }
+
+  /* Key stat boxes */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .stat-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 14px;
+    text-align: center;
+  }
+
+  .stat-box.red { border-color: rgba(239,68,68,0.3); background: var(--accent-red-dim); }
+  .stat-box.blue { border-color: rgba(59,130,246,0.3); background: var(--accent-blue-dim); }
+  .stat-box.gold { border-color: rgba(245,158,11,0.3); background: var(--accent-gold-dim); }
+  .stat-box.green { border-color: rgba(16,185,129,0.3); background: var(--accent-green-dim); }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--text-dim);
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .stat-value.red { color: var(--accent-red); }
+  .stat-value.blue { color: var(--accent-blue); }
+  .stat-value.gold { color: var(--accent-gold); }
+  .stat-value.green { color: var(--accent-green); }
+
+  .stat-unit {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+
+  /* Alert box */
+  .alert {
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 16px;
+    font-size: 14px;
+  }
+
+  .alert-red {
+    background: var(--accent-red-dim);
+    border-left: 3px solid var(--accent-red);
+    color: #fca5a5;
+  }
+
+  .alert-blue {
+    background: var(--accent-blue-dim);
+    border-left: 3px solid var(--accent-blue);
+    color: #93c5fd;
+  }
+
+  .alert-gold {
+    background: var(--accent-gold-dim);
+    border-left: 3px solid var(--accent-gold);
+    color: #fcd34d;
+  }
+
+  .alert-green {
+    background: var(--accent-green-dim);
+    border-left: 3px solid var(--accent-green);
+    color: #6ee7b7;
+  }
+
+  .alert strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+  }
+
+  /* Table */
+  .table-wrap {
+    overflow-x: auto;
+    margin-bottom: 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  thead {
+    background: var(--bg-card-alt);
+  }
+
+  th {
+    padding: 10px 12px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--text-dim);
+    font-size: 12px;
+    letter-spacing: 0.3px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  td {
+    padding: 10px 12px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  .rank-1 { background: rgba(239,68,68,0.1); }
+  .rank-1 td:first-child { color: var(--accent-red); font-weight: 700; }
+
+  /* Chart */
+  .chart-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 16px;
+    margin-bottom: 16px;
+  }
+
+  .chart-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-bright);
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .bar-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .bar-label {
+    font-size: 11px;
+    color: var(--text-dim);
+    min-width: 80px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .bar-track {
+    flex: 1;
+    height: 28px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: white;
+    transition: width 0.8s ease;
+  }
+
+  .bar-fill.red { background: linear-gradient(90deg, rgba(239,68,68,0.4), var(--accent-red)); }
+  .bar-fill.blue { background: linear-gradient(90deg, rgba(59,130,246,0.4), var(--accent-blue)); }
+  .bar-fill.gold { background: linear-gradient(90deg, rgba(245,158,11,0.4), var(--accent-gold)); }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 16px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background: var(--border-light);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 18px;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -20px;
+    top: 8px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent-blue);
+    border: 2px solid var(--bg);
+  }
+
+  .timeline-item.red::before { background: var(--accent-red); }
+  .timeline-item.green::before { background: var(--accent-green); }
+
+  .timeline-date {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .timeline-text {
+    font-size: 14px;
+    color: var(--text);
+    margin-top: 2px;
+  }
+
+  /* Bullet list */
+  .bullet-list {
+    padding-left: 0;
+    list-style: none;
+  }
+
+  .bullet-list li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .bullet-list li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent-gold);
+    font-weight: 700;
+  }
+
+  /* Compare */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .compare-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+
+  .compare-box h4 {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .compare-box.good h4 { color: var(--accent-green); }
+  .compare-box.bad h4 { color: var(--accent-red); }
+
+  .compare-box p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-dim);
+  }
+
+  /* Gauge visual */
+  .risk-gauge {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .gauge-bar {
+    height: 14px;
+    background: linear-gradient(90deg, #10b981, #f59e0b, #ef4444, #991b1b);
+    border-radius: 7px;
+    position: relative;
+    margin: 16px 0 8px;
+  }
+
+  .gauge-marker {
+    position: absolute;
+    top: -6px;
+    width: 4px;
+    height: 26px;
+    background: white;
+    border-radius: 2px;
+    box-shadow: 0 0 6px rgba(255,255,255,0.5);
+  }
+
+  .gauge-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  /* Key insight */
+  .insight {
+    background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(139,92,246,0.08));
+    border: 1px solid rgba(99,102,241,0.2);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  .insight-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #a5b4fc;
+    margin-bottom: 8px;
+  }
+
+  .insight p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text);
+  }
+
+  /* Highlight */
+  mark {
+    background: rgba(245,158,11,0.2);
+    color: var(--accent-gold);
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
+
+  mark.red {
+    background: rgba(239,68,68,0.2);
+    color: #fca5a5;
+  }
+
+  mark.blue {
+    background: rgba(59,130,246,0.2);
+    color: #93c5fd;
+  }
+
+  strong {
+    color: var(--text-bright);
+    font-weight: 700;
+  }
+
+  /* Flow diagram */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin: 16px 0;
+  }
+
+  .flow-step {
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .flow-arrow {
+    color: var(--text-dim);
+    font-size: 16px;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text-dim);
+    text-align: center;
+    line-height: 1.8;
+  }
+
+  /* NPS level */
+  .level-box {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .level-item {
+    flex: 1;
+    text-align: center;
+    padding: 14px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .level-item .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  p { margin-bottom: 12px; font-size: 14px; line-height: 1.75; }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 28px 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">⚠️ 긴급 매크로 브리핑</div>
+  <h1>외국인 코스피 5조 매도<br>현 시장 대응 기준은?</h1>
+  <div class="header-meta">
+    2026년 2월 6일 <span>|</span> 긴급매크로 브리핑 3강
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 핵심 수치 요약 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">📊</span> 핵심 수치 요약 (2월 5일)</div>
+
+    <div class="stat-grid">
+      <div class="stat-box red">
+        <div class="stat-label">코스피 하락률</div>
+        <div class="stat-value red">-4%</div>
+        <div class="stat-unit">급락</div>
+      </div>
+      <div class="stat-box red">
+        <div class="stat-label">외국인 순매도</div>
+        <div class="stat-value red">5조</div>
+        <div class="stat-unit">역대 최대</div>
+      </div>
+      <div class="stat-box blue">
+        <div class="stat-label">개인 순매수</div>
+        <div class="stat-value blue">6.7조</div>
+        <div class="stat-unit">역대 최대</div>
+      </div>
+      <div class="stat-box gold">
+        <div class="stat-label">개인 신용융자 잔고</div>
+        <div class="stat-value gold">30조+</div>
+        <div class="stat-unit">사상 최초 돌파</div>
+      </div>
+    </div>
+
+    <div class="alert alert-red">
+      <strong>⚠️ 핵심 경고</strong>
+      외국인 순매도 5조 원(역대 1위), 개인 순매수 6.7조 원(역대 1위), 빚투 잔고 30조 원(사상 최대) — 세 가지 역사적 기록이 <strong>동시에</strong> 발생한 이례적 상황
+    </div>
+  </div>
+
+  <!-- 미디어 보도의 문제점 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🚫</span> 잘못된 미디어 프레이밍</div>
+
+    <div class="card">
+      <div class="card-title">❌ 위험한 기사 유형 ①</div>
+      <p>"메모리 반도체 수요 걱정 없다 → 역대급 하락이 줍줍 기회다"</p>
+      <div class="alert alert-red" style="margin-bottom:0">
+        <strong>왜 위험한가?</strong>
+        메모리 반도체는 수요·공급 불일치로 가격이 사이클을 탐. <mark class="red">가격 피크 시점에 주가는 하락 시작</mark>, 가격 최저점에서 주가는 이미 반등 — 이 패턴이 역사적으로 반복. "수요 걱정 없다"는 오히려 <strong>위험 신호</strong>일 수 있음.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">❌ 위험한 기사 유형 ②</div>
+      <p>"6.8조 원 폭풍매수 개인, 외국인과 수급 전쟁"</p>
+      <div class="alert alert-red" style="margin-bottom:0">
+        <strong>왜 잘못된 프레이밍인가?</strong>
+        개인의 6.8조 중 상당수가 <mark class="red">빚투(신용융자)</mark>. 외국인은 글로벌 초대형 투자은행으로 자금력이 사실상 무한대. 개인이 수급 전쟁에서 이기기는 구조적으로 불가능.
+      </div>
+    </div>
+  </div>
+
+  <!-- 외국인 순매도 역사 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">📉</span> 외국인 순매도 역대 기록</div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>순위</th><th>날짜</th><th>순매도 규모</th><th>다음 날</th></tr>
+        </thead>
+        <tbody>
+          <tr class="rank-1"><td>🥇 1위</td><td>26.02.05</td><td style="color:var(--accent-red);font-weight:700;">-5조 원</td><td>?</td></tr>
+          <tr><td>2위</td><td>21.02.26</td><td>-2.83조</td><td>반등 ✅</td></tr>
+          <tr><td>3위</td><td>25.11.21</td><td>-2.82조</td><td>반등 ✅</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="chart-container">
+      <div class="chart-title">외국인 순매도 규모 비교</div>
+      <div class="bar-chart">
+        <div class="bar-row">
+          <div class="bar-label">26.02.05</div>
+          <div class="bar-track">
+            <div class="bar-fill red" style="width:100%">5.0조</div>
+          </div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">21.02.26</div>
+          <div class="bar-track">
+            <div class="bar-fill red" style="width:56.6%">2.83조</div>
+          </div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">25.11.21</div>
+          <div class="bar-track">
+            <div class="bar-fill red" style="width:56.4%">2.82조</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-gold">
+      <strong>📌 핵심 차이점</strong>
+      과거 2~3위 매도 시에는 기관이 다음 날 시장을 떠받쳐 반등이 가능했음. 이번에는 <strong>기관도 폭탄 매도</strong>에 가담하여 반등 불확실. 또한 외국인 순매도가 추세적으로 확대 중: 1.5조 → 2.5조 → <mark>5조 원</mark>
+    </div>
+  </div>
+
+  <!-- 2021년 사례 분석 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🔍</span> 역사적 사례 ① — 2021년</div>
+
+    <p>2021년 1월, 개인들이 순매수 역대 2·3위를 기록하며 시장을 떠받쳤던 시기의 결과:</p>
+
+    <div class="timeline">
+      <div class="timeline-item green">
+        <div class="timeline-date">2021년 1월 25일</div>
+        <div class="timeline-text">코스피 <strong>3,200 기록</strong> — 개인 대량 순매수 (역대 2, 3위)</div>
+      </div>
+      <div class="timeline-item red">
+        <div class="timeline-date">2021년 3월 5일</div>
+        <div class="timeline-text">코스피 <strong>2,900으로 하락</strong> (−9.4%)</div>
+      </div>
+      <div class="timeline-item green">
+        <div class="timeline-date">2021년 7월 2일</div>
+        <div class="timeline-text">코스피 <strong>3,300 반등</strong> — "개인 승리" 기사 쏟아짐</div>
+      </div>
+      <div class="timeline-item red">
+        <div class="timeline-date">2021년 9월 30일</div>
+        <div class="timeline-text">코스피 <mark class="red">2,150까지 폭락</mark> (고점 대비 −35%)</div>
+      </div>
+    </div>
+
+    <div class="insight">
+      <div class="insight-title">💡 핵심 교훈</div>
+      <p>개인 대량 순매수 후 단기 반등은 가능하지만, <strong>6개월 뒤 외국인의 판단이 맞았다.</strong> 외국인은 글로벌 주가 대비 상대적 고평가를 기준으로 매도하며, 당장 맞추지 못해도 결국 방향은 맞추는 패턴이 반복됨.</p>
+    </div>
+  </div>
+
+  <!-- 2007년 사례 분석 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🔍</span> 역사적 사례 ② — 2007년</div>
+
+    <p>개인이 외국인을 상대로 <strong>유일하게 승리</strong>했다고 평가받는 사례:</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">2007년 5월</div>
+        <div class="timeline-text">코스피 1,600 돌파 → 외국인 현물 매도 + 선물 숏 포지션</div>
+      </div>
+      <div class="timeline-item green">
+        <div class="timeline-date">2007년 7월</div>
+        <div class="timeline-text">적립식 펀드 열풍으로 코스피 <strong>2,000 돌파</strong></div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2007년 10월</div>
+        <div class="timeline-text">코스피 2,064 도달 후 횡보 (3개월간)</div>
+      </div>
+      <div class="timeline-item red">
+        <div class="timeline-date">2008년 10월</div>
+        <div class="timeline-text">글로벌 금융위기로 코스피 <mark class="red">892</mark> (−57%)</div>
+      </div>
+    </div>
+
+    <div class="chart-container">
+      <div class="chart-title">2007~2008 코스피 흐름</div>
+      <svg viewBox="0 0 360 180" style="width:100%;height:auto;">
+        <defs>
+          <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#10b981"/>
+            <stop offset="45%" stop-color="#f59e0b"/>
+            <stop offset="100%" stop-color="#ef4444"/>
+          </linearGradient>
+          <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="rgba(239,68,68,0.15)"/>
+            <stop offset="100%" stop-color="transparent"/>
+          </linearGradient>
+        </defs>
+        <!-- Grid lines -->
+        <line x1="40" y1="20" x2="340" y2="20" stroke="#1f2937" stroke-width="0.5"/>
+        <line x1="40" y1="55" x2="340" y2="55" stroke="#1f2937" stroke-width="0.5"/>
+        <line x1="40" y1="90" x2="340" y2="90" stroke="#1f2937" stroke-width="0.5"/>
+        <line x1="40" y1="125" x2="340" y2="125" stroke="#1f2937" stroke-width="0.5"/>
+        <line x1="40" y1="155" x2="340" y2="155" stroke="#1f2937" stroke-width="0.5"/>
+        <!-- Y labels -->
+        <text x="36" y="24" fill="#6b7280" font-size="9" text-anchor="end" font-family="JetBrains Mono">2100</text>
+        <text x="36" y="59" fill="#6b7280" font-size="9" text-anchor="end" font-family="JetBrains Mono">1800</text>
+        <text x="36" y="94" fill="#6b7280" font-size="9" text-anchor="end" font-family="JetBrains Mono">1500</text>
+        <text x="36" y="129" fill="#6b7280" font-size="9" text-anchor="end" font-family="JetBrains Mono">1200</text>
+        <text x="36" y="159" fill="#6b7280" font-size="9" text-anchor="end" font-family="JetBrains Mono">900</text>
+        <!-- X labels -->
+        <text x="60" y="175" fill="#6b7280" font-size="9" text-anchor="middle" font-family="JetBrains Mono">07.05</text>
+        <text x="130" y="175" fill="#6b7280" font-size="9" text-anchor="middle" font-family="JetBrains Mono">07.07</text>
+        <text x="200" y="175" fill="#6b7280" font-size="9" text-anchor="middle" font-family="JetBrains Mono">07.10</text>
+        <text x="310" y="175" fill="#6b7280" font-size="9" text-anchor="middle" font-family="JetBrains Mono">08.10</text>
+        <!-- Area -->
+        <path d="M60,62 L130,20 L200,17 L310,152 L310,160 L60,160 Z" fill="url(#areaGrad)"/>
+        <!-- Line -->
+        <polyline points="60,62 130,20 200,17 310,152" fill="none" stroke="url(#lineGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- Data points -->
+        <circle cx="60" cy="62" r="4" fill="#10b981" stroke="#0a0e17" stroke-width="2"/>
+        <circle cx="130" cy="20" r="4" fill="#f59e0b" stroke="#0a0e17" stroke-width="2"/>
+        <circle cx="200" cy="17" r="4" fill="#f59e0b" stroke="#0a0e17" stroke-width="2"/>
+        <circle cx="310" cy="152" r="4" fill="#ef4444" stroke="#0a0e17" stroke-width="2"/>
+        <!-- Labels -->
+        <text x="60" y="78" fill="#10b981" font-size="10" text-anchor="middle" font-weight="700">1,600</text>
+        <text x="130" y="38" fill="#f59e0b" font-size="10" text-anchor="middle" font-weight="700">2,000</text>
+        <text x="200" y="35" fill="#f59e0b" font-size="10" text-anchor="middle" font-weight="700">2,064</text>
+        <text x="310" y="145" fill="#ef4444" font-size="10" text-anchor="middle" font-weight="700">892</text>
+      </svg>
+    </div>
+
+    <div class="alert alert-red">
+      <strong>결론</strong>
+      개인이 유일하게 "승리"한 2007년조차 <mark class="red">3개월 불꽃놀이</mark>에 불과했고, 1년 뒤 코스피는 반토막 이하로 폭락. 외국인은 예언가가 아니라 <strong>가치 대비 비싸면 기계적으로 매도</strong>하는 구조적 특성을 가짐.
+    </div>
+  </div>
+
+  <!-- 2007 vs 2026 비교 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">⚖️</span> 2007년 vs 2026년 핵심 비교</div>
+
+    <div class="compare-grid">
+      <div class="compare-box good">
+        <h4>✅ 2007년 (건강한 시장)</h4>
+        <p>적립식 펀드라는 <strong>새로운 자금 유입 창구</strong>가 있었음. 미래에셋 3대장(인디펜던스·디스커버리·한국밸류10년) 펀드에 자금이 지속적으로 유입 → <strong>현금 총알</strong></p>
+      </div>
+      <div class="compare-box bad">
+        <h4>🚨 2026년 (위험한 시장)</h4>
+        <p>개인 매수 여력 소진 후 외국인 매도 폭탄. 신용융자(빚투) 30조 원 돌파, 증권사 신규 대출 중단·한도 축소 → <strong>빚 총알</strong></p>
+      </div>
+    </div>
+
+    <div class="flow">
+      <div class="flow-step" style="border-color:var(--accent-green);">2007년: 현금 총알 → 계속 매수 가능</div>
+      <div class="flow-arrow">vs</div>
+      <div class="flow-step" style="border-color:var(--accent-red);">2026년: 빚 총알 → 증거금 부족 시 <mark class="red">강제 청산</mark></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step" style="border-color:var(--accent-red);background:var(--accent-red-dim);">연쇄 강제 매도 → 주가 급락 → 추가 강제 매도<br>(빚투하지 않은 투자자도 피해)</div>
+    </div>
+  </div>
+
+  <!-- 국민연금 안전판 소진 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🏛️</span> 국민연금 — 최후의 안전판 소진</div>
+
+    <div class="card">
+      <div class="card-title">국민연금 국내주식 비중 현황</div>
+
+      <div class="level-box">
+        <div class="level-item" style="background:var(--accent-green-dim);color:var(--accent-green);">
+          <span class="num">14.9%</span>
+          목표 비중
+        </div>
+        <div class="level-item" style="background:var(--accent-gold-dim);color:var(--accent-gold);">
+          <span class="num">19.9%</span>
+          허용 상한<br>(+5%)
+        </div>
+        <div class="level-item" style="background:var(--accent-red-dim);color:var(--accent-red);">
+          <span class="num">~19.9%</span>
+          현재 추정<br>(한도 근접)
+        </div>
+      </div>
+
+      <ul class="bullet-list">
+        <li>작년 11월 공시 기준 국내주식 비중: <strong>17.0%</strong> (당시 코스피 4,000 기준)</li>
+        <li>이후 주가 급등으로 현재 <strong>19.9% 한도에 근접한 것으로 추정</strong></li>
+        <li>정부가 급히 목표 비중을 14.4% → 14.9%로 상향한 것도 한도 소진의 방증</li>
+        <li>전술적 자산배분(TAA) 허용 범위: 목표치 + 5%까지</li>
+      </ul>
+    </div>
+
+    <div class="alert alert-red">
+      <strong>🚨 핵심 문제</strong>
+      국민연금이 본격 개입 가능한 시점:
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-box red">
+        <div class="stat-label">최소 개입 가능 시점</div>
+        <div class="stat-value red">3,800</div>
+        <div class="stat-unit">현 수준 대비 −25%</div>
+      </div>
+      <div class="stat-box red">
+        <div class="stat-label">본격 매수 가능 시점</div>
+        <div class="stat-value red">3,500</div>
+        <div class="stat-unit">의미 있는 규모 매수</div>
+      </div>
+    </div>
+
+    <div class="card card-alt">
+      <p><strong>만약 미국 시장·채권 동반 하락 시?</strong></p>
+      <p>→ 전체 포트폴리오 가치 하락으로 국내주식 비중이 14.9% 미만으로 떨어지려면 <mark class="red">코스피 3,200까지 추가 하락</mark>이 필요할 수 있음. 국민연금의 개입 여력은 극히 제한적이며, 정부 지시에 의한 매수는 <strong>업무상 배임죄</strong> 리스크까지 존재.</p>
+    </div>
+  </div>
+
+  <!-- 외국인의 정보력 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🏦</span> 외국인의 정보력과 전략</div>
+
+    <div class="card">
+      <ul class="bullet-list">
+        <li>"외국인" = 미국·영국·유럽 <strong>초대형 투자은행</strong> (무한대에 가까운 자금력)</li>
+        <li>한국 개인의 빚투 30조 원 현황을 <strong>정확하게 파악</strong>하고 있을 가능성 높음</li>
+        <li>빚투 포지션만 공격해도 강제 청산 → 투매 유발 가능 (금시장 사례)</li>
+        <li>최근 11조 원 규모 순매도 = 한국 코스피가 <strong>기초체력 대비 최소한 저평가는 아니라는 판단</strong></li>
+      </ul>
+    </div>
+
+    <div class="insight">
+      <div class="insight-title">🎯 외국인의 전형적 전략 패턴</div>
+      <div class="flow">
+        <div class="flow-step">매도로 주가 하락</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">소량 매수로 반등 시킴 (개인 유인)</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">개인 진입 후 재차 매도</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step" style="border-color:var(--accent-red);">→ <strong>계단식 하락</strong> 반복</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 리스크/리워드 분석 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">📐</span> 현재 리스크/리워드 분석</div>
+
+    <div class="risk-gauge">
+      <div style="font-size:13px;font-weight:700;color:var(--text-bright);">현재 코스피 진입 리스크 수준</div>
+      <div class="gauge-bar">
+        <div class="gauge-marker" style="left:78%"></div>
+      </div>
+      <div class="gauge-labels">
+        <span>안전</span>
+        <span>주의</span>
+        <span>경고</span>
+        <span>위험</span>
+      </div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-box green">
+        <div class="stat-label">상방 가능 수익</div>
+        <div class="stat-value green">~15%</div>
+        <div class="stat-unit">최대한 낙관 시</div>
+      </div>
+      <div class="stat-box red">
+        <div class="stat-label">하방 리스크</div>
+        <div class="stat-value red">-25%+</div>
+        <div class="stat-unit">국민연금 개입 전까지</div>
+      </div>
+    </div>
+
+    <div class="alert alert-red">
+      <strong>비대칭 리스크</strong>
+      위로 최대 ~15% (국민연금 추가 매수 불가, 외국인 순매수 전환 기대 어려움) vs 아래로 최소 −25% (국민연금 개입 시점). 미국 시장 동반 조정 시 −25% 이상까지 열려있음. <strong>확률적으로 불리한 게임.</strong>
+    </div>
+  </div>
+
+  <!-- 투자 대응 전략 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🛡️</span> 투자 대응 전략</div>
+
+    <div class="card" style="border-color:rgba(239,68,68,0.3);">
+      <div class="card-title" style="color:var(--accent-red);">🚫 절대 하지 말아야 할 것</div>
+      <ul class="bullet-list">
+        <li><strong>FOMO에 의한 신규 진입:</strong> "나만 벼락거지가 되는 거 아니냐"는 감정적 판단은 가장 위험한 투자 동기</li>
+        <li><strong>빚투(신용융자) 투자:</strong> 증권사 대출 창구 자체가 닫히는 상황에서 빚투는 절대 금물</li>
+        <li><strong>장기투자 불가능한 자금 투입:</strong> 단기간 내 필요한 자금을 코스피에 묻어두는 행위</li>
+        <li><strong>"폭락 후 매도 → 반등 후 재매수" 패턴:</strong> <mark class="red">가장 손실이 큰 행동</mark>. 폭락장에서는 하락분의 절반 이상 반등하는 <strong>데드캣 바운스</strong>가 반복됨</li>
+      </ul>
+    </div>
+
+    <div class="card" style="border-color:rgba(16,185,129,0.3);">
+      <div class="card-title" style="color:var(--accent-green);">✅ 권장 대응</div>
+      <ul class="bullet-list">
+        <li><strong>포트폴리오 균형 점검:</strong> 한국 주식에만 쏠려있다면 달러·금 등으로 다각화 고려</li>
+        <li><strong>달러 자산 50% 보유 시:</strong> 주가 하락 → 환율 상승으로 자연 헤지 효과</li>
+        <li><strong>기존 보유자:</strong> 큰 수익 중이거나 비중 관리가 잘 되어있다면 적극적 매도는 불필요</li>
+        <li><strong>매수 타이밍:</strong> 주가 안정 후 진입 또는 폭락 시 용기 있는 매수 (중간의 반등에 속지 말 것)</li>
+        <li><strong>핵심 원칙:</strong> 매매를 반복하지 않는 것만으로도 자산 보전 가능. 보유 유지 또는 매도 후 미련 없이 떠나기</li>
+      </ul>
+    </div>
+
+    <div class="insight">
+      <div class="insight-title">📌 최종 메시지</div>
+      <p>이번이 아니어도 <strong>투자의 기회는 항상 돌아옵니다.</strong> 앞으로 20~30년 투자할 긴 여정에서, 지금의 FOMO에 빠져 자본을 소진하는 것보다 <strong>자본을 보유하고 지켜나가는 것</strong>이 훨씬 중요합니다. 변동성 장세에서 휩쓸리지 않는 냉철한 판단이 필요한 시점입니다.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 요약 구조도 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🗺️</span> 전체 구조 요약</div>
+
+    <div class="flow">
+      <div class="flow-step" style="border-color:var(--accent-red);">외국인 5조 원 순매도 (역대 최대)</div>
+      <div class="flow-arrow">+</div>
+      <div class="flow-step" style="border-color:var(--accent-gold);">개인 빚투 30조 원 (사상 최대) + 추가 대출 불가</div>
+      <div class="flow-arrow">+</div>
+      <div class="flow-step" style="border-color:var(--accent-blue);">국민연금 한도 소진 (코스피 3,800 이하까지 개입 어려움)</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step" style="border-color:var(--accent-red);background:rgba(239,68,68,0.1);">
+        <strong>결론:</strong> 상방 제한적(~15%) / 하방 크게 열림(−25%+)<br>
+        FOMO 진입 자제, 포트폴리오 다각화, 자본 보전 우선
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    📺 원본: 긴급 매크로 브리핑 3강 (2026.02.06)<br>
+    ⚠️ 본 자료는 교육·정보 목적이며, 투자 판단은 본인 책임입니다.<br>
+    ※ 2월 6일 장 개시 전 녹화분 기준 분석
+  </div>
+
+</div>
+
+</body>
+</html>
