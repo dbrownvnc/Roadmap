@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>시험문제 - 왜 물가가 쉽게 잡히지 않는가</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0f14;
+  --surface: #151922;
+  --surface2: #1c2230;
+  --border: #2a3142;
+  --text: #e2e6ed;
+  --text-dim: #8892a4;
+  --accent: #f59e0b;
+  --accent2: #ef4444;
+  --accent3: #3b82f6;
+  --accent4: #10b981;
+  --gradient1: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  font-size: 15px;
+}
+.container { max-width: 680px; margin: 0 auto; padding: 0 20px; }
+
+.header {
+  text-align: center;
+  padding: 50px 20px 40px;
+  background: linear-gradient(180deg, #0f1520 0%, var(--bg) 100%);
+}
+.header h1 {
+  font-size: 24px;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.header p { font-size: 13px; color: var(--text-dim); }
+
+.section-divider {
+  text-align: center;
+  padding: 40px 0 30px;
+}
+.section-divider h2 {
+  font-size: 20px;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.section-divider p { font-size: 12px; color: var(--text-dim); }
+
+.q-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  margin-bottom: 16px;
+}
+.q-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.q-num {
+  width: 32px; height: 32px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 900;
+  color: #fff;
+  flex-shrink: 0;
+}
+.q-meta { display: flex; gap: 8px; }
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: 600;
+}
+.tag-easy { background: rgba(16,185,129,0.15); color: #34d399; }
+.tag-mid { background: rgba(59,130,246,0.15); color: #60a5fa; }
+.tag-hard { background: rgba(239,68,68,0.15); color: #f87171; }
+.tag-type { background: rgba(245,158,11,0.12); color: #fbbf24; }
+
+.q-text {
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 12px;
+}
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.opt {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+}
+.opt-label { color: var(--accent); font-weight: 700; margin-right: 8px; }
+
+/* Answer Section */
+.a-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  margin-bottom: 16px;
+}
+.a-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.a-num {
+  width: 32px; height: 32px;
+  border-radius: 10px;
+  background: var(--accent4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 900;
+  color: #fff;
+  flex-shrink: 0;
+}
+.a-answer {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent4);
+}
+.a-explain {
+  font-size: 14px;
+  color: var(--text);
+  padding: 12px 16px;
+  background: rgba(16,185,129,0.06);
+  border-left: 3px solid var(--accent4);
+  border-radius: 0 8px 8px 0;
+  margin-top: 8px;
+}
+
+strong { color: #fff; }
+em { color: var(--accent); font-style: normal; }
+
+.footer {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 12px;
+  color: var(--text-dim);
+  border-top: 1px solid var(--border);
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📝 시험문제 10선</h1>
+  <p>왜 물가가 쉽게 잡히지 않는가 (Part2 - 2강)</p>
+  <p style="margin-top:6px;">쉬움 30% · 보통 50% · 어려움 20%</p>
+</div>
+
+<div class="container">
+
+<!-- ============================== -->
+<!-- 문제 섹션 -->
+<!-- ============================== -->
+<div class="section-divider">
+  <h2>📋 문제</h2>
+  <p>아래 정답/해설은 문서 하단에 별도 배치</p>
+</div>
+
+<!-- Q1 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num" style="background:var(--accent4);">1</div>
+    <div class="q-meta">
+      <span class="tag tag-type">OX</span>
+      <span class="tag tag-easy">쉬움</span>
+    </div>
+  </div>
+  <div class="q-text">명목금리는 실질금리에서 기대인플레이션을 뺀 값이다. (O / X)</div>
+</div>
+
+<!-- Q2 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num" style="background:var(--accent3);">2</div>
+    <div class="q-meta">
+      <span class="tag tag-type">객관식</span>
+      <span class="tag tag-mid">보통</span>
+    </div>
+  </div>
+  <div class="q-text">강의에서 제시한 '40년 저물가 시대의 3대 비밀'에 해당하지 않는 것은?</div>
+  <div class="options">
+    <div class="opt"><span class="opt-label">①</span>세계화</div>
+    <div class="opt"><span class="opt-label">②</span>인구통계학적 황금기</div>
+    <div class="opt"><span class="opt-label">③</span>아마존 효과 (IT혁명)</div>
+    <div class="opt"><span class="opt-label">④</span>양적완화 (QE) 정책</div>
+  </div>
+</div>
+
+<!-- Q3 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num" style="background:var(--accent4);">3</div>
+    <div class="q-meta">
+      <span class="tag tag-type">단답형</span>
+      <span class="tag tag-easy">쉬움</span>
+    </div>
+  </div>
+  <div class="q-text">구리 가격은 2002년 파운드당 60센트에서 2020년 약 얼마까지 상승했는가?</div>
+</div>
+
+<!-- Q4 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num" style="background:var(--accent3);">4</div>
+    <div class="q-meta">
+      <span class="tag tag-type">객관식</span>
+      <span class="tag tag-mid">보통</span>
+    </div>
+  </div>
+  <div class="q-text">인도네시아가 자원민족주의 전략으로 취한 조치는 무엇인가?</div>
+  <div class="options">
+    <div class="opt"><span class="opt-label">①</span>니켈 수출을 전면 금지</div>
+    <div class="opt"><span class="opt-label">②</span>자국에 배터리 완제품 공장을 짓지 않으면 니켈 원광석을 팔지 않겠다는 조건 부과</div>
+    <div class="opt"><span class="opt-label">③</span>니켈 가격을 국제 시세의 2배로 고정</div>
+    <div class="opt"><span class="opt-label">④</span>중국에만 독점 수출</div>
+  </div>
+</div>
+
+<!-- Q5 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num" style="background:var(--accent3);">5</div>
+    <div class="q-meta">
+      <span class="tag tag-type">객관식</span>
+      <span class="tag tag-mid">보통</span>
+    </div>
+  </div>
+  <div class="q-text">강의에 따르면, "고령화 = 저물가"라는 잘못된 통념이 생긴 이유는?</div>
+  <div class="options">
+    <div class="opt"><span class="opt-label">①</span>미국이 고령화 초기에 디플레이션을 겪어서</div>
+    <div class="opt"><span class="opt-label">②</span>일본의 고령화 시기와 세계화에 따른 저물가 시기가 겹쳐서</div>
+    <div class="opt"><span class="opt-label">③</span>유럽 중앙은행이 고령화가 저물가 요인이라고 공식 발표해서</div>
+    <div class="opt"><span class="opt-label">④</span>한국의 고령화 경험에서 비롯됨</div>
+  </div>
+</div>
+
+<!-- Q6 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num" style="background:var(--accent3);">6</div>
+    <div class="q-meta">
+      <span class="tag tag-type">객관식</span>
+      <span class="tag tag-mid">보통</span>
+    </div>
+  </div>
+  <div class="q-text">중국이 수출을 통제한 전략 자원으로 강의에서 언급된 것을 모두 고르면?</div>
+  <div class="options">
+    <div class="opt"><span class="opt-label">①</span>갈륨, 게르마늄, 흑연, 희토류 가공기술, 은</div>
+    <div class="opt"><span class="opt-label">②</span>구리, 니켈, 리튬, 코발트</div>
+    <div class="opt"><span class="opt-label">③</span>석유, 천연가스, 석탄</div>
+    <div class="opt"><span class="opt-label">④</span>갈륨, 게르마늄, 구리, 은, 석유</div>
+  </div>
+</div>
+
+<!-- Q7 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num" style="background:var(--accent2);">7</div>
+    <div class="q-meta">
+      <span class="tag tag-type">서술형</span>
+      <span class="tag tag-hard">어려움</span>
+    </div>
+  </div>
+  <div class="q-text">노벨경제학상 수상자 솔로우의 1987년 발언("솔로우 역설")을 설명하고, 이것이 현재 AI 시대에 주는 시사점을 강의 내용을 근거로 서술하시오.</div>
+</div>
+
+<!-- Q8 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num" style="background:var(--accent4);">8</div>
+    <div class="q-meta">
+      <span class="tag tag-type">OX</span>
+      <span class="tag tag-easy">쉬움</span>
+    </div>
+  </div>
+  <div class="q-text">강의에 따르면, 재정확장 후 물가에 반영되기까지의 시차는 약 12~18개월이다. (O / X)</div>
+</div>
+
+<!-- Q9 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num" style="background:var(--accent3);">9</div>
+    <div class="q-meta">
+      <span class="tag tag-type">객관식</span>
+      <span class="tag tag-mid">보통</span>
+    </div>
+  </div>
+  <div class="q-text">AI 데이터센터가 지역에 입주하면 해당 지역 전기요금이 최소 얼마나 상승한다고 강의에서 언급했는가?</div>
+  <div class="options">
+    <div class="opt"><span class="opt-label">①</span>10%</div>
+    <div class="opt"><span class="opt-label">②</span>20%</div>
+    <div class="opt"><span class="opt-label">③</span>30%</div>
+    <div class="opt"><span class="opt-label">④</span>50%</div>
+  </div>
+</div>
+
+<!-- Q10 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num" style="background:var(--accent2);">10</div>
+    <div class="q-meta">
+      <span class="tag tag-type">서술형</span>
+      <span class="tag tag-hard">어려움</span>
+    </div>
+  </div>
+  <div class="q-text">강의에서 설명한 '물가 상승의 비선형 패턴'을 2020~2022년 사례를 들어 설명하고, 이를 2026년 투자 전략에 어떻게 적용해야 하는지 서술하시오.</div>
+</div>
+
+<!-- ============================== -->
+<!-- 정답 & 해설 섹션 -->
+<!-- ============================== -->
+<div class="section-divider" style="padding-top:60px; border-top:2px solid var(--accent);">
+  <h2>✅ 정답 & 해설</h2>
+  <p>위 문제를 먼저 풀어본 후 아래를 확인하세요</p>
+</div>
+
+<!-- A1 -->
+<div class="a-card">
+  <div class="a-header">
+    <div class="a-num">1</div>
+    <div class="a-answer">정답: X</div>
+  </div>
+  <div class="a-explain">
+    명목금리 = 실질금리 <strong>+</strong> 기대인플레이션이다. '빼기'가 아닌 '더하기'이므로 X. 이 공식은 피셔 방정식(Fisher Equation)으로, 인플레이션이 오르면 명목금리도 함께 상승함을 의미한다.
+  </div>
+</div>
+
+<!-- A2 -->
+<div class="a-card">
+  <div class="a-header">
+    <div class="a-num">2</div>
+    <div class="a-answer">정답: ④ 양적완화(QE) 정책</div>
+  </div>
+  <div class="a-explain">
+    3대 비밀은 ①세계화, ②인구통계학적 황금기, ③아마존 효과(IT혁명)이다. 양적완화는 오히려 물가를 자극하는 요인으로, 저물가의 비밀에 포함되지 않는다.
+  </div>
+</div>
+
+<!-- A3 -->
+<div class="a-card">
+  <div class="a-header">
+    <div class="a-num">3</div>
+    <div class="a-answer">정답: 5달러 90센트 ($5.90)</div>
+  </div>
+  <div class="a-explain">
+    구리 가격은 2002년 파운드당 60센트에서 2020년 5달러 90센트로 약 10배 상승했다. 석유 가격은 20여 년간 비교적 안정적이었으나, 전력 수요 증가와 회수율 부족(50% 미만)으로 구리 가격은 급등했다.
+  </div>
+</div>
+
+<!-- A4 -->
+<div class="a-card">
+  <div class="a-header">
+    <div class="a-num">4</div>
+    <div class="a-answer">정답: ② 자국에 배터리 완제품 공장을 짓지 않으면 니켈 원광석을 팔지 않겠다는 조건 부과</div>
+  </div>
+  <div class="a-explain">
+    인도네시아는 자국 산업 생태계 발전을 위해, 배터리 완제품 공장을 자국에 건설하지 않으면 니켈 원광석 형태로 수출하지 않겠다는 조건을 내걸었다. 이는 자원민족주의의 대표적 사례로, 과거 최저가 생산지(베트남 등)에서 조립하던 방식을 불가능하게 만들었다.
+  </div>
+</div>
+
+<!-- A5 -->
+<div class="a-card">
+  <div class="a-header">
+    <div class="a-num">5</div>
+    <div class="a-answer">정답: ② 일본의 고령화 시기와 세계화에 따른 저물가 시기가 겹쳐서</div>
+  </div>
+  <div class="a-explain">
+    일본이 고령화를 맞이했을 때 세계화의 강력한 효과가 전 세계 물가를 끌어내렸고, 일본 기업들이 동남아에 공장을 지어 국내 일자리와 임금이 정체되면서 물가가 낮아졌다. 이를 경제학자들이 고령화 때문으로 착각한 것이다. 실제로 세계화가 끝나자 일본에서도 인플레이션이 부활했다(40년 국채 약 5%).
+  </div>
+</div>
+
+<!-- A6 -->
+<div class="a-card">
+  <div class="a-header">
+    <div class="a-num">6</div>
+    <div class="a-answer">정답: ① 갈륨, 게르마늄, 흑연, 희토류 가공기술, 은</div>
+  </div>
+  <div class="a-explain">
+    강의에서 중국이 수출 통제한 자원으로 명시적으로 언급된 것은 갈륨(차세대 반도체 필수), 게르마늄(반도체 소재), 흑연(배터리 음극재), 희토류 가공기술(모터·자석), 은(고속 연산 회로)이다. 구리·니켈·리튬 등은 중국의 수출 통제 품목으로 직접 언급되지 않았다.
+  </div>
+</div>
+
+<!-- A7 -->
+<div class="a-card">
+  <div class="a-header">
+    <div class="a-num">7</div>
+    <div class="a-answer">정답 (서술형 모범답안)</div>
+  </div>
+  <div class="a-explain">
+    <strong>솔로우 역설:</strong> 1987년 솔로우는 "컴퓨터 시대가 도래했다는 것은 어디서나 볼 수 있다. 생산성 통계를 제외하고는"라고 말했다. 즉, 기술이 보급되었음에도 생산성 지표에는 반영되지 않는 괴리 현상을 지적한 것이다.<br><br>
+    <strong>AI 시사점:</strong> IT혁명도 1980년대 말 시작 후 생산성 향상이 실현된 것은 2010년대로, 15년 이상의 시차가 존재했다. AI도 현재 학습 비용 폭증, 인프라 병목(데이터센터·전력망), 에너지 소비 문제로 단기적으로는 오히려 비용 상승 요인이다. 와튼 모델은 2035년 GDP +1.5%p, 2050년 +3%p를 전망하지만 이는 낙관적 시나리오이며, 실현까지 상당한 시차가 존재한다. 따라서 AI가 물가를 낮추는 효과가 나타나기 전까지 인플레이션 압력이 지속될 수 있다.
+  </div>
+</div>
+
+<!-- A8 -->
+<div class="a-card">
+  <div class="a-header">
+    <div class="a-num">8</div>
+    <div class="a-answer">정답: O</div>
+  </div>
+  <div class="a-explain">
+    강의에서 통화·재정 확장 후 물가에 반영되기까지 약 12~18개월의 시차가 있다고 설명했다. 2020년 2월 양적완화 시작 후 2021년 4월(약 15개월 뒤)에 물가가 4%를 돌파한 사례가 이를 입증한다.
+  </div>
+</div>
+
+<!-- A9 -->
+<div class="a-card">
+  <div class="a-header">
+    <div class="a-num">9</div>
+    <div class="a-answer">정답: ③ 30%</div>
+  </div>
+  <div class="a-explain">
+    강의에서 AI 데이터센터가 입주하면 해당 지역 전기요금이 <strong>최소 30%</strong> 상승한다고 언급했다. 미국은 전기요금이 지역별로 분산 운영되어, 데이터센터 입주가 지역 요금에 직접적 영향을 미치며 주민 반발이 커지고 있다.
+  </div>
+</div>
+
+<!-- A10 -->
+<div class="a-card">
+  <div class="a-header">
+    <div class="a-num">10</div>
+    <div class="a-answer">정답 (서술형 모범답안)</div>
+  </div>
+  <div class="a-explain">
+    <strong>비선형 패턴 설명:</strong> 물가 상승은 돈을 풀면 즉시 선형적으로 반응하는 것이 아니라, 에너지를 축적하다가 한꺼번에 급등하는 비선형 특성을 보인다. 2020년 2월 팬데믹 양적완화·제로금리 시행 후에도 상당 기간 물가가 오르지 않아 "돈을 뿌려도 물가가 안 오르는 시대"라는 오판이 확산됐다. 그러나 약 15개월 후인 2021년 4월부터 물가가 4%를 넘기며 수직 상승, 2022년에는 9%까지 치솟았다.<br><br>
+    <strong>2026년 적용:</strong> 현재 중간선거(2026.11)를 앞두고 미국 정부의 재정 지출 확대와 연준의 완화 정책이 지속 중이다. 물가가 당장 안정적으로 보이더라도 12~18개월 시차를 고려해야 한다. 명목금리가 5%를 넘으면 주가 하락 위험이 증대되므로, 물가 선행지표(PPI, 원자재 가격, 기대인플레이션)를 선제적으로 모니터링하고, 비선형 급등 시점에 대비한 포트폴리오 조정(인플레이션 헤지 자산 확대 등)이 필요하다.
+  </div>
+</div>
+
+<div class="footer">
+  <p>📖 출처: 박종원의 경제로놈 Part2 - 2강 기반 시험문제</p>
+</div>
+
+</div>
+</body>
+</html>
