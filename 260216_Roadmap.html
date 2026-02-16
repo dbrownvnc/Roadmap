@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>로보틱스와 달러의 미래 | 2월 3주차 Q&A 분석</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg-primary: #0a0e17;
+  --bg-card: #111827;
+  --bg-card-alt: #1a2332;
+  --accent-gold: #d4a843;
+  --accent-blue: #3b82f6;
+  --accent-red: #ef4444;
+  --accent-green: #22c55e;
+  --accent-cyan: #06b6d4;
+  --text-primary: #e8e8e8;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --border: #1e293b;
+  --gradient-gold: linear-gradient(135deg, #d4a843, #f0c674);
+  --gradient-danger: linear-gradient(135deg, #ef4444, #f97316);
+  --gradient-info: linear-gradient(135deg, #3b82f6, #06b6d4);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.75;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* HEADER */
+.header {
+  background: linear-gradient(180deg, #111827 0%, var(--bg-primary) 100%);
+  padding: 40px 0 32px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 50%, rgba(212,168,67,0.06) 0%, transparent 50%);
+  pointer-events: none;
+}
+.header-tag {
+  display: inline-block;
+  background: rgba(212,168,67,0.15);
+  color: var(--accent-gold);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+.header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1.3;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.header h1 span { color: var(--accent-gold); }
+.header-sub {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+.header-meta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.header-meta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* SECTION */
+.section {
+  padding: 28px 0;
+  border-bottom: 1px solid var(--border);
+}
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.section-label.gold { color: var(--accent-gold); }
+.section-label.blue { color: var(--accent-blue); }
+.section-label.red { color: var(--accent-red); }
+.section-label.green { color: var(--accent-green); }
+.section-label.cyan { color: var(--accent-cyan); }
+
+.section h2 {
+  font-size: 22px;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 16px;
+  line-height: 1.35;
+}
+.section h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+  margin: 20px 0 10px;
+}
+.section p {
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+/* CARDS */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 16px 0;
+}
+.card-accent {
+  border-left: 3px solid var(--accent-gold);
+}
+.card-danger {
+  border-left: 3px solid var(--accent-red);
+  background: rgba(239,68,68,0.04);
+}
+.card-info {
+  border-left: 3px solid var(--accent-blue);
+  background: rgba(59,130,246,0.04);
+}
+.card-success {
+  border-left: 3px solid var(--accent-green);
+  background: rgba(34,197,94,0.04);
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* KEY METRICS */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 16px 0;
+}
+.metric-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+.metric-value {
+  font-size: 24px;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.2;
+}
+.metric-value.danger { color: var(--accent-red); }
+.metric-value.gold { color: var(--accent-gold); }
+.metric-value.green { color: var(--accent-green); }
+.metric-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  letter-spacing: 0.3px;
+}
+
+/* TIMELINE */
+.timeline {
+  position: relative;
+  padding-left: 24px;
+  margin: 16px 0;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  background: var(--border);
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 20px;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -21px;
+  top: 7px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent-gold);
+  border: 2px solid var(--bg-primary);
+}
+.timeline-item.active::before {
+  background: var(--accent-green);
+  box-shadow: 0 0 8px rgba(34,197,94,0.4);
+}
+.timeline-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.timeline-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* CHART */
+.chart-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 16px;
+  margin: 16px 0;
+}
+.chart-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 12px;
+}
+.chart-wrap {
+  position: relative;
+  width: 100%;
+  height: 220px;
+}
+
+/* CALLOUT */
+.callout {
+  background: rgba(212,168,67,0.08);
+  border: 1px solid rgba(212,168,67,0.2);
+  border-radius: 10px;
+  padding: 16px;
+  margin: 16px 0;
+  font-size: 14px;
+  color: var(--accent-gold);
+  line-height: 1.7;
+}
+.callout strong { color: #f0c674; }
+
+/* FLOW DIAGRAM */
+.flow {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 16px 0;
+}
+.flow-step {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 14px 16px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  position: relative;
+}
+.flow-step:first-child { border-radius: 10px 10px 0 0; }
+.flow-step:last-child { border-radius: 0 0 10px 10px; }
+.flow-step:not(:last-child) { border-bottom: none; }
+.flow-arrow {
+  display: flex;
+  justify-content: center;
+  color: var(--accent-gold);
+  font-size: 16px;
+  padding: 2px 0;
+  background: var(--bg-card);
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}
+.flow-step strong { color: #fff; }
+
+/* COMPARISON */
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 13px;
+}
+.compare-table th {
+  background: var(--bg-card-alt);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.compare-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table .highlight { color: var(--accent-gold); font-weight: 700; }
+.compare-table .danger { color: var(--accent-red); font-weight: 700; }
+
+/* TAG */
+.tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-right: 4px;
+}
+.tag-gold { background: rgba(212,168,67,0.15); color: var(--accent-gold); }
+.tag-red { background: rgba(239,68,68,0.15); color: var(--accent-red); }
+.tag-blue { background: rgba(59,130,246,0.15); color: var(--accent-blue); }
+.tag-green { background: rgba(34,197,94,0.15); color: var(--accent-green); }
+
+/* VERDICT */
+.verdict-box {
+  background: linear-gradient(135deg, rgba(212,168,67,0.1), rgba(212,168,67,0.02));
+  border: 1px solid rgba(212,168,67,0.25);
+  border-radius: 12px;
+  padding: 24px 20px;
+  margin: 20px 0;
+  text-align: center;
+}
+.verdict-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--accent-gold);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.verdict-text {
+  font-size: 18px;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.4;
+}
+
+/* FOOTER */
+.footer {
+  padding: 32px 0;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+/* QUIZ */
+.quiz-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: rgba(212,168,67,0.15);
+  color: var(--accent-gold);
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 900;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+.quiz-q {
+  font-size: 14px;
+  color: #fff;
+  font-weight: 500;
+  line-height: 1.6;
+}
+.quiz-options {
+  margin: 10px 0 0 38px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+.quiz-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.quiz-item:last-child { border-bottom: none; }
+.quiz-difficulty {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+.diff-easy { background: rgba(34,197,94,0.15); color: var(--accent-green); }
+.diff-medium { background: rgba(59,130,246,0.15); color: var(--accent-blue); }
+.diff-hard { background: rgba(239,68,68,0.15); color: var(--accent-red); }
+
+.answer-section {
+  margin-top: 24px;
+}
+.answer-toggle {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--accent-gold);
+  color: var(--accent-gold);
+  padding: 14px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif;
+  transition: all 0.2s;
+}
+.answer-toggle:hover {
+  background: rgba(212,168,67,0.1);
+}
+.answer-content {
+  display: none;
+  margin-top: 16px;
+}
+.answer-content.show { display: block; }
+.answer-item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.answer-item:last-child { border-bottom: none; }
+.answer-num {
+  color: var(--accent-gold);
+  font-weight: 700;
+}
+.answer-text {
+  color: var(--accent-green);
+  font-weight: 700;
+  margin: 4px 0;
+}
+.answer-explain {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+<div class="container">
+  <div class="header-tag">Q&A 강의 분석</div>
+  <h1>로보틱스와 <span>달러의 미래</span></h1>
+  <div class="header-sub">AI/로보틱스 전환의 인플레이션 함정, 미국 국채 전망, 달러-원화 투자 전략</div>
+  <div class="header-meta">
+    <span>📅 2026년 2월 3주차</span>
+    <span>📊 미국 증시·거시경제 분석</span>
+  </div>
+</div>
+</div>
+
+<div class="container">
+
+<!-- ===== EXECUTIVE SUMMARY ===== -->
+<div class="section">
+  <div class="section-label gold">● EXECUTIVE SUMMARY</div>
+  <h2>핵심 요약</h2>
+  
+  <div class="card card-accent">
+    <p style="color:var(--text-primary); margin-bottom:0;">AI·로보틱스 전환은 장기적으로 생산성 혁명을 가져올 수 있지만, <strong style="color:var(--accent-gold)">단기~중기(5~10년)에는 막대한 인프라 투자</strong>로 인해 오히려 인플레이션을 유발한다. 미국 국채금리 하락은 어렵고, 연준의 사실상 양적완화가 진행 중이다. 안전자산은 <strong style="color:var(--accent-gold)">미국 단기채 + 달러 현금</strong>이 핵심이며, 장기채(TLT)는 위험 자산으로 분류해야 한다.</p>
+  </div>
+
+  <div class="metrics-grid">
+    <div class="metric-box">
+      <div class="metric-value danger">4.3%+</div>
+      <div class="metric-label">美 10년물 국채금리<br>(몇 년 만의 최고치)</div>
+    </div>
+    <div class="metric-box">
+      <div class="metric-value gold">124%</div>
+      <div class="metric-label">美 GDP 대비<br>국가부채 비율</div>
+    </div>
+    <div class="metric-box">
+      <div class="metric-value danger">-51%</div>
+      <div class="metric-label">TLT 하락률<br>(2020→2026)</div>
+    </div>
+    <div class="metric-box">
+      <div class="metric-value green">5~10년</div>
+      <div class="metric-label">로보틱스 공장 30%<br>보급 예상 소요기간</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TOPIC 1: ROBOTICS & INFLATION ===== -->
+<div class="section">
+  <div class="section-label red">● TOPIC 1</div>
+  <h2>로보틱스 전환과 인플레이션의 역설</h2>
+  
+  <h3>질문의 핵심</h3>
+  <p>세계화 종식 → 값싼 노동력 상실 → 물가 상승의 흐름에서, AI·로보틱스 상용화가 물가를 다시 낮출 수 있는가?</p>
+
+  <h3>낙관론 vs 현실</h3>
+  <p>일론 머스크를 비롯한 낙관론자들은 로보틱스가 무한대 생산을 가능케 해 물가가 극적으로 하락할 것이라 주장한다. 그러나 이 전환에는 <strong>필연적 병목현상</strong>이 존재한다.</p>
+
+  <div class="flow">
+    <div class="flow-step"><strong>1단계 — 막대한 인프라 투자 필요</strong><br>전력망 확충, AI 데이터센터 건설, 발전소 신설</div>
+    <div class="flow-arrow">▼</div>
+    <div class="flow-step"><strong>2단계 — 기업·정부의 대규모 차입</strong><br>회사채 발행 급증, 정부 재정지출 확대</div>
+    <div class="flow-arrow">▼</div>
+    <div class="flow-step"><strong>3단계 — 채권 공급 초과 → 금리 상승</strong><br>국채·회사채를 흡수할 주체 부족</div>
+    <div class="flow-arrow">▼</div>
+    <div class="flow-step"><strong>4단계 — 연준 개입 (화폐 발행)</strong><br>단기채 매입 = 사실상 양적완화</div>
+    <div class="flow-arrow">▼</div>
+    <div class="flow-step"><strong>5단계 — 12~18개월 후 인플레이션 재발</strong><br>유동성 증가 → 물가 상승의 역사적 패턴</div>
+  </div>
+
+  <div class="callout">
+    <strong>핵심 논리:</strong> 로보틱스의 생산성 혁명이 물가를 낮추기까지 최소 5~10년이 소요되지만, 그 인프라를 구축하는 과정에서 발생하는 막대한 비용이 "인류의 마지막 인플레이션"을 유발할 수 있다.
+  </div>
+
+  <h3>에너지와 금속 — 물리적 한계</h3>
+  <p>로보틱스 낙관론의 가장 큰 맹점은 <strong>에너지·자원 제약</strong>이다. 기술 발전만으로는 물리법칙을 넘을 수 없다.</p>
+
+  <div class="card card-danger">
+    <div class="card-title">⚠️ 석유 채굴 효율의 악화</div>
+    <table class="compare-table">
+      <tr><th>시기</th><th>투입 에너지</th><th>산출량</th></tr>
+      <tr><td>1920년대</td><td>1배럴</td><td class="highlight">100배럴</td></tr>
+      <tr><td>2020년대 (일반)</td><td>1배럴</td><td>15~18배럴</td></tr>
+      <tr><td>2020년대 (셰일)</td><td>1배럴</td><td class="danger">5~10배럴</td></tr>
+    </table>
+  </div>
+
+  <div class="card card-danger">
+    <div class="card-title">⚠️ 구리광석 함유량 감소</div>
+    <p style="margin-bottom:0;">과거 약 <strong>2%</strong> → 현재 <strong>0.5%</strong>. 바위 1톤을 파쇄하는 데 필요한 에너지는 거의 변화 없음. 구리·은·니켈·리튬 등 핵심 금속의 공급이 AI·로보틱스 수요를 따라가지 못하는 "금속과의 전쟁" 시대가 도래.</p>
+  </div>
+
+  <div class="chart-container">
+    <div class="chart-title">📊 석유 에너지 투자수익률 (EROEI) 변화</div>
+    <div class="chart-wrap"><canvas id="eroeiChart"></canvas></div>
+  </div>
+</div>
+
+<!-- ===== TOPIC 2: US TREASURIES ===== -->
+<div class="section">
+  <div class="section-label blue">● TOPIC 2</div>
+  <h2>미국 국채의 미래 — 단기채 vs 장기채</h2>
+
+  <h3>연준의 "이름 없는 양적완화"</h3>
+  <p>연준은 2024년 12월부터 대규모 단기채 매입을 시작했다. 공식적으로는 양적완화(QE)가 아니라고 주장하지만, 실질적으로 화폐를 발행해 국채를 흡수하고 있다. 이 유동성은 12~18개월 후 물가에 반영되는 것이 역사적 패턴이다.</p>
+
+  <h3>플라자합의(1985)의 재현은 불가능</h3>
+  <p>과거 미국은 독일·일본에 국채 매입을 강요(플라자합의)했으나, 현재는 유럽·일본 등 주요국 모두 심각한 부채에 시달리고 있어 미국의 부채를 떠안아줄 여력이 없다.</p>
+
+  <div class="metrics-grid">
+    <div class="metric-box">
+      <div class="metric-value danger">110%+</div>
+      <div class="metric-label">프랑스 GDP 대비<br>국가부채</div>
+    </div>
+    <div class="metric-box">
+      <div class="metric-value danger">100%+</div>
+      <div class="metric-label">영국 GDP 대비<br>국가부채</div>
+    </div>
+  </div>
+  <p style="font-size:13px; color:var(--text-muted);">※ 참고: 미국의 1980년대 초반 GDP 대비 국가부채는 약 30%에 불과했으나 현재 124%</p>
+
+  <h3>단기채 vs 장기채 — 투자 판단</h3>
+  <table class="compare-table">
+    <tr><th>구분</th><th>미국 단기채 (1년 이하)</th><th>미국 장기채 (TLT 등)</th></tr>
+    <tr><td><strong>안전성</strong></td><td class="highlight">✅ 유효한 안전자산</td><td class="danger">❌ 위험 자산</td></tr>
+    <tr><td><strong>금리 리스크</strong></td><td>금리 상승 시 가격 하락 미미</td><td class="danger">금리 상승 시 가격 급락</td></tr>
+    <tr><td><strong>이자수익</strong></td><td class="highlight">한국 달러예금보다 높음</td><td>이자보다 원금손실이 더 클 위험</td></tr>
+    <tr><td><strong>실적 (TLT)</strong></td><td>—</td><td class="danger">$179.9 → $87.3 (-51%, 6년간)</td></tr>
+    <tr><td><strong>결론</strong></td><td class="highlight">포트폴리오 핵심 자산</td><td class="danger">보유 비추천</td></tr>
+  </table>
+
+  <div class="card card-info">
+    <div class="card-title">💡 금리가 쉽게 내려가지 않는 2가지 이유</div>
+    <p style="margin-bottom:4px;"><strong>① 국채 발행량의 구조적 증가:</strong> AI·인프라 투자를 위한 재정 지출이 계속 확대</p>
+    <p style="margin-bottom:0;"><strong>② 인플레이션 재발 위험:</strong> 연준의 유동성 공급 → 12~18개월 후 물가 상승 가능성</p>
+  </div>
+
+  <div class="chart-container">
+    <div class="chart-title">📊 TLT(미국 장기채 ETF) 가격 추이</div>
+    <div class="chart-wrap"><canvas id="tltChart"></canvas></div>
+  </div>
+</div>
+
+<!-- ===== TOPIC 3: DOLLAR vs WON ===== -->
+<div class="section">
+  <div class="section-label green">● TOPIC 3</div>
+  <h2>달러 vs 원화 — 현금 보유 전략</h2>
+
+  <h3>"현금 = 달러"의 원칙</h3>
+  <p>달러도 장기적으로 가치가 하락하고 있지만, 원화는 달러보다 <strong>더 빠른 속도로 가치가 하락</strong>한다. 한국이 미국 수출에 의존하는 경제구조이기 때문에, 미국이 흔들리면 한국은 더 빨리 흔들린다. 따라서 현금 보유 시 달러가 유일한 합리적 선택이다.</p>
+
+  <h3>🔄 원화 가치 하락의 4단계 사이클</h3>
+  <div class="timeline">
+    <div class="timeline-item active">
+      <div class="timeline-title">1단계 — 원화 이탈</div>
+      <div class="timeline-desc">경기 둔화 → 한국은행 돈 발행 → 원화가치 하락 → 투자자들이 <strong>부동산·주식·달러</strong>로 이동</div>
+    </div>
+    <div class="timeline-item active">
+      <div class="timeline-title">2단계 — 자산 과열 ⬅ 현재 단계(추정)</div>
+      <div class="timeline-desc">유동성 파티 → 증시·부동산 동반 상승. <strong>주식이 더 빠르게 상승</strong>하지만 사이클이 짧음(1~2년). 부동산은 느리지만 5~10년 지속.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-title">3단계 — 주가 조정</div>
+      <div class="timeline-desc">모든 사람이 주식에 뛰어들면 → 주가 하락 시작. <strong>신호:</strong> 주식 투자를 한 번도 안 해본 사람이 계좌 개설 방법을 물어볼 때가 꼭지점. 이 시기에도 부동산은 약 2년 더 상승.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-title">4단계 — 부동산까지 하락</div>
+      <div class="timeline-desc"><strong>선행 신호: 원화가치 폭락(환율 급등)</strong>. 역사적으로 원화 폭락과 부동산 하락은 거의 완벽한 역상관관계를 보여옴.</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>투자 전략 시사점:</strong> 달러에 투자하며 대기 → 환율 급등기에 원화 전환 → 부동산 매수. 이것이 역사적으로 최고 수익률을 기록한 패턴.
+  </div>
+
+  <div class="chart-container">
+    <div class="chart-title">📊 원화 가치 하락 4단계와 자산가격 변동 패턴</div>
+    <div class="chart-wrap"><canvas id="cycleChart"></canvas></div>
+  </div>
+</div>
+
+<!-- ===== TOPIC 4: BOK M2 CONTROVERSY ===== -->
+<div class="section">
+  <div class="section-label cyan">● TOPIC 4</div>
+  <h2>한국은행 M2 논란 — 환율 급등의 진짜 원인</h2>
+
+  <h3>한국은행의 해명</h3>
+  <p>한국은행은 2025년 1월 기준 한국 M2 증가율(약 5.5%)이 미국(약 4.5%)보다 크게 높지 않아 <strong>"M2 탓이 아니다"</strong>라고 해명했다.</p>
+
+  <h3>반박 논리</h3>
+  <div class="card card-danger">
+    <div class="card-title">⚠️ 핵심 반박: 비교 기간의 문제</div>
+    <p>통화량이 환율·물가에 영향을 미치기까지 <strong>12~18개월의 시차</strong>가 존재한다. 한국은행은 2025년 1월부터만 비교했지만, 실제로는 <strong>2022년 1월~2024년 12월</strong> 동안 한국의 M2가 미국 대비 <strong>4배 이상 증가</strong>했다.</p>
+    <p style="margin-bottom:0;">같은 기간 미국은 긴축(QT)으로 통화량을 줄였고, 미국의 성장률이 한국보다 높았음에도 한국이 더 많은 돈을 풀었다는 점이 근본 원인.</p>
+  </div>
+
+  <div class="card card-info">
+    <div class="card-title">💧 "욕조 비유"로 보는 한국은행의 역할</div>
+    <p><strong>욕조의 물(M2)</strong> = 시중은행의 대출을 통해 직접 채워짐</p>
+    <p><strong>수도꼭지(통화정책)</strong> = 한국은행이 개폐 (기준금리, 공개시장조작 등)</p>
+    <p style="margin-bottom:0;">"M2를 만든 건 시중은행"이라는 주장은, 수도꼭지를 연 주체(한국은행)의 책임을 회피하는 논리. 만약 한국은행이 수도꼭지에 대한 통제력이 없다면, 중앙은행 존재 자체가 불필요해진다.</p>
+  </div>
+</div>
+
+<!-- ===== FED POLICY IMPLICATIONS ===== -->
+<div class="section">
+  <div class="section-label gold">● 연준 정책 시사점</div>
+  <h2>연준의 딜레마와 시장 영향</h2>
+
+  <div class="card">
+    <div class="card-title">🏦 연준의 현재 상황</div>
+    <p>AI·로보틱스 인프라 투자로 인한 국채 발행 급증 → 시장이 흡수 불가 → 연준이 단기채를 대규모 매입(사실상 QE). 금리 인하가 어려운 구조적 환경에서, 금리가 오를 수 있는 위험 요인은 2가지(과도한 차입, 물가 재상승)인 반면 내릴 수 있는 확실한 요인은 부재.</p>
+  </div>
+
+  <div class="flow">
+    <div class="flow-step"><strong>금리 상승 요인 ①</strong> — 미국 정부·기업의 과도한 차입 지속</div>
+    <div class="flow-arrow">+</div>
+    <div class="flow-step"><strong>금리 상승 요인 ②</strong> — 연준 유동성 → 12~18개월 후 물가 재상승</div>
+    <div class="flow-arrow">vs</div>
+    <div class="flow-step"><strong>금리 하락 요인</strong> — 확실한 하락 요인 부재 ❌</div>
+  </div>
+
+  <p style="margin-top:16px;"><strong>시장 함의:</strong> 미국의 장기 금리가 구조적으로 높은 수준에 머물 가능성이 크다. 이는 성장주 밸류에이션에 지속적인 압박 요인으로 작용하며, 특히 AI 인프라 관련 기업들은 "매출 성장 vs 자금조달 비용" 사이의 줄타기를 해야 하는 상황.</p>
+</div>
+
+<!-- ===== INVESTMENT IMPLICATIONS ===== -->
+<div class="section">
+  <div class="section-label gold">● INVESTMENT IMPLICATIONS</div>
+  <h2>투자 시사점 종합</h2>
+
+  <div class="card card-success">
+    <div class="card-title">✅ 유효한 전략 (DO)</div>
+    <p><strong>미국 단기채(1년 이하):</strong> 이자수익 + 안전성. 한국 달러예금보다 높은 수익률. 포트폴리오의 핵심 안전자산.</p>
+    <p><strong>달러 현금 보유:</strong> 원화 대비 상대적 가치 보전. "현금 = 달러"로 인식해야 함.</p>
+    <p><strong>자산 사이클 인식:</strong> 현재 한국은 2단계(자산 과열기) 추정. 3단계 진입 신호를 주시하면서 달러로 위험 관리.</p>
+    <p style="margin-bottom:0;"><strong>금속·에너지 관련 주시:</strong> 구리, 은, 니켈, 리튬 등 핵심 금속의 수급 불균형이 심화될 전망.</p>
+  </div>
+
+  <div class="card card-danger">
+    <div class="card-title">❌ 회피할 전략 (DON'T)</div>
+    <p><strong>미국 장기채(TLT 등):</strong> 금리 상승 시 원금손실 위험이 이자수익을 압도.</p>
+    <p><strong>원화 현금 장기 보유:</strong> 원화 가치가 달러보다 빠르게 하락하는 구조적 문제.</p>
+    <p style="margin-bottom:0;"><strong>로보틱스 = 즉각적 디플레이션이라는 착각:</strong> 최소 5~10년의 인프라 구축기에는 오히려 인플레이션 압력 증가.</p>
+  </div>
+
+  <div class="verdict-box">
+    <div class="verdict-label">BOTTOM LINE</div>
+    <div class="verdict-text">"로보틱스 유토피아 전에<br>인플레이션 지옥이 먼저 온다"</div>
+    <p style="color:var(--text-secondary); font-size:13px; margin-top:8px;">AI·로보틱스 전환의 수혜는 장기적이지만, 그 과정에서의 비용은 지금 당장 시작된다. 달러 단기채 중심의 방어적 포트폴리오가 핵심.</p>
+  </div>
+</div>
+
+<!-- ===== QUIZ SECTION ===== -->
+<div class="section">
+  <div class="section-label gold">● QUIZ</div>
+  <h2>📝 시험문제 (10문제)</h2>
+  <p style="font-size:13px; color:var(--text-muted);">난이도: 🟢 쉬움(3) / 🔵 보통(5) / 🔴 어려움(2)</p>
+
+  <!-- Q1 -->
+  <div class="quiz-item">
+    <div class="quiz-num">1</div>
+    <div>
+      <div class="quiz-q">[OX] 로보틱스 상용화는 단기적으로도 즉시 물가 하락 효과를 가져온다. <span class="quiz-difficulty diff-easy">쉬움</span></div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="quiz-item">
+    <div class="quiz-num">2</div>
+    <div>
+      <div class="quiz-q">[객관식] 1920년대에 석유 1배럴의 에너지를 투입하면 몇 배럴의 석유를 얻을 수 있었는가? <span class="quiz-difficulty diff-easy">쉬움</span></div>
+      <div class="quiz-options">
+        ① 5배럴 &nbsp; ② 15배럴 &nbsp; ③ 50배럴 &nbsp; ④ 100배럴
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="quiz-item">
+    <div class="quiz-num">3</div>
+    <div>
+      <div class="quiz-q">[객관식] 미국이 1985년 독일·일본에 경제적 부담을 떠넘긴 합의의 이름은? <span class="quiz-difficulty diff-easy">쉬움</span></div>
+      <div class="quiz-options">
+        ① 브레턴우즈 합의 &nbsp; ② 플라자합의 &nbsp; ③ 마스트리히트 조약 &nbsp; ④ 잭슨홀 합의
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="quiz-item">
+    <div class="quiz-num">4</div>
+    <div>
+      <div class="quiz-q">[단답형] 구리광석의 함유량이 과거 약 2%에서 현재 몇 %로 감소했는가? <span class="quiz-difficulty diff-medium">보통</span></div>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="quiz-item">
+    <div class="quiz-num">5</div>
+    <div>
+      <div class="quiz-q">[객관식] 통화량(M2) 증가가 환율·물가에 영향을 미치기까지의 일반적 시차는? <span class="quiz-difficulty diff-medium">보통</span></div>
+      <div class="quiz-options">
+        ① 1~3개월 &nbsp; ② 6~9개월 &nbsp; ③ 12~18개월 &nbsp; ④ 24~36개월
+      </div>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="quiz-item">
+    <div class="quiz-num">6</div>
+    <div>
+      <div class="quiz-q">[OX] TLT(미국 장기채 ETF)는 2020년~2026년 사이에 약 51% 하락하여 반토막이 났다. <span class="quiz-difficulty diff-medium">보통</span></div>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="quiz-item">
+    <div class="quiz-num">7</div>
+    <div>
+      <div class="quiz-q">[객관식] 원화 가치 하락의 4단계에서, 자산시장 과열(2단계) 이후 가장 먼저 조정을 받는 자산은? <span class="quiz-difficulty diff-medium">보통</span></div>
+      <div class="quiz-options">
+        ① 부동산 &nbsp; ② 주식 &nbsp; ③ 금 &nbsp; ④ 채권
+      </div>
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="quiz-item">
+    <div class="quiz-num">8</div>
+    <div>
+      <div class="quiz-q">[서술형] 현재 플라자합의(1985)와 같은 방식으로 미국이 다른 나라들에게 국채를 강매할 수 없는 이유를 설명하시오. <span class="quiz-difficulty diff-medium">보통</span></div>
+    </div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="quiz-item">
+    <div class="quiz-num">9</div>
+    <div>
+      <div class="quiz-q">[서술형] "M2를 만드는 건 시중은행이므로 한국은행에 책임이 없다"는 주장에 대해, '욕조 비유'를 활용하여 반박하시오. <span class="quiz-difficulty diff-hard">어려움</span></div>
+    </div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="quiz-item">
+    <div class="quiz-num">10</div>
+    <div>
+      <div class="quiz-q">[서술형] AI·로보틱스 전환 과정에서 발생하는 "인플레이션 악순환"의 구조를 인프라 투자 → 채권 발행 → 연준 개입의 흐름으로 설명하시오. <span class="quiz-difficulty diff-hard">어려움</span></div>
+    </div>
+  </div>
+
+  <!-- ANSWERS -->
+  <div class="answer-section">
+    <button class="answer-toggle" onclick="toggleAnswers()">📋 정답 및 해설 보기</button>
+    <div class="answer-content" id="answerContent">
+
+      <div class="answer-item">
+        <div class="answer-num">문제 1</div>
+        <div class="answer-text">❌ X (거짓)</div>
+        <div class="answer-explain">로보틱스가 생산성을 끌어올리려면 전력망 확충, 데이터센터 건설 등 막대한 인프라 투자가 선행되어야 하며, 이 과정에서 5~10년간 오히려 인플레이션이 발생한다.</div>
+      </div>
+
+      <div class="answer-item">
+        <div class="answer-num">문제 2</div>
+        <div class="answer-text">정답: ④ 100배럴</div>
+        <div class="answer-explain">1920년대에는 채굴이 쉬운 석유만 캤기 때문에 1배럴 투입으로 100배럴을 생산할 수 있었다. 2020년대에는 15~18배럴, 셰일은 5~10배럴로 효율이 크게 하락.</div>
+      </div>
+
+      <div class="answer-item">
+        <div class="answer-num">문제 3</div>
+        <div class="answer-text">정답: ② 플라자합의</div>
+        <div class="answer-explain">1985년 플라자합의로 독일은 '유럽의 병자'가 되었고, 일본은 1989년부터 30년 장기불황에 빠졌다.</div>
+      </div>
+
+      <div class="answer-item">
+        <div class="answer-num">문제 4</div>
+        <div class="answer-text">정답: 0.5%</div>
+        <div class="answer-explain">구리광석 함유량이 2%에서 0.5%로 1/4 수준으로 떨어졌지만, 바위를 파쇄하는 데 드는 에너지는 거의 변화가 없어 금속 획득의 에너지 효율이 크게 악화.</div>
+      </div>
+
+      <div class="answer-item">
+        <div class="answer-num">문제 5</div>
+        <div class="answer-text">정답: ③ 12~18개월</div>
+        <div class="answer-explain">역사적으로 통화량 증가는 12~18개월의 시차를 두고 물가·환율에 반영된다. 한국은행이 2025년 1월부터만 비교한 것은 이 시차를 무시한 것.</div>
+      </div>
+
+      <div class="answer-item">
+        <div class="answer-num">문제 6</div>
+        <div class="answer-text">⭕ O (참)</div>
+        <div class="answer-explain">TLT는 2020년 $179.90에서 2026년 $87.30으로 약 51% 하락. 전통적 안전자산인 미국 장기채가 사실상 위험자산이 된 사례.</div>
+      </div>
+
+      <div class="answer-item">
+        <div class="answer-num">문제 7</div>
+        <div class="answer-text">정답: ② 주식</div>
+        <div class="answer-explain">유동성 파티에서 주식이 먼저 오르고, 조정도 먼저 받는다. 부동산은 주가 하락 후에도 평균 약 2년 더 상승하는 패턴을 보인다. 주가와 부동산이 반대 방향이 아니라 "속도의 차이".</div>
+      </div>
+
+      <div class="answer-item">
+        <div class="answer-num">문제 8</div>
+        <div class="answer-text">모범답안:</div>
+        <div class="answer-explain">1985년과 달리 현재는 유럽·일본 등 주요국 모두가 GDP 대비 100%를 넘는 과도한 부채를 안고 있다(프랑스 110%+, 영국 100%+). AI·로보틱스 인프라 투자를 위해 자국도 막대한 재정 지출을 하고 있어, 미국 국채를 추가로 매입해줄 여력이 없다. 즉, 세계 각국이 모두 빚더미에 앉아있어 미국의 부채를 떠안아줄 주체가 부재.</div>
+      </div>
+
+      <div class="answer-item">
+        <div class="answer-num">문제 9</div>
+        <div class="answer-text">모범답안:</div>
+        <div class="answer-explain">욕조에 물(M2)이 채워지는 것은 시중은행의 대출을 통해 직접적으로 이루어지지만, 수도꼭지를 열고 잠그는 주체는 한국은행이다(기준금리, 공개시장조작 등). 욕조에 물이 넘치는 것을 시중은행 탓으로 돌리는 것은 수도꼭지를 활짝 열어놓은 한국은행의 책임을 회피하는 논리. 만약 한국은행이 수도꼭지 통제력이 없다면 중앙은행의 존재 이유 자체가 사라진다.</div>
+      </div>
+
+      <div class="answer-item">
+        <div class="answer-num">문제 10</div>
+        <div class="answer-text">모범답안:</div>
+        <div class="answer-explain">① AI·로보틱스 전환을 위해 정부·기업이 전력망, 데이터센터 등 인프라에 막대한 투자 → ② 이를 위해 국채·회사채를 대규모 발행 → ③ 채권 공급 초과로 시장이 흡수할 수 없어 금리 상승 → ④ 연준이 돈을 찍어 단기채를 매입(사실상 QE) → ⑤ 유동성 증가가 12~18개월 후 물가 상승을 유발 → ⑥ 물가 상승으로 명목금리가 다시 오르는 악순환. 이 과정이 로보틱스의 생산성이 공장의 30% 이상 보급되기까지 5~10년간 지속될 수 있다.</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p>본 분석은 Q&A 강의 내용을 기반으로 정리한 것이며, 투자 조언이 아닙니다.</p>
+  <p style="margin-top:4px;">2026.02.16 | 미국 증시 및 거시경제 관점 분석</p>
+</div>
+
+</div><!-- /container -->
+
+<script>
+// Toggle answers
+function toggleAnswers() {
+  const content = document.getElementById('answerContent');
+  const btn = document.querySelector('.answer-toggle');
+  content.classList.toggle('show');
+  btn.textContent = content.classList.contains('show') ? '📋 정답 숨기기' : '📋 정답 및 해설 보기';
+}
+
+// Chart defaults
+Chart.defaults.color = '#94a3b8';
+Chart.defaults.borderColor = '#1e293b';
+Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
+Chart.defaults.font.size = 11;
+
+// EROEI Chart
+new Chart(document.getElementById('eroeiChart'), {
+  type: 'bar',
+  data: {
+    labels: ['1920년대\n(일반유전)', '2020년대\n(일반)', '2020년대\n(셰일)'],
+    datasets: [{
+      label: '1배럴 투입 시 산출량',
+      data: [100, 16.5, 7.5],
+      backgroundColor: ['#d4a843', '#3b82f6', '#ef4444'],
+      borderRadius: 6,
+      barThickness: 40,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => ctx.parsed.y + '배럴'
+        }
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        grid: { color: '#1e293b' },
+        ticks: { callback: v => v + '배럴' }
+      },
+      x: {
+        grid: { display: false }
+      }
+    }
+  }
+});
+
+// TLT Chart
+new Chart(document.getElementById('tltChart'), {
+  type: 'line',
+  data: {
+    labels: ['2020', '2021', '2022', '2023', '2024', '2025', '2026'],
+    datasets: [{
+      label: 'TLT 가격($)',
+      data: [179.9, 148, 100, 95, 92, 88, 87.3],
+      borderColor: '#ef4444',
+      backgroundColor: 'rgba(239,68,68,0.1)',
+      fill: true,
+      tension: 0.3,
+      pointRadius: 4,
+      pointBackgroundColor: '#ef4444',
+      borderWidth: 2,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => '$' + ctx.parsed.y
+        }
+      }
+    },
+    scales: {
+      y: {
+        grid: { color: '#1e293b' },
+        ticks: { callback: v => '$' + v }
+      },
+      x: {
+        grid: { display: false }
+      }
+    }
+  }
+});
+
+// Cycle Chart
+new Chart(document.getElementById('cycleChart'), {
+  type: 'line',
+  data: {
+    labels: ['1단계', '', '2단계', '', '3단계', '', '4단계'],
+    datasets: [
+      {
+        label: '주식',
+        data: [30, 55, 90, 100, 70, 50, 40],
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59,130,246,0.08)',
+        fill: false,
+        tension: 0.4,
+        borderWidth: 2,
+        pointRadius: 3,
+      },
+      {
+        label: '부동산',
+        data: [30, 35, 50, 70, 90, 95, 55],
+        borderColor: '#22c55e',
+        backgroundColor: 'rgba(34,197,94,0.08)',
+        fill: false,
+        tension: 0.4,
+        borderWidth: 2,
+        pointRadius: 3,
+      },
+      {
+        label: '원화가치',
+        data: [80, 70, 60, 55, 50, 40, 25],
+        borderColor: '#ef4444',
+        backgroundColor: 'rgba(239,68,68,0.08)',
+        fill: false,
+        tension: 0.4,
+        borderWidth: 2,
+        borderDash: [5, 5],
+        pointRadius: 3,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: { usePointStyle: true, pointStyle: 'line', padding: 16 }
+      }
+    },
+    scales: {
+      y: {
+        display: false,
+      },
+      x: {
+        grid: { display: false }
+      }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
