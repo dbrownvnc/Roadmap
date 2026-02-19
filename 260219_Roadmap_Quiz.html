@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>시험문제 | 달러 가치의 미래</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0f14;
+  --surface: #151920;
+  --surface2: #1c2230;
+  --gold: #d4a853;
+  --gold-dim: #a07c30;
+  --red: #e74c3c;
+  --green: #2ecc71;
+  --blue: #5b9bd5;
+  --text: #e8e6e1;
+  --text-dim: #9a9590;
+  --border: #2a2f3a;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  font-size: 15px;
+}
+.container { max-width: 640px; margin: 0 auto; padding: 0 16px 60px; }
+.header {
+  text-align: center;
+  padding: 40px 20px 28px;
+  border-bottom: 1px solid var(--gold-dim);
+  background: linear-gradient(180deg, #1a1510 0%, var(--bg) 100%);
+}
+.header h1 { font-size: 22px; color: var(--gold); margin-bottom: 4px; }
+.header .sub { font-size: 13px; color: var(--text-dim); }
+.tag { display:inline-block; font-size:11px; padding:2px 8px; border-radius:3px; margin-right:6px; }
+.tag-easy { background:rgba(46,204,113,0.15); color:var(--green); }
+.tag-mid { background:rgba(91,155,213,0.15); color:var(--blue); }
+.tag-hard { background:rgba(231,76,60,0.15); color:var(--red); }
+.tag-type { background:rgba(212,168,83,0.12); color:var(--gold); }
+
+/* Question card */
+.q-card {
+  margin-top: 20px;
+  padding: 18px 16px;
+  background: var(--surface);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+.q-num {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.q-text { font-weight: 400; margin-bottom: 12px; }
+.options { margin-left: 4px; }
+.options p { margin-bottom: 4px; font-size: 14px; font-weight: 300; }
+
+/* Answer section */
+.answer-zone {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 3px solid var(--gold-dim);
+}
+.answer-zone h2 {
+  text-align: center;
+  color: var(--gold);
+  font-size: 20px;
+  margin-bottom: 24px;
+}
+.a-card {
+  margin-bottom: 16px;
+  padding: 14px;
+  background: var(--surface);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--green);
+}
+.a-card .a-num { font-size: 13px; font-weight: 700; color: var(--green); margin-bottom: 4px; }
+.a-card .answer { font-weight: 700; color: #fff; margin-bottom: 6px; }
+.a-card .explain { font-size: 13px; color: var(--text-dim); line-height: 1.7; }
+
+/* Toggle button */
+.toggle-btn {
+  display: block;
+  width: 100%;
+  margin: 32px auto 0;
+  padding: 14px;
+  background: var(--gold-dim);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+}
+.toggle-btn:hover { background: var(--gold); color: #000; }
+.hidden { display: none; }
+
+.footer-note {
+  text-align:center; font-size:11px; color:var(--text-dim);
+  margin-top:32px; padding-top:16px; border-top:1px solid var(--border);
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📝 시험문제 10선</h1>
+  <div class="sub">달러 가치의 미래 | Part 2 · 3강</div>
+</div>
+
+<div class="container">
+
+<!-- ==================== 문제 ==================== -->
+
+<div class="q-card">
+  <div class="q-num"><span class="tag tag-easy">쉬움</span><span class="tag tag-type">OX</span> 문제 1</div>
+  <p class="q-text">환율을 결정하는 단기적 요인인 무역수지와 경상수지는 환율의 미래 방향을 예측하는 데 가장 중요한 지표이다. (O / X)</p>
+</div>
+
+<div class="q-card">
+  <div class="q-num"><span class="tag tag-easy">쉬움</span><span class="tag tag-type">단답형</span> 문제 2</div>
+  <p class="q-text">1609년 암스테르담 시청 산하에 설립되어, 상인들의 금화·은화를 수거하고 장부에 가치를 기록해주는 혁명적 화폐 시스템을 만든 기관의 이름은?</p>
+</div>
+
+<div class="q-card">
+  <div class="q-num"><span class="tag tag-mid">보통</span><span class="tag tag-type">객관식</span> 문제 3</div>
+  <p class="q-text">레이 달리오의 패권 통화 순환 도표에 대한 비판으로 가장 적절한 것은?</p>
+  <div class="options">
+    <p>① 스페인 통화의 부상 시기를 잘못 표기했다</p>
+    <p>② 1530년 이전 약 1,000년간 패권 통화가 없던 시대를 누락했다</p>
+    <p>③ 영국 파운드의 패권 기간을 과소평가했다</p>
+    <p>④ 위안화의 잠재력을 과소평가했다</p>
+  </div>
+</div>
+
+<div class="q-card">
+  <div class="q-num"><span class="tag tag-mid">보통</span><span class="tag tag-type">객관식</span> 문제 4</div>
+  <p class="q-text">17세기 말, 암스테르담 은행의 장부 조작이 네덜란드 실물 경제에 미친 부작용으로 <strong>틀린</strong> 것은?</p>
+  <div class="options">
+    <p>① 인위적 강한 굴덴으로 수출 경쟁력 상실</p>
+    <p>② 면직물·모직물 기술자들의 영국 이주</p>
+    <p>③ 네덜란드 선박 가격 하락으로 해운업 붕괴</p>
+    <p>④ 제조업 괴멸과 무역적자 지속</p>
+  </div>
+</div>
+
+<div class="q-card">
+  <div class="q-num"><span class="tag tag-mid">보통</span><span class="tag tag-type">객관식</span> 문제 5</div>
+  <p class="q-text">강의에서 제시한 '달러 패권 위기의 3가지 예고' 중 현재(2026년 기준) 이미 진행 중인 것을 모두 고르면?</p>
+  <div class="options">
+    <p>① 내부자들의 대탈출(각국 중앙은행 금 매수)</p>
+    <p>② 경제학 교과서 붕괴(금리↑ + 금값↑ 동시 현상)</p>
+    <p>③ 미국 10년물 국채금리 5% 돌파</p>
+    <p>④ 미국 국채 경매 실패</p>
+  </div>
+</div>
+
+<div class="q-card">
+  <div class="q-num"><span class="tag tag-easy">쉬움</span><span class="tag tag-type">OX</span> 문제 6</div>
+  <p class="q-text">강의자에 따르면, 달러가 약화되면 위안화가 자동으로 차기 기축통화가 된다. (O / X)</p>
+</div>
+
+<div class="q-card">
+  <div class="q-num"><span class="tag tag-mid">보통</span><span class="tag tag-type">단답형</span> 문제 7</div>
+  <p class="q-text">블랙록 CEO 래리 핑크가 "2026년 가장 큰 위험"으로 지목한, 미국 10년물 국채금리의 마지노선 수준은 몇 %인가?</p>
+</div>
+
+<div class="q-card">
+  <div class="q-num"><span class="tag tag-hard">어려움</span><span class="tag tag-type">서술형</span> 문제 8</div>
+  <p class="q-text">17세기 암스테르담 은행의 뱅크 굴덴 장부 조작과 2008년 이후 미국 연준의 양적완화(QE)를 비교하여, 유사점 2가지와 핵심 차이점 1가지를 서술하시오.</p>
+</div>
+
+<div class="q-card">
+  <div class="q-num"><span class="tag tag-mid">보통</span><span class="tag tag-type">객관식</span> 문제 9</div>
+  <p class="q-text">"가발 시대 이후" 자산시장 전망에서, 강의자가 금(Gold)이 은(Silver)보다 우위를 점할 것으로 본 이유로 가장 적절한 것은?</p>
+  <div class="options">
+    <p>① 금의 채굴량이 은보다 훨씬 적기 때문</p>
+    <p>② 은은 산업재 성격이 있어 산업 침체 시 하락 가능하지만, 금은 순수 통화가치 방어 자산이기 때문</p>
+    <p>③ 금은 중앙은행만 거래할 수 있어 가격 조작이 불가능하기 때문</p>
+    <p>④ 은은 달러로만 거래 가능하여 달러 몰락 시 함께 하락하기 때문</p>
+  </div>
+</div>
+
+<div class="q-card">
+  <div class="q-num"><span class="tag tag-hard">어려움</span><span class="tag tag-type">서술형</span> 문제 10</div>
+  <p class="q-text">강의에서 제시한 '달러 패권 위기의 3가지 트리거(방아쇠)' 중 하나를 선택하여, (1) 해당 트리거의 내용, (2) 네덜란드 뱅크 굴덴 붕괴 사례와의 연관성, (3) 투자자 관점에서의 대응 방안을 서술하시오.</p>
+</div>
+
+<!-- ==================== 정답 토글 ==================== -->
+
+<button class="toggle-btn" onclick="toggleAnswers()">📋 정답 및 해설 보기 / 숨기기</button>
+
+<div id="answers" class="answer-zone hidden">
+  <h2>📋 정답 및 해설</h2>
+
+  <div class="a-card">
+    <div class="a-num">문제 1</div>
+    <div class="answer">정답: X</div>
+    <div class="explain">무역수지와 경상수지는 <strong>현재</strong>의 환율을 반영하는 단기적 요인이며, 미래 방향을 나타내지 않는다. 환율의 방향을 결정하는 것은 중기(인플레이션·금리·신뢰도)와 장기(생산성 향상 속도·성장 잠재력) 요인이다. "무역수지 흑자인데 환율이 왜 오르냐"는 잘못된 분석의 대표적 사례.</div>
+  </div>
+
+  <div class="a-card">
+    <div class="a-num">문제 2</div>
+    <div class="answer">정답: 암스테르담 은행 (Amsterdamsche Wisselbank)</div>
+    <div class="explain">1609년 설립된 암스테르담 은행은 세계 최초의 신용화폐인 '뱅크 굴덴'을 창출했다. 상인들의 금화·은화 무게를 정확히 측정하여 장부에 기록하고, 지로(계좌이체) 방식으로 거래하는 혁명적 시스템을 도입. 지금으로 치면 중앙은행에 해당한다.</div>
+  </div>
+
+  <div class="a-card">
+    <div class="a-num">문제 3</div>
+    <div class="answer">정답: ②</div>
+    <div class="explain">레이 달리오는 패권 통화가 항상 존재했던 1530년부터의 도표만 제시했다. 그러나 로마 제국 멸망(4~5세기) 이후 약 1,000년 이상 패권 통화가 없는 시대가 있었다. 500년(패권 통화 있음) vs 1,000년(패권 통화 없음) 중 어느 것이 정상인지 알 수 없으므로, "달러 몰락 후 위안화가 반드시 부상한다"는 확언은 근거가 불충분하다.</div>
+  </div>
+
+  <div class="a-card">
+    <div class="a-num">문제 4</div>
+    <div class="answer">정답: ③</div>
+    <div class="explain">인위적으로 강한 굴덴을 유지한 결과, 네덜란드에서 만드는 선박 가격은 <strong>상승</strong>했다(하락이 아님). 강한 통화 때문에 네덜란드 제품이 상대적으로 비싸져 수출 경쟁력을 상실했고, 기술자들이 통화가치가 약한 영국으로 이주하면서 영국 산업혁명의 초석이 됐다.</div>
+  </div>
+
+  <div class="a-card">
+    <div class="a-num">문제 5</div>
+    <div class="answer">정답: ①, ②</div>
+    <div class="explain">예고 ①(내부자 대탈출): 중국·싱가포르·폴란드·인도 등 중앙은행이 금을 사재기 중이며 독일은 미국에 맡긴 금 회수 요구 → 진행 중. 예고 ②(경제학 교과서 붕괴): 2022년부터 금리 상승과 금값 상승이 동시 진행되는 전통 경제학 위반 현상 고착화 → 진행 중. ③ 10년물 금리 5% 돌파와 ④ 국채 경매 실패는 아직 미발생.</div>
+  </div>
+
+  <div class="a-card">
+    <div class="a-num">문제 6</div>
+    <div class="answer">정답: X</div>
+    <div class="explain">달러 약화는 다른 종이돈보다 약해진다는 뜻이 아니라 <strong>실물 대비</strong> 약해진다는 의미다. 위안화는 중국의 인구구조 악화, 부동산 붕괴, 국제 신뢰 부족 등으로 기축통화가 되기 어렵다. 강의자는 달러가 1등을 유지하는 '춘추전국시대'가 수십 년간 지속될 것으로 전망했다.</div>
+  </div>
+
+  <div class="a-card">
+    <div class="a-num">문제 7</div>
+    <div class="answer">정답: 5%</div>
+    <div class="explain">래리 핑크(블랙록 CEO)는 미국 10년물 국채금리가 5%를 넘을 가능성을 경고하며, 기준금리를 낮춰도 10년물 금리가 올라갈 수 있고 이 경우 미국 증시 급락이 가능하다고 했다. 5% 돌파는 미국 정부 이자 비용 폭발, 연준의 통제력 상실, 달러 신뢰 약화의 신호탄이 된다.</div>
+  </div>
+
+  <div class="a-card">
+    <div class="a-num">문제 8</div>
+    <div class="answer">정답 예시:</div>
+    <div class="explain">
+      <strong>[유사점 1]</strong> 위기 대응 방식: 둘 다 파산 위기에 처한 핵심 기관(동인도 회사 / 월가)을 구하기 위해, 실물 담보 없이 장부상으로 돈을 창출했다.<br><br>
+      <strong>[유사점 2]</strong> 결과: 시중에 유동성이 풍부해지면서 자산가격 폭등과 장기 호황이 나타났다(가발 시대 / 에브리싱 랠리).<br><br>
+      <strong>[핵심 차이점]</strong> 네덜란드의 사기극은 정보 전파 속도가 느려 100년 지속됐지만, 현재는 IT·AI·SNS 시대로 정보가 1초 만에 전파되고 스마트폰으로 즉각적 뱅크런이 가능하므로, 같은 사기극이 100년 지속되기는 사실상 불가능하다.
+    </div>
+  </div>
+
+  <div class="a-card">
+    <div class="a-num">문제 9</div>
+    <div class="answer">정답: ②</div>
+    <div class="explain">은은 산업재로서의 성격이 있어, 산업이 침체되면 은 수요가 줄어 가격이 하락할 수 있다. 반면 금은 산업재로 거의 쓰이지 않으며, 오롯이 통화가치를 방어하는 안전자산으로 기능한다. 따라서 달러 패권이 흔들리는 시나리오에서는 금이 은보다 압도적 우위를 점할 것으로 전망된다.</div>
+  </div>
+
+  <div class="a-card">
+    <div class="a-num">문제 10</div>
+    <div class="answer">정답 예시 (트리거 ① 선택 시):</div>
+    <div class="explain">
+      <strong>(1) 내용:</strong> 미국 국채 경매에서 응찰 비율이 1.0 미만으로 떨어져, 프라이머리 딜러(JP모건 등)마저 국채 인수를 하지 못하는 상황. 결국 연준이 직접 국채를 매입하는 '항복 선언'을 하게 되면 달러 가치 몰락이 가속화된다.<br><br>
+      <strong>(2) 네덜란드 연관성:</strong> 1780년 영국-네덜란드 전쟁 시 뱅크 굴덴의 실물 금 교환이 중단된 것과 유사. 당시에도 장부화폐에 대한 신뢰가 붕괴되면서 국채금리가 2배로 폭등했다.<br><br>
+      <strong>(3) 대응 방안:</strong> 포트폴리오를 실물자산(금) 중심으로 전면 재편. 미국 장기채 비중 대폭 축소, 독점적 경쟁력을 가진 빅테크 위주로 주식 선별. "대응하되 예측하지 않는다"는 원칙에 따라 신호를 감시하며 단계적으로 전환.
+    </div>
+  </div>
+</div>
+
+<div class="footer-note">
+  난이도 구성: 쉬움 30% (3문제) · 보통 50% (5문제) · 어려움 20% (2문제)
+</div>
+
+</div>
+
+<script>
+function toggleAnswers() {
+  const el = document.getElementById('answers');
+  el.classList.toggle('hidden');
+  if (!el.classList.contains('hidden')) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+</script>
+</body>
+</html>

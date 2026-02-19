@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>달러 가치의 미래 | 경제 분석</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0f14;
+  --surface: #151920;
+  --surface2: #1c2230;
+  --gold: #d4a853;
+  --gold-dim: #a07c30;
+  --red: #e74c3c;
+  --green: #2ecc71;
+  --blue: #5b9bd5;
+  --text: #e8e6e1;
+  --text-dim: #9a9590;
+  --border: #2a2f3a;
+  --accent: #f0c040;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  font-size: 15px;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+.container { max-width: 640px; margin: 0 auto; padding: 0 16px 60px; }
+
+/* Hero */
+.hero {
+  position: relative;
+  padding: 48px 20px 36px;
+  text-align: center;
+  background: linear-gradient(180deg, #1a1510 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--gold-dim);
+  overflow: hidden;
+}
+.hero::before {
+  content: '$';
+  position: absolute;
+  top: -20px; right: -10px;
+  font-size: 200px;
+  font-family: 'Playfair Display', serif;
+  color: rgba(212,168,83,0.04);
+  font-weight: 700;
+}
+.hero-tag {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--gold-dim);
+  padding: 4px 12px;
+  border-radius: 2px;
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  color: var(--gold);
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+.hero .sub {
+  font-size: 13px;
+  color: var(--text-dim);
+  font-weight: 300;
+}
+.meta-bar {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 14px;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+.meta-bar span { display: flex; align-items: center; gap: 4px; }
+
+/* Section */
+.section {
+  margin-top: 32px;
+  padding: 20px 16px;
+  background: var(--surface);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+.section-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-title .icon { font-size: 20px; }
+
+/* Subsection */
+.subsec {
+  margin-top: 18px;
+  padding: 14px;
+  background: var(--surface2);
+  border-radius: 6px;
+  border-left: 3px solid var(--gold-dim);
+}
+.subsec-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+p { margin-bottom: 10px; font-weight: 300; }
+strong { font-weight: 700; color: #f5f0e8; }
+
+/* Highlight box */
+.highlight {
+  margin: 14px 0;
+  padding: 14px;
+  background: rgba(212,168,83,0.08);
+  border: 1px solid rgba(212,168,83,0.2);
+  border-radius: 6px;
+  font-size: 14px;
+}
+.highlight.red {
+  background: rgba(231,76,60,0.08);
+  border-color: rgba(231,76,60,0.25);
+}
+.highlight.green {
+  background: rgba(46,204,113,0.08);
+  border-color: rgba(46,204,113,0.25);
+}
+.highlight.blue {
+  background: rgba(91,155,213,0.08);
+  border-color: rgba(91,155,213,0.25);
+}
+
+/* Timeline / Steps */
+.step-list { margin: 12px 0; }
+.step-item {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+  align-items: flex-start;
+}
+.step-num {
+  flex-shrink: 0;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--gold-dim);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.step-item p { margin-bottom: 0; font-size: 14px; }
+
+/* Comparison table */
+.cmp-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 13px;
+}
+.cmp-table th {
+  background: var(--surface2);
+  color: var(--gold);
+  padding: 8px 10px;
+  text-align: left;
+  font-weight: 700;
+  border-bottom: 2px solid var(--gold-dim);
+}
+.cmp-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.cmp-table tr:last-child td { border-bottom: none; }
+
+/* Signal cards */
+.signal-card {
+  margin: 10px 0;
+  padding: 14px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+.signal-card.preview { background: rgba(240,192,64,0.06); border-left: 3px solid var(--gold); }
+.signal-card.trigger { background: rgba(231,76,60,0.06); border-left: 3px solid var(--red); }
+.signal-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 4px;
+}
+.signal-label.on { color: var(--green); }
+.signal-label.watch { color: var(--gold); }
+.signal-label.off { color: var(--text-dim); }
+.signal-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+
+/* Chart area */
+.chart-container {
+  position: relative;
+  width: 100%;
+  margin: 16px 0;
+  background: var(--surface2);
+  border-radius: 6px;
+  padding: 12px;
+}
+canvas { width: 100% !important; }
+
+/* Tags */
+.tag {
+  display: inline-block;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  margin: 2px 4px 2px 0;
+}
+.tag-gold { background: rgba(212,168,83,0.15); color: var(--gold); }
+.tag-red { background: rgba(231,76,60,0.15); color: var(--red); }
+.tag-green { background: rgba(46,204,113,0.15); color: var(--green); }
+.tag-blue { background: rgba(91,155,213,0.15); color: var(--blue); }
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 24px 0;
+}
+
+/* Bottom */
+.footer-note {
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 32px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+/* Responsive */
+@media (max-width: 400px) {
+  .hero h1 { font-size: 24px; }
+  .section { padding: 16px 12px; }
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">Part 2 · 3강</div>
+  <h1>달러 가치의 미래</h1>
+  <div class="sub">박정은의 경제 론업 — 네덜란드 굴덴에서 읽는 달러의 숙명</div>
+  <div class="meta-bar">
+    <span>📅 2026.02.19</span>
+    <span>📊 심층 분석</span>
+    <span>🏦 거시경제</span>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ==================== 핵심 요약 ==================== -->
+<div class="section">
+  <div class="section-title"><span class="icon">💡</span> 핵심 요약</div>
+  <div class="highlight">
+    <strong>핵심 논지:</strong> 달러의 <strong>약화</strong>는 어느 정도 확정된 방향이나, 달러의 <strong>몰락</strong>은 미지수다. 레이 달리오의 "달러 몰락 → 위안화 부상" 시나리오는 1530년 이전 1,000년간 패권 통화가 없었던 시대를 무시한 불완전한 분석이다. 달러는 여전히 1등을 유지하는 '춘추전국시대'가 수십 년간 지속될 가능성이 높다.
+  </div>
+  <p>17세기 네덜란드 암스테르담 은행의 뱅크 굴덴 사례를 통해 <strong>패권 통화의 성장과 몰락 패턴</strong>을 분석하고, 이를 현대 미국 달러·연준 시스템과 비교하여 향후 자산시장 변화를 전망한다.</p>
+</div>
+
+<!-- ==================== 환율 기초 ==================== -->
+<div class="section">
+  <div class="section-title"><span class="icon">📐</span> 환율을 결정하는 3대 요인</div>
+  <p>환율의 본질: 그 나라 돈을 보유했을 때, 미래에 얼마나 많은 물건·서비스를 살 수 있는가의 문제다.</p>
+
+  <table class="cmp-table">
+    <tr><th>구분</th><th>핵심 변수</th><th>특징</th></tr>
+    <tr>
+      <td><span class="tag tag-blue">단기</span></td>
+      <td>무역수지 · 경상수지</td>
+      <td><strong>현재</strong> 환율을 반영. 미래 방향을 나타내지 않음. "무역흑자인데 환율이 오른다"는 분석은 오류</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-gold">중기</span></td>
+      <td>인플레이션 · 금리 · 신뢰도</td>
+      <td>환율의 <strong>방향</strong>을 결정. 금리가 높은 곳으로 자금 쏠림. 신뢰 훼손 시 통화가치 하락</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-red">장기</span></td>
+      <td>생산성 향상 속도 · 성장 잠재력</td>
+      <td>가장 중요한 요인. 인구구조·산업경쟁력이 핵심. 한국은 반도체 원툴 의존 → 원화 약세 구조</td>
+    </tr>
+  </table>
+
+  <div class="highlight blue">
+    <strong>대원칙:</strong> 환율 = 그 나라의 주가. 성장 가치주(미국)의 주가는 오르고, 성장판이 닫힌 나라의 주가(통화가치)는 하락한다.
+  </div>
+</div>
+
+<!-- ==================== 레이 달리오 비판 ==================== -->
+<div class="section">
+  <div class="section-title"><span class="icon">🔍</span> 레이 달리오의 달러 몰락론 — 비판적 분석</div>
+  <p>레이 달리오는 1530년 스페인 → 네덜란드 → 프랑스 → 영국 → 미국으로 이어지는 패권 통화 순환 도표를 제시하며, 달러 몰락 후 위안화 부상을 주장했다.</p>
+
+  <div class="subsec">
+    <div class="subsec-title">⚠️ 달리오 도표의 핵심 허점</div>
+    <p><strong>1530년 이전의 역사가 빠져 있다.</strong> 로마 제국 몰락(4~5세기) 이후 약 <strong>1,000년 이상</strong> 패권 통화가 존재하지 않았던 시대가 있었다. 달리오는 패권 통화가 항상 존재했던 500년(1530~현재)만 선택적으로 도표에 포함시킴으로써 "반드시 다음 패권 통화가 등장한다"는 결론을 유도했다.</p>
+    <p>1,000년 vs 500년 — 어느 쪽이 '정상'인지 아무도 모른다. 모르는 것을 확언한 것이 달리오의 실수다.</p>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-title">📌 강의자의 전망</div>
+    <p>달러 <strong>약화</strong> → 가능성 매우 높음 (미국 부채 과다, 장기 강세 지속 어려움)</p>
+    <p>달러 <strong>몰락</strong> → 완전한 미지수</p>
+    <p>위안화 <strong>부상</strong> → 미지수 (중국도 인구구조 악화, 패권국 도약 난관)</p>
+    <p><strong>가장 유력한 시나리오:</strong> 달러가 여전히 1등을 유지하면서도 다른 통화·실물자산과 경쟁하는 <strong>'춘추전국시대'</strong>가 수십 년간 지속</p>
+  </div>
+</div>
+
+<!-- ==================== 네덜란드 굴덴 역사 ==================== -->
+<div class="section">
+  <div class="section-title"><span class="icon">🏛️</span> 네덜란드 뱅크 굴덴 — 패권 통화의 성장과 몰락</div>
+
+  <div class="subsec">
+    <div class="subsec-title">1단계: 신뢰 구축 (1609~17세기 말)</div>
+    <p><strong>1434년</strong>부터 네덜란드에서 금화·은화가 공식 사용됐으나, 상인들이 금화를 조금씩 깎아내면서 금화의 신뢰도가 크게 하락했다.</p>
+    <p><strong>1609년</strong> 암스테르담 시청이 <strong>암스테르담 은행</strong>(사실상 중앙은행)을 설립. 상인들의 잡동사니 동전을 수거해 무게를 정확히 측정·보관하고, 가치만큼 <strong>장부에 기록</strong>해주는 혁명적 시스템 도입 → <strong>뱅크 굴덴</strong> 탄생.</p>
+    <p>이것은 세계 최초의 <strong>신용화폐</strong>이자 장부 기반 화폐로, 지로(계좌이체) 방식으로 거래됐다. 비트코인과 유사하나 <strong>중앙화</strong>되어 있고, 장부 위변조 방지 시스템이 없다는 치명적 약점이 존재했다.</p>
+    <p>그러나 약 <strong>100년간 단 한 번의 위조 사건도 없이</strong> 철저한 신뢰를 구축. 실물 금화보다 뱅크 굴덴이 <strong>5~10% 비싸게</strong> 거래되는 '신뢰 프리미엄'까지 형성됐다.</p>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-title">2단계: 장부 조작과 가짜 호황 (17세기 말~18세기)</div>
+    <p>17세기 말, 네덜란드 국운이 기울고 <strong>동인도 회사</strong>가 심각한 적자. 암스테르담 시장이 은행장에게 <strong>비밀 명령</strong>: "동인도 회사에 금고의 돈을 몰래 빌려라."</p>
+    <p>실제로는 금이 없는데 장부에 천억, 3천억을 기록하는 <strong>순수한 장부 조작</strong>이 시작됐다. 100% 금 담보 발행이었던 뱅크 굴덴이 가짜 돈으로 변질.</p>
+
+    <div class="highlight">
+      <strong>가짜 돈의 연쇄 효과:</strong><br>
+      동인도 회사가 가짜 돈으로 물건 구매·고용 → 시중에 돈 범람 → 네덜란드 경제 호황 → <strong>가발 시대</strong> 도래 (수천만 원~억대 가발, 화려한 파티 문화). 검소했던 네덜란드 사회가 약 100년간 흥청망청하는 시대를 맞이했다.
+    </div>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-title">3단계: 인위적 강세 유지와 산업 붕괴</div>
+    <p>가짜 발행량 증가 → 뱅크 굴덴 가치 하락 조짐 → 암스테르담 은행이 <strong>실물 금·은으로 뱅크 굴덴을 매입</strong>하여 인위적 강세 유지 → 금고가 텅텅 비게 됨.</p>
+    <p><strong>강한 굴덴의 부작용:</strong></p>
+    <p>① 네덜란드 모직물·선박 가격 급등 → 수출 경쟁력 상실<br>
+    ② 면직물·모직물 기술자들이 통화가치가 약한 <strong>영국으로 대이주</strong><br>
+    ③ 영국이 치밀하게 네덜란드 기술자 유치 → <strong>영국 산업혁명의 초석</strong><br>
+    ④ 네덜란드 제조업 괴멸, 무역적자 지속</p>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-title">4단계: 붕괴 (1780~1795)</div>
+    <p><strong>1780년:</strong> 영국-네덜란드 전쟁 발발 → 해상 봉쇄로 동인도 회사 배 나포 → 동인도 회사에 돈이 없어야 하는데 장부에는 있다? → <strong>사기 의혹 확산</strong>. 실물 금·은 교환 요구 쇄도 → 암스테르담 은행 교환 중단 → 뱅크 굴덴 가치 폭락. 단, 100년 신뢰 덕분에 <strong>15년간 완전 붕괴는 면함</strong>.</p>
+    <p><strong>1795년:</strong> 나폴레옹 침공 → 암스테르담 은행 금고 강제 개봉 → <strong>실물 금·은이 없음이 만천하에 드러남</strong> → 뱅크런 발생 → 100년 사기극 완전 종결.</p>
+    <p><strong>최대 피해자:</strong> 정보가 느렸던 서민들. 귀족·상인은 사전에 은식기·금장신구를 웃돈 주고 매입하여 대비했다.</p>
+  </div>
+</div>
+
+<!-- ==================== 평행이론 ==================== -->
+<div class="section">
+  <div class="section-title"><span class="icon">🔄</span> 17세기 암스테르담 은행 vs 21세기 미국 연준</div>
+
+  <table class="cmp-table">
+    <tr><th>구분</th><th>17세기 암스테르담 은행</th><th>21세기 미국 연준</th></tr>
+    <tr>
+      <td><strong>위기</strong></td>
+      <td>동인도 회사 파산 직전</td>
+      <td>2008년 월가 파산 직전</td>
+    </tr>
+    <tr>
+      <td><strong>대응</strong></td>
+      <td>비밀 대출, 장부 조작 (금 없이 돈 기록)</td>
+      <td>양적완화 (QE) — 디지털 화폐 발행, 시중은행에 유동성 공급</td>
+    </tr>
+    <tr>
+      <td><strong>화폐 방식</strong></td>
+      <td>펜 하나로 가짜 금 창조</td>
+      <td>클릭 한 번으로 무제한 달러 복사</td>
+    </tr>
+    <tr>
+      <td><strong>결과</strong></td>
+      <td>100년 호황, 가발 시대, 자산 가격 폭등</td>
+      <td>장기 호황, 주가·부동산 폭등, 에브리싱 랠리</td>
+    </tr>
+    <tr>
+      <td><strong>강세 유지</strong></td>
+      <td>실물 금·은으로 뱅크 굴덴 매입 → 인위적 강한 굴덴</td>
+      <td>천문학적 달러 발행에도 강달러 유지</td>
+    </tr>
+    <tr>
+      <td><strong>부작용</strong></td>
+      <td>제조업 괴멸, 기술자 영국 이주</td>
+      <td>미국 제조업 공동화 (제조업 해외이전)</td>
+    </tr>
+  </table>
+
+  <div class="highlight red">
+    <strong>핵심 차이점:</strong> 네덜란드는 사기극이 100년 지속됐다. 미국은 훨씬 강대한 패권국이지만, <strong>IT·AI·SNS 시대</strong>에서는 정보 전파 속도가 압도적으로 빨라 100년 지속은 어렵다. 실리콘밸리 은행(SVB) 뱅크런 사례처럼, 스마트폰으로 1초 만에 자금 이탈이 가능한 시대.
+  </div>
+</div>
+
+<!-- ==================== 예고 & 트리거 ==================== -->
+<div class="section">
+  <div class="section-title"><span class="icon">⚡</span> 달러 패권 위기 — 3가지 예고 + 3가지 트리거</div>
+  <p>"금고가 텅텅 비었다는 비밀"이 드러나는 과정을 <strong>예고(경고음) 3가지</strong>와 <strong>트리거(방아쇠) 3가지</strong>, 총 6가지로 분류한다.</p>
+
+  <div class="divider"></div>
+  <p style="font-size:13px; color:var(--gold); font-weight:700; letter-spacing:1px;">📢 예고 (경고음)</p>
+
+  <div class="signal-card preview">
+    <div class="signal-label on">● 진행 중</div>
+    <h4>예고 ① 내부자들의 대탈출</h4>
+    <p>중국·싱가포르·폴란드·인도 등 각국 중앙은행이 <strong>달러를 버리고 금을 사재기</strong>하고 있다. 독일은 미국에 맡긴 금의 본국 송환을 요구 중. 이는 1790년 네덜란드 귀족들이 뱅크 굴덴 붕괴 직전 은식기·금장신구를 웃돈 주고 사재기한 것과 동일한 패턴. <strong>한국은행은 금을 전혀 사지 않고 있어</strong> '내부자' 수준의 정보력이 부족한 상황.</p>
+  </div>
+
+  <div class="signal-card preview">
+    <div class="signal-label on">● 진행 중</div>
+    <h4>예고 ② 경제학 교과서의 붕괴</h4>
+    <p>전통 경제학: 금리 인상 → 금값 하락 (미국 국채가 금보다 우월한 안전자산). 그러나 <strong>2022년 이후</strong> 10년물 국채금리 상승과 금값 상승이 <strong>동시에 진행</strong>. 이는 "이자가 필요 없다, 달러 자체를 못 믿겠다, 원금(실물 금) 내놔"라는 시대 전환 신호. 뱅크 굴덴을 금화로 바꿔달라 하던 시대와 유사.</p>
+    <p style="font-size:13px; color:var(--text-dim);">※ 강의자는 2019년부터 금 매수를 권유. 정통 경제학계의 강한 반발이 있었으나, 이후 금값은 지속 상승.</p>
+  </div>
+
+  <div class="signal-card preview">
+    <div class="signal-label watch">◐ 미발생 · 감시 필요</div>
+    <h4>예고 ③ 시장의 반란 — 10년물 국채금리 5% 돌파</h4>
+    <p>현재 미국 10년물 국채금리 약 4.2% 수준. 블랙록 CEO 래리 핑크는 <strong>"2026년 가장 큰 위험은 10년물 금리가 5%를 넘는 것"</strong>이라 경고. 5% 돌파 시:</p>
+    <p>• 미국 정부 이자 비용 폭발 → 국가 부채 가속 증가<br>
+    • 국방비보다 이자 지출이 많은 '빚쟁이 제국' 입증<br>
+    • 연준이 금리를 내려도 장기 금리 상승 = <strong>연준의 통제력 상실</strong></p>
+    <p style="font-size:13px; color:var(--text-dim);">※ 1780년 네덜란드에서도 뱅크 굴덴 신뢰도 추락 시 국채금리가 2배로 폭등한 바 있음.</p>
+  </div>
+
+  <div class="divider"></div>
+  <p style="font-size:13px; color:var(--red); font-weight:700; letter-spacing:1px;">🔴 트리거 (방아쇠) — 발생 시 포트폴리오 전면 재검토 필요</p>
+
+  <div class="signal-card trigger">
+    <div class="signal-label off">○ 미발생</div>
+    <h4>트리거 ① 미국 국채 경매 실패</h4>
+    <p>미국 국채 발행 시 <strong>응찰 비율(bid-to-cover)이 1.0 미만</strong>으로 떨어지는 상황. 프라이머리 딜러(JP모건 등)마저 인수 불가 선언 시, 연준이 직접 국채 매입에 나설 수밖에 없다. 이는 <strong>연준의 항복 선언</strong>이며, 달러 가치 몰락 가속화의 출발점.</p>
+    <p style="font-size:13px; color:var(--text-dim);">※ 연준은 원칙적으로 정부 발행 국채 직접 매입이 금지되어 있음 (달러 폭락·물가 폭등 방지 목적)</p>
+  </div>
+
+  <div class="signal-card trigger">
+    <div class="signal-label off">○ 미발생</div>
+    <h4>트리거 ② 금 거래소의 실물 인도 거부</h4>
+    <p>미국 금·은 시장은 대부분 <strong>종이금(선물)</strong>으로 거래. 실물 인도 요구가 증가 중이며, 코맥스(COMEX) 창고 재고 바닥 소식이 반복. 만약 실물 인도가 불가능해져 <strong>이중가격</strong>(선물 6,000달러 vs 실물 9,000달러)이 형성되면, 이는 1790년 네덜란드의 "진짜 금 내놔" 사태와 동일한 상황.</p>
+  </div>
+
+  <div class="signal-card trigger">
+    <div class="signal-label off">○ 미발생</div>
+    <h4>트리거 ③ 페트로달러 독점 붕괴</h4>
+    <p>사우디 등 산유국이 "달러도 받지만 <strong>위안화·금도 결제 수단으로 허용</strong>"하거나, OPEC이 원유 기준가를 <strong>금이나 복수 통화 바스켓</strong>으로 전환하는 경우. 또한 석유 → 메탈(배터리) 시대 전환 과정에서, 정제를 지배한 중국이나 자원부국(인도네시아, 페루 등)이 달러 외 결제를 요구하면 같은 효과.</p>
+  </div>
+</div>
+
+<!-- ==================== 현재 상태 진단 ==================== -->
+<div class="section">
+  <div class="section-title"><span class="icon">📊</span> 현재 상태 진단 — "가발 시대의 끝물"</div>
+
+  <div class="highlight">
+    <strong>현재 위치:</strong> 예고 ①② 진행 중 / 예고 ③ 미발생 / 트리거 ①②③ 미발생<br>
+    → 아직 '가발 시대'(호황기) 안에 있으나, 경고음이 커지고 있는 상태
+  </div>
+
+  <p>달러가 죽어가면서 오히려 달러를 더 많이 발행 → 달러로 표시된 모든 자산가격 동반 상승(<strong>에브리싱 랠리</strong>). 미국 주식, 금·은, 신흥국 주식, 부동산, 원자재 모두 상승.</p>
+  <p>이는 뱅크 굴덴이 죽어가며 더 많이 발행됐을 때, 뱅크 굴덴 표시 자산가격이 전부 올랐던 것과 동일한 현상. <strong>자산가격이 올라간 것이 아니라, 돈의 가치가 떨어진 것.</strong></p>
+
+  <div class="subsec">
+    <div class="subsec-title">왜 달러가 아직 버티나?</div>
+    <table class="cmp-table">
+      <tr><th>경쟁 통화</th><th>약점</th></tr>
+      <tr><td>유로화</td><td>유럽 성장 정체, 전쟁 리스크, 생산성 향상 미흡</td></tr>
+      <tr><td>엔화</td><td>초고령화, 통제 불능 수준의 부채</td></tr>
+      <tr><td>위안화</td><td>부동산 붕괴, 국제 신뢰 부족, 인구구조 악화</td></tr>
+    </table>
+    <p>달러는 <strong>종이돈 가운데 '가장 나중에 죽는 통화'</strong>가 될 가능성이 높다. 물이 차오를 때 가장 높은 탑(달러)으로 피신하는 현상이 지속된다.</p>
+  </div>
+</div>
+
+<!-- ==================== 가발 시대 이후 ==================== -->
+<div class="section">
+  <div class="section-title"><span class="icon">🔮</span> "가발 시대" 이후 — 자산시장 옥석 가리기</div>
+  <p>달러가 실질적으로 흔들리기 시작하면, 현재의 에브리싱 랠리는 종료되고 <strong>도미노 붕괴 + 옥석 가리기</strong>가 시작된다. 달러 약화는 다른 종이돈보다 약해진다는 뜻이 아니라, <strong>실물 대비 약해진다</strong>는 의미.</p>
+
+  <table class="cmp-table">
+    <tr><th>자산</th><th>전망</th></tr>
+    <tr>
+      <td><strong>미국 주식</strong></td>
+      <td>독점 빅테크만 생존할 가능성 높음. 나머지는 몰락 위험</td>
+    </tr>
+    <tr>
+      <td><strong>금 vs 은</strong></td>
+      <td>현재 동반 상승 → 추후 <strong>금의 압도적 우위</strong> 예상. 은은 산업재 성격 때문에 산업 침체 시 하락 가능. 금은 순수 통화가치 방어 자산</td>
+    </tr>
+    <tr>
+      <td><strong>원자재</strong></td>
+      <td>국가 존망을 가르는 <strong>전략자산화</strong>. 미국 전략자산법 17조 원 투입. 실물경제 침체(하락 요인)와 달러 약세(상승 요인)가 경합</td>
+    </tr>
+    <tr>
+      <td><strong>국채</strong></td>
+      <td>다른 나라 국채 먼저 흔들리고, 미국 국채가 마지막으로 흔들림. <strong>미국 장기채는 더 이상 안전자산 아님</strong> (2022년부터). 단기채만 안전자산으로 인정</td>
+    </tr>
+    <tr>
+      <td><strong>신흥국 주식</strong></td>
+      <td>대부분 몰락. 세계 경제 질서 흔들림 시 신흥국부터 타격. 다만 자원 부국 일부는 반등 가능</td>
+    </tr>
+    <tr>
+      <td><strong>부동산</strong></td>
+      <td>거래 실종, 유동성 함정 위험. 현재 동반 상승은 가발 시대 끝물 현상</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ==================== 투자 시사점 ==================== -->
+<div class="section">
+  <div class="section-title"><span class="icon">💰</span> 투자 시사점 & 행동 가이드</div>
+
+  <div class="step-list">
+    <div class="step-item">
+      <div class="step-num">1</div>
+      <div>
+        <p><strong>달러는 여전히 유효한 '중간다리'</strong> — 원화보다 달러가 강한 현상은 당분간 지속. 달러를 보유하며, 추후 실물자산(금, 원자재 등)으로 전환할 수 있는 포지션 유지.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">2</div>
+      <div>
+        <p><strong>금 비중 확대는 이미 진행형</strong> — 전 세계 중앙은행이 금 매수에 나선 상황. 금리와 금값의 동반 상승은 달러 시스템 신뢰 약화의 명확한 신호.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">3</div>
+      <div>
+        <p><strong>미국 장기채 비중 축소</strong> — 미국 10년물 이상 장기채는 안전자산 지위를 상실 중. 단기채 위주로 포트폴리오 구성.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">4</div>
+      <div>
+        <p><strong>10년물 금리 5% 돌파 여부 모니터링</strong> — 이것이 예고 ③이자 트리거 작동 전의 최후 경보. 돌파 시 포트폴리오 방어 태세 강화 필요.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">5</div>
+      <div>
+        <p><strong>트리거 발생 시 전면 재편</strong> — 국채 경매 실패, 금 실물 인도 거부, 페트로달러 붕괴 중 하나라도 발생하면 포트폴리오를 실물 중심으로 전면 재편해야 한다.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">6</div>
+      <div>
+        <p><strong>"대응하되 예측하지 말라"</strong> — 트리거의 시점은 10년 뒤일 수도, 30년 뒤일 수도 있다. 신호를 감시하며 대응하는 전략이 핵심.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 한국 관점 ==================== -->
+<div class="section">
+  <div class="section-title"><span class="icon">🇰🇷</span> 한국 관점 특별 참고</div>
+  <p>한국에게는 미국의 달러 패권 유지가 유리하다. 미국은 제조업이 약해 한국이 필요하지만, 중국이 패권을 잡으면 중국의 제조업 역량에 한국이 밀릴 수밖에 없다.</p>
+  <div class="highlight red">
+    <strong>한국은행의 금 미매수 문제:</strong> 전 세계 중앙은행이 금을 사재기하는 상황에서, 한국은행만 금을 사지 않고 있다. 미국식 정통 경제학("금은 이자가 없으므로 매력 없음")에 갇힌 사고가 원인. 이는 정보력 부족 및 패러다임 전환 대응 실패를 의미할 수 있다.
+  </div>
+  <p>한국의 원화는 반도체 원툴 의존 → 반도체 사이클에 따라 성장률과 환율이 출렁 → 외국인 입장에서 원화를 장기 보유할 유인 부족 → 원화 약세 기조 지속 전망. (원화 가치는 파트2 4강에서 심층 분석 예정)</p>
+</div>
+
+<!-- ==================== 핵심 키워드 ==================== -->
+<div class="section">
+  <div class="section-title"><span class="icon">🏷️</span> 핵심 키워드</div>
+  <div style="display:flex; flex-wrap:wrap; gap:4px; margin-top:8px;">
+    <span class="tag tag-gold">달러 약화</span>
+    <span class="tag tag-gold">뱅크 굴덴</span>
+    <span class="tag tag-gold">암스테르담 은행</span>
+    <span class="tag tag-red">양적완화</span>
+    <span class="tag tag-red">장부 조작</span>
+    <span class="tag tag-green">금 사재기</span>
+    <span class="tag tag-blue">에브리싱 랠리</span>
+    <span class="tag tag-blue">10년물 국채금리</span>
+    <span class="tag tag-gold">페트로달러</span>
+    <span class="tag tag-red">레이 달리오</span>
+    <span class="tag tag-green">코맥스</span>
+    <span class="tag tag-blue">가발 시대</span>
+  </div>
+</div>
+
+<div class="footer-note">
+  본 문서는 박정은의 경제 론업 Part2 3강 강의 내용을 바탕으로 정리한 분석 자료입니다.<br>
+  투자 판단의 최종 책임은 투자자 본인에게 있습니다.
+</div>
+
+</div>
+</body>
+</html>
