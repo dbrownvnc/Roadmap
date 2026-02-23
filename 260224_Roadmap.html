@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>케빈 워시 지명 이후 시나리오 & 금과 비트코인 분석</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg-primary: #0a0e1a;
+  --bg-card: #111827;
+  --bg-card-alt: #1a2236;
+  --accent-gold: #d4a843;
+  --accent-blue: #3b82f6;
+  --accent-red: #ef4444;
+  --accent-green: #22c55e;
+  --accent-orange: #f59e0b;
+  --accent-purple: #a78bfa;
+  --text-primary: #e8e8e8;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+  --border: #1e293b;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.75;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 16px 80px;
+}
+
+/* Hero */
+.hero {
+  position: relative;
+  padding: 48px 20px 36px;
+  text-align: center;
+  background: linear-gradient(180deg, #0f1629 0%, var(--bg-primary) 100%);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 28px;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(212,168,67,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: rgba(212,168,67,0.12);
+  color: var(--accent-gold);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 900;
+  line-height: 1.3;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.hero h1 span { color: var(--accent-gold); }
+
+.hero-date {
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+/* Section */
+.section {
+  margin-bottom: 28px;
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.section-label.gold { color: var(--accent-gold); }
+.section-label.blue { color: var(--accent-blue); }
+.section-label.red { color: var(--accent-red); }
+.section-label.green { color: var(--accent-green); }
+.section-label.orange { color: var(--accent-orange); }
+.section-label.purple { color: var(--accent-purple); }
+
+.section-title {
+  font-size: 20px;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 14px;
+  line-height: 1.35;
+}
+
+/* Card */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 14px;
+}
+
+.card-dark {
+  background: var(--bg-card-alt);
+}
+
+.card p {
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  font-size: 14.5px;
+}
+
+.card p:last-child { margin-bottom: 0; }
+
+/* Highlight box */
+.highlight {
+  background: rgba(212,168,67,0.06);
+  border-left: 3px solid var(--accent-gold);
+  padding: 14px 16px;
+  border-radius: 0 10px 10px 0;
+  margin-bottom: 14px;
+}
+
+.highlight.blue {
+  background: rgba(59,130,246,0.06);
+  border-left-color: var(--accent-blue);
+}
+
+.highlight.red {
+  background: rgba(239,68,68,0.06);
+  border-left-color: var(--accent-red);
+}
+
+.highlight.green {
+  background: rgba(34,197,94,0.06);
+  border-left-color: var(--accent-green);
+}
+
+.highlight p {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.highlight strong { color: #fff; }
+
+/* Tag / Badge */
+.tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 6px;
+  margin-right: 6px;
+  margin-bottom: 6px;
+}
+
+.tag-hawk { background: rgba(239,68,68,0.15); color: var(--accent-red); }
+.tag-dove { background: rgba(59,130,246,0.15); color: var(--accent-blue); }
+.tag-hybrid { background: rgba(167,139,250,0.15); color: var(--accent-purple); }
+.tag-plan { background: rgba(34,197,94,0.15); color: var(--accent-green); }
+.tag-risk { background: rgba(245,158,11,0.15); color: var(--accent-orange); }
+
+/* Timeline */
+.timeline {
+  position: relative;
+  padding-left: 24px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent-blue), var(--accent-gold), var(--accent-green));
+  border-radius: 2px;
+}
+
+.tl-item {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -21px;
+  top: 7px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent-blue);
+  border: 2px solid var(--bg-primary);
+}
+
+.tl-item:nth-child(2)::before { background: var(--accent-gold); }
+.tl-item:nth-child(3)::before { background: var(--accent-green); }
+.tl-item:nth-child(4)::before { background: var(--accent-orange); }
+
+.tl-period {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-blue);
+  margin-bottom: 4px;
+}
+
+.tl-item:nth-child(2) .tl-period { color: var(--accent-gold); }
+.tl-item:nth-child(3) .tl-period { color: var(--accent-green); }
+.tl-item:nth-child(4) .tl-period { color: var(--accent-orange); }
+
+.tl-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.tl-desc {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+}
+
+/* VS Box */
+.vs-box {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.vs-side {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 12px;
+  text-align: center;
+}
+
+.vs-side h4 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.vs-side p {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.vs-center {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--text-muted);
+}
+
+/* Chart container */
+.chart-wrap {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.chart-wrap h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.chart-wrap canvas {
+  max-height: 260px;
+}
+
+/* Comparison table */
+.comp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.comp-table th {
+  text-align: left;
+  padding: 10px 12px;
+  background: var(--bg-card-alt);
+  color: var(--text-muted);
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.comp-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.comp-table tr:last-child td { border-bottom: none; }
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 32px 0;
+}
+
+/* Key takeaway */
+.key-takeaway {
+  background: linear-gradient(135deg, rgba(212,168,67,0.08), rgba(59,130,246,0.05));
+  border: 1px solid rgba(212,168,67,0.2);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 14px;
+}
+
+.key-takeaway h3 {
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--accent-gold);
+  margin-bottom: 10px;
+}
+
+.key-takeaway p {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 32px 16px;
+  font-size: 11px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+}
+
+/* Plan comparison */
+.plan-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.plan-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.plan-box h4 {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.plan-box p {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.plan-a { border-top: 3px solid var(--accent-green); }
+.plan-a h4 { color: var(--accent-green); }
+.plan-b { border-top: 3px solid var(--accent-orange); }
+.plan-b h4 { color: var(--accent-orange); }
+
+/* Risk item */
+.risk-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.risk-icon {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  background: rgba(239,68,68,0.1);
+}
+
+.risk-text {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+}
+
+.risk-text strong { color: #fff; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">Q&A 강의 분석 · 2월 4주차</div>
+  <h1>케빈 워시 지명 시나리오<br>& <span>금 vs 비트코인</span></h1>
+  <div class="hero-date">2026년 02월 23일 · 미국 증시 및 거시경제 분석</div>
+</div>
+
+<div class="container">
+
+  <!-- ======================== PART 1 ======================== -->
+  <div class="section">
+    <div class="section-label gold">● PART 1</div>
+    <div class="section-title">케빈 워시 지명의 전략적 배경</div>
+  </div>
+
+  <div class="card">
+    <p>트럼프 대통령이 <strong style="color:#fff">매파 성향</strong>의 케빈 워시를 연준 의장으로 지명한 것은 단순한 인사가 아닌, <strong style="color:var(--accent-gold)">2026년 11월 3일 중간선거</strong>를 겨냥한 치밀한 정치·경제 전략의 일환이다.</p>
+    <p>핵심은 "지금 당장 주가를 올리는 것"이 아니라 <strong style="color:#fff">10월~11월까지 지속적으로 오름세를 유지하는 것</strong>이다. 1월에 급등한 주가는 11월 선거에 아무런 도움이 되지 않으며, 오히려 하반기 하락 리스크를 높인다.</p>
+  </div>
+
+  <div class="highlight">
+    <p><strong>💡 트럼프의 핵심 참모진</strong>(월가 출신 책략가들)은 천천히, 지속적으로 증시를 끌어올려 중간선거 직전까지 상승세를 유지하는 것을 목표로 하고 있다.</p>
+  </div>
+
+  <!-- 케빈 워시 포지셔닝 -->
+  <div class="section">
+    <div class="section-label purple">● 인물 분석</div>
+    <div class="section-title">케빈 워시는 어떤 인물인가?</div>
+  </div>
+
+  <div class="vs-box">
+    <div class="vs-side">
+      <h4 style="color:var(--accent-red)">🦅 매파</h4>
+      <p>금리 인상<br>돈줄 긴축</p>
+    </div>
+    <div class="vs-center">vs</div>
+    <div class="vs-side">
+      <h4 style="color:var(--accent-blue)">🕊️ 비둘기파</h4>
+      <p>금리 인하<br>돈 풀기</p>
+    </div>
+  </div>
+
+  <div class="card" style="border-top: 3px solid var(--accent-purple);">
+    <p style="text-align:center; margin-bottom:8px;">
+      <span class="tag tag-hybrid">하이브리드형</span>
+    </p>
+    <p style="text-align:center; font-size:16px; color:#fff; font-weight:700;">
+      금리는 인하 ✅ &nbsp;+&nbsp; 양적완화(돈 찍기)는 반대 ❌
+    </p>
+    <p style="text-align:center; font-size:13px;">트럼프 후보군 중 <strong style="color:var(--accent-red)">가장 매파적 성향</strong>이라 시장이 일시적으로 패닉에 빠졌으나, 이 지명에는 치밀한 계산이 깔려 있음</p>
+  </div>
+
+  <div class="highlight blue">
+    <p><strong>🔑 핵심 포인트:</strong> 케빈 워시는 FOMC 12명 중 1표에 불과하다. "금리 인하는 하되, 돈을 찍지는 말자"는 논리로 다른 FOMC 위원들을 설득하기 더 용이한 인물 — 이것이 지명의 진짜 이유다.</p>
+  </div>
+
+  <!-- ======================== 주가 부양 2가지 방법 ======================== -->
+  <div class="section">
+    <div class="section-label blue">● 정책 수단</div>
+    <div class="section-title">주가를 올리는 두 가지 방법</div>
+  </div>
+
+  <div class="chart-wrap">
+    <h4>재정정책 vs 통화정책 비교</h4>
+    <canvas id="policyChart"></canvas>
+  </div>
+
+  <div class="card">
+    <table class="comp-table">
+      <thead>
+        <tr><th>구분</th><th>재정정책</th><th>통화정책</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong style="color:#fff">주체</strong></td><td>재무부(정부)</td><td>연준(중앙은행)</td></tr>
+        <tr><td><strong style="color:#fff">수단</strong></td><td>국채 발행 / 재정지출</td><td>금리 조절 / 화폐 발행</td></tr>
+        <tr><td><strong style="color:#fff">효과</strong></td><td>국채 미발행 시 급등<br>국채 발행 시 상승</td><td>돈 찍기 → 강력 상승<br>금리 인하 → 급등</td></tr>
+        <tr><td><strong style="color:#fff">현 상황</strong></td><td>상반기: 국채 대량 발행 중<br>하반기: 지출 확대 예정</td><td>케빈 워시 취임 후<br>6월부터 금리 인하 시도</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight green">
+    <p><strong>베센트 재무장관의 계획:</strong> 상반기에 국채를 대량 발행하고, 하반기부터 국채 발행 없이 재정지출을 확대 → 주가 급등 유도</p>
+  </div>
+
+  <!-- ======================== 플랜 A / B ======================== -->
+  <div class="section">
+    <div class="section-label green">● 시나리오</div>
+    <div class="section-title">케빈 워시 활용 시나리오</div>
+  </div>
+
+  <div class="plan-grid">
+    <div class="plan-box plan-a">
+      <h4>Plan A: 금리 인하</h4>
+      <p>2~5월 경제지표가 냉각되면 → 6월 FOMC에서 케빈 워시가 금리 인하를 주도적으로 이끌어냄</p>
+    </div>
+    <div class="plan-box plan-b">
+      <h4>Plan B: 단기채 개입</h4>
+      <p>경제가 여전히 뜨거워 금리 인하 불가 시 → 레포시장 등 단기금융시장에 유동성 공급</p>
+    </div>
+  </div>
+
+  <div class="card card-dark">
+    <p><strong style="color:var(--accent-orange)">Plan B의 논리적 근거:</strong></p>
+    <p>워시의 철학은 "장기채 매입(QE)은 인플레를 유발하므로 반대하지만, 단기채 시장(레포)의 안정은 연준의 의무"라는 것이다. 단기채 개입은 FOMC 전체 결의가 아닌 <strong style="color:#fff">뉴욕 연은 총재 + 연준 의장</strong>의 의지만으로 실행 가능하여 절차적으로 훨씬 용이하다.</p>
+  </div>
+
+  <!-- ======================== 타임라인 ======================== -->
+  <div class="section">
+    <div class="section-label gold">● 마스터 플랜</div>
+    <div class="section-title">베센트 재무장관의 2026년 로드맵</div>
+  </div>
+
+  <div class="card">
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-period">2월 ~ 4월</div>
+        <div class="tl-title">증시 방치 모드</div>
+        <div class="tl-desc">정부 주도 부양 없음. 경제 과열을 식히고, 6월 금리 인하의 명분을 확보하기 위한 전략적 인내 기간</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-period">5월 ~ 10월</div>
+        <div class="tl-title">재정지출 + 통화완화 집중</div>
+        <div class="tl-desc">국채 미발행 + 재정지출 확대로 유동성 투입. 6월부터 금리 인하 or 레포시장 개입으로 이중 부양</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-period">10월 말</div>
+        <div class="tl-title">증시 고점 목표</div>
+        <div class="tl-desc">중간선거(11/3) 직전까지 지속적 상승세 유지 → 유권자 심리에 긍정적 영향</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-period">11월 3일</div>
+        <div class="tl-title">중간선거</div>
+        <div class="tl-desc">공화당 승리를 위한 모든 경제·증시 전략의 최종 목표 시점</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 차트: 월별 증시 부양 강도 -->
+  <div class="chart-wrap">
+    <h4>2026년 월별 증시 부양 강도(예상)</h4>
+    <canvas id="boostChart"></canvas>
+  </div>
+
+  <!-- ======================== 리스크 ======================== -->
+  <div class="section">
+    <div class="section-label red">● 리스크 요인</div>
+    <div class="section-title">베센트 계획을 저해할 위험 요소</div>
+  </div>
+
+  <div class="card">
+    <div class="risk-item">
+      <div class="risk-icon">🔥</div>
+      <div class="risk-text"><strong>인플레이션 재발:</strong> 선거 직전에 물가가 다시 오르면 긴축 불가피 → 부양 전략 전체가 무력화</div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-icon">📉</div>
+      <div class="risk-text"><strong>채권시장 반란:</strong> 국채금리 급등 시 재정정책 여력 축소 및 시장 불안 확대</div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-icon">🧠</div>
+      <div class="risk-text"><strong>스마트 머니의 선제 매도:</strong> 선거 전 "먼저 팔고 나가자"는 기관투자자들의 이탈 가능성 — 베센트 계획의 마지막 복병</div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-icon">⚔️</div>
+      <div class="risk-text"><strong>지정학적 리스크:</strong> 전쟁 등 예상치 못한 외부 충격이 모든 계획을 무효화할 수 있음</div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-icon">🏛️</div>
+      <div class="risk-text"><strong>케빈 워시 청문회 불통과:</strong> 상원 내 반대 여론이 높아 청문회 통과 자체가 불확실</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ======================== PART 2 ======================== -->
+  <div class="section">
+    <div class="section-label gold">● PART 2</div>
+    <div class="section-title">금(Gold) vs 비트코인: 글로벌 자산의 본질</div>
+  </div>
+
+  <div class="card">
+    <p>최근 유튜브에서 "미국이 포트녹스의 금을 버리고 비트코인을 준비자산으로 전환할 것"이라는 주장이 높은 조회수를 기록하고 있다. 그러나 이 주장은 <strong style="color:var(--accent-red)">전 세계에서 한국인 단 한 명</strong>만 하고 있는 것으로, 미국의 대표적 비트코인 예찬론자들조차 이런 주장을 하지 않는다.</p>
+  </div>
+
+  <!-- 반론 정리 -->
+  <div class="highlight red">
+    <p><strong>⚠️ 왜 이 주장이 틀린가?</strong></p>
+    <p>① 마이클 세일러(마이크로스트래티지 회장): "비트코인이 금보다 우월" → 그러나 <strong>"비트코인과 금은 공존할 것"</strong>이라고 발언. 금 폐기 주장 ❌</p>
+    <p>② 신시아 루미스(미 상원의원, 트럼프 BTC 공약 입안자): "연준 보유 금을 재평가하여 차익으로 비트코인 매수" 주장 → 금을 버리자가 아닌 <strong>금을 활용하자</strong>는 것</p>
+  </div>
+
+  <!-- 글로벌 vs 로컬 자산 -->
+  <div class="section">
+    <div class="section-label blue">● 핵심 개념</div>
+    <div class="section-title">글로벌 자산 vs 로컬 자산</div>
+  </div>
+
+  <div class="card">
+    <table class="comp-table">
+      <thead>
+        <tr><th>구분</th><th>글로벌 자산</th><th>로컬 자산</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong style="color:#fff">정의</strong></td><td>특정 국가 통제 밖에서 전 세계가 가치 인정</td><td>특정 국가의 법과 신용에 의존</td></tr>
+        <tr><td><strong style="color:#fff">예시</strong></td><td>금, 은</td><td>원화, 한국 부동산, 한국 국채</td></tr>
+        <tr><td><strong style="color:#fff">특징</strong></td><td>한 나라가 마음대로 폐지·규제 불가</td><td>해당 국가 상황에 따라 가치 변동</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="chart-wrap">
+    <h4>주요 자산별 "글로벌 자산" 점수(100점 만점 추정)</h4>
+    <canvas id="globalChart"></canvas>
+  </div>
+
+  <div class="card card-dark">
+    <p><strong style="color:var(--accent-gold)">역사적 교훈 — 1720년 프랑스:</strong></p>
+    <p>프랑스가 "금·은 소유 불법, 지폐(리브르)만 사용하라"고 선언 → 프랑스인들은 금을 해외로 빼돌리고 리브르를 휴지 취급 → <strong style="color:#fff">프랑스 경제 수십 년 후퇴, 영국에 패권 상실</strong>. 글로벌 자산을 패권국가가 일방적으로 폐지하는 것은 역사적으로 실패했다.</p>
+  </div>
+
+  <!-- 비트코인 위상 변화 -->
+  <div class="section">
+    <div class="section-label orange">● 변화</div>
+    <div class="section-title">비트코인의 글로벌 자산 지위 약화</div>
+  </div>
+
+  <div class="card">
+    <p>비트코인은 원래 어떤 국가의 통제도 받지 않는 <strong style="color:#fff">완벽한 탈중앙화 글로벌 자산</strong>이었다. 그런데 2025년 트럼프 행정부가 비트코인을 미국 제도권에 편입시키면서 양날의 검이 되었다.</p>
+    <p><strong style="color:var(--accent-orange)">미국 편입의 결과:</strong></p>
+    <p>• BRICS 국가들(중국, 러시아, 브라질 등)이 비트코인을 외면 → "비트코인 가격 오르면 미국만 이득"이라는 인식 확산</p>
+    <p>• 중국은 비트코인 거래를 감옥에 넣을 정도로 엄격히 규제</p>
+    <p>• 결과적으로 비트코인은 <strong style="color:#fff">양쪽 진영을 넘나드는 글로벌 자산</strong>에서 <strong style="color:var(--accent-red)">미국 진영의 로컬 자산</strong>으로 성격이 변화</p>
+    <p>• 미국 유동성 의존도가 극도로 높아져, 미국 유동성 축소 시 가격 하락이 불가피한 구조가 됨</p>
+  </div>
+
+  <div class="chart-wrap">
+    <h4>비트코인 가격과 미국 유동성 상관관계(개념도)</h4>
+    <canvas id="btcLiqChart"></canvas>
+  </div>
+
+  <!-- ======================== 4년차 상승 ======================== -->
+  <div class="section">
+    <div class="section-label green">● 시장 전망</div>
+    <div class="section-title">4년차 상승과 에브리싱 랠리의 종말</div>
+  </div>
+
+  <div class="card">
+    <p>미국 증시는 현재 <strong style="color:#fff">4년 연속 상승</strong> 중이며, 이는 매우 드문 현상이다. 5월부터 미국 재무부가 유동성을 대규모로 풀면 자산가격이 다시 상승하겠지만, 4년차 상승에는 항상 특징적인 변화가 나타난다.</p>
+  </div>
+
+  <div class="key-takeaway">
+    <h3>🔑 4년차 상승의 특징</h3>
+    <p>• "에브리싱 랠리"(모든 자산 동반 상승)는 종료 → 자산 간 <strong style="color:#fff">선별적 상승(경쟁)</strong> 시작<br>
+    • 금 vs 비트코인 간 경쟁 본격화<br>
+    • 미국 증시 내부에서도 섹터 간 차별화 심화<br>
+    • 드러켄밀러가 최근 자산 배분을 변경한 것도 이러한 맥락</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ======================== 투자 시사점 ======================== -->
+  <div class="section">
+    <div class="section-label gold">● 종합</div>
+    <div class="section-title">투자 시사점 정리</div>
+  </div>
+
+  <div class="card">
+    <table class="comp-table">
+      <thead>
+        <tr><th>항목</th><th>시사점</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong style="color:#fff">미국 증시</strong></td><td>2~4월은 정부 주도 부양 없는 방치 구간 → 5월 이후 본격 상승 기대. 단, 4년차 상승이므로 에브리싱 랠리 종료 가능</td></tr>
+        <tr><td><strong style="color:#fff">금리</strong></td><td>케빈 워시 취임 시 6월 금리 인하 시도 가능 → 2~5월 경제 냉각이 전제조건</td></tr>
+        <tr><td><strong style="color:#fff">금(Gold)</strong></td><td>6천 년의 글로벌 자산 지위는 건재. 미국이 일방적으로 폐기하는 것은 불가능. 안전자산으로서의 가치 유지</td></tr>
+        <tr><td><strong style="color:#fff">비트코인</strong></td><td>미국 유동성 의존도 급증. 하반기 유동성 공급 확대 시 수혜 가능하나, BRICS 이탈로 글로벌 자산 지위 약화 중</td></tr>
+        <tr><td><strong style="color:#fff">주의 시점</strong></td><td>10~11월 선거 전 스마트 머니의 선제 매도 가능성. 중간선거 전후 변동성 확대 대비 필요</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="key-takeaway">
+    <h3>📌 핵심 메시지</h3>
+    <p>트럼프·베센트의 증시 부양 계획은 치밀하지만, "인간이 세운 계획대로 모든 일이 착착 진행된다는 보장은 없다." 인플레이션 재발, 채권시장 반란, 스마트 머니 이탈이라는 세 가지 복병이 이 계획의 가장 큰 변수이다.</p>
+  </div>
+
+  <div class="footer">
+    Q&A 강의 VOD 분석 · 2026.02.23<br>
+    본 문서는 강의 내용을 기반으로 한 분석 자료이며, 투자 조언이 아닙니다.
+  </div>
+</div>
+
+<script>
+Chart.defaults.color = '#9ca3af';
+Chart.defaults.borderColor = '#1e293b';
+Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
+Chart.defaults.font.size = 11;
+
+// ====== Scroll-triggered animation system ======
+const chartConfigs = {};
+const chartInstances = {};
+
+// Delayed bar animation: bars grow one by one
+const delayedBarAnimation = {
+  animation: {
+    duration: 1400,
+    easing: 'easeOutQuart',
+    delay: (ctx) => {
+      if (ctx.type === 'data' && ctx.mode === 'default') {
+        return ctx.dataIndex * 200 + ctx.datasetIndex * 100;
+      }
+      return 0;
+    }
+  }
+};
+
+// Smooth line draw animation
+const lineDrawAnimation = {
+  animation: {
+    x: { duration: 1800, easing: 'easeInOutQuart', from: NaN },
+    y: { duration: 1800, easing: 'easeInOutQuart', from: (ctx) => {
+      if (ctx.type === 'data' && ctx.mode === 'default') {
+        return ctx.chart.scales.y ? ctx.chart.scales.y.getPixelForValue(0) : 0;
+      }
+    }}
+  }
+};
+
+// Progressive line reveal
+const progressiveLineAnimation = {
+  animation: {
+    duration: 2200,
+    easing: 'easeOutCubic',
+    delay: (ctx) => {
+      if (ctx.type === 'data' && ctx.mode === 'default') {
+        return ctx.dataIndex * 120;
+      }
+      return 0;
+    }
+  }
+};
+
+// Horizontal bar cascade
+const horizontalBarAnimation = {
+  animation: {
+    duration: 1600,
+    easing: 'easeOutBack',
+    delay: (ctx) => {
+      if (ctx.type === 'data' && ctx.mode === 'default') {
+        return ctx.dataIndex * 180;
+      }
+      return 0;
+    }
+  }
+};
+
+// ====== Chart Configs (animation: false initially) ======
+
+// 1. 재정정책 vs 통화정책
+chartConfigs['policyChart'] = {
+  type: 'bar',
+  data: {
+    labels: ['국채 미발행\n+ 재정지출', '국채 발행\n+ 재정지출', '금리 인하', '양적완화\n(돈 찍기)'],
+    datasets: [{
+      label: '주가 상승 효과',
+      data: [95, 55, 85, 90],
+      backgroundColor: ['#d4a843','#d4a84380','#3b82f6','#3b82f680'],
+      borderRadius: 6,
+      barThickness: 36
+    }]
+  },
+  options: {
+    responsive: true,
+    animation: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ctx.parsed.y + '점' }}
+    },
+    scales: {
+      y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '점' }, grid: { color: '#1e293b40' }},
+      x: { grid: { display: false }}
+    }
+  }
+};
+
+// 2. 월별 부양 강도
+chartConfigs['boostChart'] = {
+  type: 'line',
+  data: {
+    labels: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월'],
+    datasets: [
+      {
+        label: '재정정책 부양',
+        data: [10, 10, 10, 15, 45, 65, 75, 80, 85, 90, 30],
+        borderColor: '#d4a843',
+        backgroundColor: 'rgba(212,168,67,0.1)',
+        fill: true, tension: 0.4, pointRadius: 3, borderWidth: 2.5
+      },
+      {
+        label: '통화정책 부양',
+        data: [5, 5, 5, 5, 10, 40, 55, 65, 70, 75, 25],
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59,130,246,0.1)',
+        fill: true, tension: 0.4, pointRadius: 3, borderWidth: 2.5
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    animation: false,
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, padding: 12 }}},
+    scales: {
+      y: { beginAtZero: true, max: 100, ticks: { callback: v => v }, grid: { color: '#1e293b40' }},
+      x: { grid: { display: false }}
+    }
+  }
+};
+
+// 3. 글로벌 자산 점수
+chartConfigs['globalChart'] = {
+  type: 'bar',
+  data: {
+    labels: ['금·은', '미국 달러', '미국 국채', '비트코인\n(과거)', '비트코인\n(현재)', '원화'],
+    datasets: [{
+      label: '글로벌 자산 점수',
+      data: [100, 93, 90, 100, 90, 25],
+      backgroundColor: ['#d4a843','#3b82f6','#3b82f680','#f59e0b80','#f59e0b','#6b728050'],
+      borderRadius: 6,
+      barThickness: 32
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    animation: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ctx.parsed.x + '점' }}
+    },
+    scales: {
+      x: { beginAtZero: true, max: 100, ticks: { callback: v => v + '점' }, grid: { color: '#1e293b40' }},
+      y: { grid: { display: false }}
+    }
+  }
+};
+
+// 4. BTC vs 미국 유동성
+chartConfigs['btcLiqChart'] = {
+  type: 'line',
+  data: {
+    labels: ['2023 Q1','Q2','Q3','Q4','2024 Q1','Q2','Q3','Q4','2025 Q1','Q2','Q3','Q4','2026 Q1'],
+    datasets: [
+      {
+        label: '미국 유동성 지수',
+        data: [40, 42, 45, 50, 48, 55, 60, 65, 58, 62, 70, 75, 55],
+        borderColor: '#3b82f6',
+        tension: 0.4, pointRadius: 2, yAxisID: 'y', borderWidth: 2.5
+      },
+      {
+        label: 'BTC 가격 추이(개념)',
+        data: [25, 28, 30, 42, 45, 60, 55, 70, 80, 95, 100, 85, 60],
+        borderColor: '#f59e0b',
+        tension: 0.4, pointRadius: 2, yAxisID: 'y1', borderWidth: 2.5
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    animation: false,
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, padding: 12 }}},
+    scales: {
+      y: { position: 'left', grid: { color: '#1e293b40' }, ticks: { display: false }},
+      y1: { position: 'right', grid: { display: false }, ticks: { display: false }},
+      x: { grid: { display: false }, ticks: { maxTicksLimit: 7 }}
+    }
+  }
+};
+
+// Animation mapping per chart
+const animationMap = {
+  policyChart: delayedBarAnimation,
+  boostChart: progressiveLineAnimation,
+  globalChart: horizontalBarAnimation,
+  btcLiqChart: lineDrawAnimation
+};
+
+// ====== Initialize charts (no animation) ======
+Object.keys(chartConfigs).forEach(id => {
+  const canvas = document.getElementById(id);
+  chartInstances[id] = new Chart(canvas, chartConfigs[id]);
+});
+
+// ====== IntersectionObserver: animate on scroll into view ======
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const canvas = entry.target;
+      const id = canvas.id;
+      const chart = chartInstances[id];
+      if (chart && !canvas.dataset.animated) {
+        canvas.dataset.animated = 'true';
+        // Apply animation and reset data to trigger it
+        const anim = animationMap[id];
+        Object.assign(chart.options, anim);
+        chart.update('none'); // apply options without animation
+        // Force re-render with animation by resetting data
+        const originalData = chart.data.datasets.map(ds => [...ds.data]);
+        chart.data.datasets.forEach(ds => ds.data = ds.data.map(() => 0));
+        chart.update('none');
+        // Restore data with animation
+        requestAnimationFrame(() => {
+          chart.data.datasets.forEach((ds, i) => ds.data = originalData[i]);
+          chart.update();
+        });
+      }
+      observer.unobserve(canvas);
+    }
+  });
+}, { threshold: 0.35 });
+
+// Observe all chart canvases
+Object.keys(chartConfigs).forEach(id => {
+  observer.observe(document.getElementById(id));
+});
+</script>
+
+</body>
+</html>
