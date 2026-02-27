@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>원화가치 몰락에 따른 대응 방법 — 미국 증시 관점 분석</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Sans+KR:wght@300;400;500;700;900&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #ffffff;
+  --bg-alt: #fafafa;
+  --text: #1a1a1a;
+  --text-sub: #777777;
+  --accent: #e11d48;
+  --accent2: #f43f5e;
+  --chart1: #e11d48;
+  --chart2: #1a1a1a;
+  --chart3: #6b7280;
+  --chart4: #2563eb;
+  --table-bg: #fafafa;
+  --table-header: #e11d48;
+  --border: #e5e5e5;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Hero */
+.hero {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d1f2f 50%, #1a1a1a 100%);
+  padding: 60px 20px 50px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at 30% 50%, rgba(225,29,72,0.15) 0%, transparent 60%);
+  animation: pulse 8s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+.hero-label {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid rgba(225,29,72,0.4);
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  position: relative;
+}
+.hero h1 {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.4;
+  position: relative;
+  margin-bottom: 14px;
+}
+.hero h1 span { color: var(--accent); }
+.hero-sub {
+  font-size: 14px;
+  color: rgba(255,255,255,0.55);
+  position: relative;
+  font-weight: 300;
+}
+.hero-meta {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  position: relative;
+}
+.hero-meta span {
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 1px;
+}
+
+/* Section */
+.section {
+  padding: 40px 0;
+  border-bottom: 1px solid var(--border);
+}
+.section:last-child { border-bottom: none; }
+
+.section-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 48px;
+  font-weight: 900;
+  color: rgba(225,29,72,0.1);
+  line-height: 1;
+  margin-bottom: -10px;
+}
+
+h2 {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+h2 .accent { color: var(--accent); }
+
+h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 28px 0 10px;
+  padding-left: 12px;
+  border-left: 3px solid var(--accent);
+}
+
+p { margin-bottom: 14px; color: var(--text); }
+.sub-text { color: var(--text-sub); font-size: 13px; }
+
+/* Highlight box */
+.highlight-box {
+  background: linear-gradient(135deg, #fff5f7 0%, #fafafa 100%);
+  border-left: 4px solid var(--accent);
+  padding: 18px 20px;
+  margin: 20px 0;
+  border-radius: 0 8px 8px 0;
+}
+.highlight-box strong { color: var(--accent); }
+
+.warning-box {
+  background: #1a1a1a;
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px 0;
+  position: relative;
+  overflow: hidden;
+}
+.warning-box::before {
+  content: '⚠';
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  font-size: 60px;
+  opacity: 0.08;
+}
+.warning-box strong { color: var(--accent2); }
+
+.info-box {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  padding: 18px 20px;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+/* Comparison table */
+.comp-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 13.5px;
+}
+.comp-table thead th {
+  background: var(--table-header);
+  color: #fff;
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 12.5px;
+}
+.comp-table thead th:first-child { border-radius: 8px 0 0 0; }
+.comp-table thead th:last-child { border-radius: 0 8px 0 0; }
+.comp-table tbody td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--table-bg);
+}
+.comp-table tbody tr:last-child td:first-child { border-radius: 0 0 0 8px; }
+.comp-table tbody tr:last-child td:last-child { border-radius: 0 0 8px 0; }
+
+/* Stage indicator */
+.stage-flow {
+  display: flex;
+  gap: 8px;
+  margin: 20px 0;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+.stage-card {
+  flex: 1;
+  min-width: 160px;
+  padding: 16px 14px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.stage-card.active {
+  background: var(--accent);
+  color: #fff;
+}
+.stage-card.upcoming {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  color: var(--text-sub);
+}
+.stage-card .stage-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* Signal meter */
+.signal-meter {
+  margin: 20px 0;
+}
+.signal-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.signal-level {
+  width: 56px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+.signal-level.green { background: #16a34a; }
+.signal-level.yellow { background: #eab308; color: #1a1a1a; }
+.signal-level.orange { background: #ea580c; }
+.signal-level.red { background: #dc2626; }
+.signal-info {
+  margin-left: 14px;
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+.signal-info strong { display: block; font-size: 14px; }
+
+/* Chart */
+.fade-in {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.chart-container {
+  position: relative;
+  max-height: 340px;
+  margin: 20px 0;
+  background: var(--bg-alt);
+  border-radius: 10px;
+  padding: 16px 10px 10px;
+}
+.chart-container canvas {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  max-height: 300px;
+}
+.chart-container.chart-ready canvas {
+  opacity: 1;
+}
+.chart-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+  padding-left: 6px;
+}
+
+/* Strategy cards */
+.strategy-grid {
+  display: grid;
+  gap: 14px;
+  margin: 20px 0;
+}
+.strategy-item {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
+}
+.strategy-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--accent);
+}
+.strategy-item .label {
+  font-size: 11px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+.strategy-item .title {
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+.strategy-item .desc {
+  font-size: 13px;
+  color: var(--text-sub);
+  line-height: 1.6;
+}
+
+/* Tag */
+.tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  margin-right: 4px;
+  margin-bottom: 4px;
+}
+.tag-red { background: #fef2f2; color: var(--accent); border: 1px solid #fecaca; }
+.tag-blue { background: #eff6ff; color: var(--chart4); border: 1px solid #bfdbfe; }
+.tag-gray { background: #f3f4f6; color: var(--chart3); border: 1px solid #d1d5db; }
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--border), transparent);
+  margin: 30px 0;
+}
+
+/* Key takeaway */
+.takeaway {
+  background: linear-gradient(135deg, #1a1a1a, #2a1520);
+  color: #fff;
+  padding: 28px 22px;
+  border-radius: 12px;
+  margin: 24px 0;
+}
+.takeaway h3 {
+  color: var(--accent2);
+  border-left-color: var(--accent2);
+  margin-top: 0;
+  font-size: 16px;
+}
+.takeaway p { color: rgba(255,255,255,0.8); font-size: 14px; }
+.takeaway strong { color: #fff; }
+
+/* Timeline */
+.timeline {
+  position: relative;
+  padding-left: 24px;
+  margin: 20px 0;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 20px;
+  padding-left: 16px;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -22px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+.timeline-item .year {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.timeline-item .event {
+  font-size: 13.5px;
+  color: var(--text-sub);
+  margin-top: 2px;
+}
+
+/* Footer */
+.footer {
+  background: var(--bg-alt);
+  padding: 30px 20px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-sub);
+  border-top: 1px solid var(--border);
+  margin-top: 20px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .hero h1 { font-size: 24px; }
+  .section-number { font-size: 40px; }
+  h2 { font-size: 19px; }
+  .comp-table { font-size: 12px; }
+  .comp-table thead th, .comp-table tbody td { padding: 8px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-label">Part 2 · 4강</div>
+    <h1><span>원화가치 몰락</span>에 따른<br>대응 방법</h1>
+    <p class="hero-sub">미국 증시 및 거시경제 관점 심층 분석</p>
+    <div class="hero-meta">
+      <span>2026.02.27</span>
+      <span>박종원 강의 분석</span>
+      <span>매거진 에디토리얼</span>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+<!-- EXECUTIVE SUMMARY -->
+<section class="section fade-in">
+  <div class="section-number">00</div>
+  <h2>Executive <span class="accent">Summary</span></h2>
+  <p>한국 원화의 구조적 약세가 가속화되고 있다. 일본 엔화의 14년간 반토막 궤적을 따라가되, 한국의 더 취약한 기초체력(G10 vs G2, 출산율 0.8 vs 1.1, 가구자산 75% 부동산 편중)으로 인해 <strong>더 빠른 속도</strong>의 통화가치 하락이 예상된다. 이는 미국 투자자에게 한국 자산의 통화 리스크를 재평가할 필요성을, 한국 투자자에게는 글로벌 자산 분산의 시급성을 의미한다.</p>
+
+  <div class="highlight-box">
+    <strong>핵심 메시지:</strong> 원화가치 하락은 선형이 아닌 <strong>계단식(Staircase Pattern)</strong>으로 진행된다. 에너지 응축 → 급락 → 안정 → 재응축 → 재급락의 패턴이 3~4년 주기로 반복되며, 현재 한국은 저금리 함정의 1단계와 2단계가 동시 진행 중이다.
+  </div>
+</section>
+
+<!-- 1. 일본 선례 -->
+<section class="section fade-in">
+  <div class="section-number">01</div>
+  <h2>일본의 <span class="accent">선례</span>: 슈퍼 엔화에서 엔화 붕괴까지</h2>
+
+  <p>일본은 한국이 걸어갈 경제적 궤적의 가장 직접적인 선행 사례다. '야스이 니폰(값싼 일본)'이라는 베스트셀러가 보여주듯, 일본은 세계 2위 경제대국에서 "외국인이 싸다고 느끼는 나라"로 전락했다. 일본의 대졸 초임이 한국의 70% 수준까지 떨어졌다는 사실은 엔화 약세의 실질적 영향을 적나라하게 보여준다.</p>
+
+  <h3>슈퍼 엔화 시대 (1985~2012)</h3>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="year">1985</div>
+      <div class="event">플라자 합의 직전 1달러 = 240엔 → 합의 후 2년 만에 120엔으로 급등 (한국 환율로 치면 1,400원 → 700원 수준)</div>
+    </div>
+    <div class="timeline-item">
+      <div class="year">1989</div>
+      <div class="event">버블 절정 — 미쓰비시, 록펠러 센터 8.4억 달러 매입. 야스다 상사, 반 고흐 '해바라기' 3,990만 달러(580억 원) 매입 → 현재 가치 약 6,000억 원</div>
+    </div>
+    <div class="timeline-item">
+      <div class="year">1995</div>
+      <div class="event">1달러 = 80엔 도달 (한국 환율 기준 400~500원 수준). 버블 붕괴 후에도 실물경제 견조</div>
+    </div>
+    <div class="timeline-item">
+      <div class="year">2012</div>
+      <div class="event">글로벌 금융위기 속 엔화 안전자산 선호로 80엔대 유지. 아베노믹스 시작 직전</div>
+    </div>
+  </div>
+
+  <h3>엔화 붕괴 시대 (2012~현재)</h3>
+  <p>아베노믹스 개시 이후 엔화는 14년간 <strong>80엔 → 156엔</strong>으로 약 반토막이 났다. 이는 한국 환율로 비유하면 1,400원이 2,800원이 된 것과 같은 충격이다.</p>
+
+  <div class="chart-container fade-in">
+    <div class="chart-title">📉 엔화 환율 추이 (USD/JPY) — 계단식 붕괴 패턴</div>
+    <canvas id="yenChart" height="240"></canvas>
+  </div>
+
+  <p>엔화 붕괴의 3대 원인은 명확하다: ①대규모 양적완화(아베노믹스), ②초저금리의 장기화, ③재정 확대로 인한 국가부채 폭증. 이 세 가지가 14년간 지속되면서 엔화가치를 체계적으로 잠식했다.</p>
+</section>
+
+<!-- 2. 한일 평행이론 -->
+<section class="section fade-in">
+  <div class="section-number">02</div>
+  <h2>한국 2022 ≈ 일본 2012: <span class="accent">평행이론</span></h2>
+
+  <p>한국의 2022년 경제정책 환경은 일본의 2012년과 놀라울 정도로 닮아 있다. 다만 결정적 차이는 <strong>한국의 기초체력이 일본보다 현저히 약하다</strong>는 점이다.</p>
+
+  <table class="comp-table fade-in">
+    <thead>
+      <tr><th>비교 항목</th><th>일본</th><th>한국</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>경제 규모</td><td>G2 도달 이력</td><td>G10이 한계</td></tr>
+      <tr><td>통화량 확대</td><td>아베노믹스 양적완화</td><td>저성장기 M2 지속 증가</td></tr>
+      <tr><td>금리 정책</td><td>제로금리 (G2 기반)</td><td>저금리 (G10 기반, 실질 효과 유사)</td></tr>
+      <tr><td>재정 확대</td><td>국가부채 폭증</td><td>세수펑크 + 확장재정 (정권 불문)</td></tr>
+      <tr><td>합계출산율</td><td>1.3 (2007~08) → 1.1 (최근)</td><td>0.75 → 0.8 (약간 회복)</td></tr>
+      <tr><td>출산율 하락 속도</td><td>2.1→1.3 약 30년</td><td>급격 하락, 훨씬 빠름</td></tr>
+      <tr><td>순대외자산</td><td>4조 달러 (약 6,000조 원)</td><td>상대적으로 미미</td></tr>
+      <tr><td>가구자산 구성</td><td>해외자산 풍부</td><td>75%가 부동산(로컬 자산)</td></tr>
+      <tr><td>엔/원 붕괴 시작</td><td>2012년</td><td>2022년</td></tr>
+      <tr><td>1차 환율 상승</td><td>3년 (80→120엔)</td><td>2년 (1,200→1,480원)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="warning-box fade-in">
+    <strong>⚠ 핵심 리스크:</strong> 일본은 30년간 슈퍼 엔화 시대에 축적한 해외자산(순대외채권 4조 달러)이 14년간의 엔화 약세를 버틸 수 있는 완충재 역할을 했다. 반면 한국은 가구자산의 75%가 부동산에 편중되어 있어, 통화가치 급락 시 실질 자산 방어력이 현저히 떨어진다.
+  </div>
+
+  <div class="chart-container fade-in">
+    <div class="chart-title">📊 한국 vs 일본 — 환율 변동 비교 (시작점 = 100 기준)</div>
+    <canvas id="compChart" height="240"></canvas>
+  </div>
+</section>
+
+<!-- 3. 인구구조와 통화가치 -->
+<section class="section fade-in">
+  <div class="section-number">03</div>
+  <h2>인구구조 악화와 <span class="accent">통화가치</span>의 관계</h2>
+
+  <p>통화가치는 본질적으로 <strong>그 나라의 '주가'</strong>와 같다. 성장 잠재력이 높은 나라의 통화는 올라가고, 추락하는 나라의 통화는 떨어진다. 인구 감소는 이 메커니즘의 핵심 변수다.</p>
+
+  <h3>인구 감소 → 통화가치 하락의 경로</h3>
+
+  <div class="info-box fade-in">
+    <p style="margin-bottom:10px"><strong>① 성장 잠재력 약화:</strong> 생산가능인구 감소로 대한민국 영토 내 생산 활동이 위축. 삼성전자가 미국에서 잘 팔아도 한국 내 공장 생산이 줄면 달러 유입 감소.</p>
+    <p style="margin-bottom:10px"><strong>② 무역흑자 축소:</strong> 소비 위주의 고령인구 급증. 수출 생산기반 약화와 수입 증가의 이중 압박.</p>
+    <p style="margin-bottom:10px"><strong>③ 부양비 폭증 → 재정적자:</strong> 세금 낼 인구는 줄고 복지 수혜 인구는 급증. 로보틱스로도 해결 불가(세수 기반 자체가 붕괴).</p>
+    <p style="margin-bottom:0"><strong>④ 국채 발행 → 중앙은행 매입 → 통화가치 하락:</strong> 국채를 사줄 시장참여자 부족 → 중앙은행이 직·간접적으로 떠받침 → 통화량 팽창.</p>
+  </div>
+
+  <div class="chart-container fade-in">
+    <div class="chart-title">📉 한국 vs 일본 합계출산율 비교</div>
+    <canvas id="fertilityChart" height="220"></canvas>
+  </div>
+
+  <div class="takeaway fade-in">
+    <h3>미국 증시 시사점</h3>
+    <p>한국의 인구절벽은 원화 약세를 <strong>구조적·장기적</strong>으로 고착화시키는 요인이다. 미국 투자자가 한국 주식(KOSPI)이나 원화 표시 자산에 투자할 경우, <strong>주가 수익률에서 통화 절하분을 반드시 차감</strong>해야 실질 수익률을 알 수 있다. 반대로, 한국 투자자의 달러 자산(S&P 500, NASDAQ 등) 투자는 환율 이익까지 추가될 수 있는 구조다.</p>
+  </div>
+</section>
+
+<!-- 4. 저금리 함정 3단계 -->
+<section class="section fade-in">
+  <div class="section-number">04</div>
+  <h2>저금리 함정의 <span class="accent">3단계</span></h2>
+
+  <p>고령화 사회에서 저금리는 축복이 아니라 함정이다. 일본이 먼저 밟은 이 3단계 경로는 한국에도 적용되고 있으며, 현재 <strong>1단계와 2단계가 동시 진행</strong> 중이다.</p>
+
+  <div class="stage-flow fade-in">
+    <div class="stage-card active">
+      <span class="stage-num">1</span>
+      <strong>국내 자산 폭등</strong><br>
+      <span style="font-size:11px">금리 인하 + 돈 풀기<br>→ 자산가격만 상승<br>경기 회복 없음<br><span class="tag tag-red">현재 진행 중</span></span>
+    </div>
+    <div class="stage-card active" style="background:#1a1a1a; color:#fff;">
+      <span class="stage-num" style="color:var(--accent2)">2</span>
+      <strong>자본 해외 유출</strong><br>
+      <span style="font-size:11px;color:rgba(255,255,255,0.7)">국내 자산 한계 인식<br>→ 달러 매수 급증<br>→ 원화가치 추가 하락<br><span class="tag tag-red">시작 단계</span></span>
+    </div>
+    <div class="stage-card upcoming">
+      <span class="stage-num">3</span>
+      <strong>시장금리 급등</strong><br>
+      <span style="font-size:11px">기준금리 무관하게<br>시장금리 상승<br>자산가격 동반 하락<br><span class="tag tag-gray">미도래</span></span>
+    </div>
+  </div>
+
+  <h3>1단계: 자산 인플레이션의 현실</h3>
+  <p>2022년 이후 한국은 경기 부양을 위해 팽창적 통화정책과 확장적 재정정책을 동시 시행 중이다. 그 결과 <strong>경기는 좋아지지 않고 자산 가격만 상승</strong>하는 전형적 1단계 현상이 나타나고 있다. 코스피 상승, 부동산 가격 급등이 대표적이다.</p>
+
+  <h3>은마아파트의 교훈 — 원화 기준 vs 금 기준</h3>
+  <p>원화 기준으로 은마아파트는 크게 올랐지만, 금으로 환산하면 전혀 다른 그림이 나온다. 이것이야말로 원화가치 하락의 실체를 보여주는 사례다.</p>
+
+  <div class="chart-container fade-in">
+    <div class="chart-title">🏠 은마아파트 가격 — 원화 vs 금 환산 (금 kg 기준)</div>
+    <canvas id="eumaChart" height="220"></canvas>
+  </div>
+
+  <table class="comp-table fade-in">
+    <thead>
+      <tr><th>연도</th><th>은마아파트 시세</th><th>금 1kg 가격</th><th>금 환산</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>2005년</td><td>7.5억 원</td><td>1,860만 원</td><td><strong>약 40kg</strong></td></tr>
+      <tr><td>2015년</td><td>12억 원</td><td>약 4,500만 원</td><td>약 27kg</td></tr>
+      <tr><td>2025년</td><td>37억 원</td><td>2.4억 원</td><td><strong>약 15kg</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="highlight-box">
+    금으로 환산하면 은마아파트는 20년간 <strong>⅓ 토막</strong>이 났다. 원화의 구매력이 그만큼 빠르게 하락하고 있다는 것이며, 2005년 이후 돈 가치 하락 속도가 자산 가격 상승 속도를 추월하기 시작한 것이다.
+  </div>
+
+  <h3>화폐의 역사적 관점</h3>
+  <p>금·은은 6,000년간 인류가 사용해온 전통 화폐다. 미국 달러 종이돈은 170년, 한국 원화는 불과 64년의 역사에 불과하다. 오래된 화폐일수록 사람들이 본능적으로 '진짜 돈'으로 인식하는 경향이 있으며, 이는 위기 시 금으로의 자금 이동을 설명하는 근본적 배경이다.</p>
+</section>
+
+<!-- 5. 3단계 경보 신호 -->
+<section class="section fade-in">
+  <div class="section-number">05</div>
+  <h2>3단계 도래의 <span class="accent">경보 신호</span></h2>
+
+  <p>아직 3단계(시장금리 급등)는 시작되지 않았다. 그러나 그 신호를 사전에 인지하는 것이 투자 안전을 지키는 핵심이다.</p>
+
+  <h3>경보 신호 ① — 회사채 동맥경화</h3>
+  <p>우량 기업의 회사채가 유찰되는 현상이다. 2022년 말 레고랜드 사태 당시 이미 한 번 발작적으로 경험했다. 당시에는 정부 개입과 한국은행의 유동성 공급으로 막았지만, 자본 해외 유출이 심화되면 같은 대응이 불가능해질 수 있다.</p>
+
+  <h3>경보 신호 ② — 10년물 국채금리 급등</h3>
+  <p>현재 한국 10년물 국채금리는 약 3.4%까지 안정되었으나, 기준금리 인하에도 불구하고 시장금리가 오르는 이상 현상이 이미 나타나고 있다. 작년 7월 3.6% → 올해 1월 3.7% 돌파까지 겪었다.</p>
+
+  <div class="signal-meter fade-in">
+    <div class="signal-row">
+      <div class="signal-level green">안전</div>
+      <div class="signal-info">
+        <strong>10년물 금리 3.4% 이하 (현재)</strong>
+        아직 긴장 불필요. 정상 범위 내.
+      </div>
+    </div>
+    <div class="signal-row">
+      <div class="signal-level yellow">주의</div>
+      <div class="signal-info">
+        <strong>10년물 금리 3.8~3.9%</strong>
+        시장금리 상승 추세 주시 필요.
+      </div>
+    </div>
+    <div class="signal-row">
+      <div class="signal-level orange">경계</div>
+      <div class="signal-info">
+        <strong>10년물 금리 4.0% 돌파</strong>
+        경계경보 — 포트폴리오 방어적 전환 시점.
+      </div>
+    </div>
+    <div class="signal-row">
+      <div class="signal-level orange">대피</div>
+      <div class="signal-info">
+        <strong>10년물 금리 4.5% 돌파</strong>
+        대피신호 — 위험자산 비중 축소.
+      </div>
+    </div>
+    <div class="signal-row">
+      <div class="signal-level red">위기</div>
+      <div class="signal-info">
+        <strong>10년물 금리 5.0% 초과</strong>
+        위기신호 — 긴급 대응 필요.
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-container fade-in">
+    <div class="chart-title">📈 한국 10년물 국채금리 추이와 경보 구간</div>
+    <canvas id="bondChart" height="240"></canvas>
+  </div>
+
+  <h3>경보 신호 ③ — 죽음의 나선 (Death Spiral)</h3>
+
+  <div class="warning-box fade-in">
+    <strong>⚠ 최악의 시나리오: 금리 상승 + 환율 동반 상승</strong><br><br>
+    일반적으로 금리가 오르면 외국 자본이 유입되어 환율이 안정되어야 한다. 그런데 <strong>금리가 오르는데도 환율(원/달러)이 함께 상승</strong>한다면 — 이는 "이자를 더 줘도 한국을 떠나겠다"는 시장의 신호다.<br><br>
+    이것이 전형적인 <strong>신흥국 위기</strong>의 전조 현상이며, 아직 한국에서는 발생하지 않았으나 감시가 필요하다.
+  </div>
+
+  <h3>일본의 엔캐리 트레이드와 한국 영향</h3>
+  <p>일본 금리 급등 시, 엔캐리 트레이드 청산은 미국이 아닌 한국과 신흥국에서 먼저 발생한다. 올해 1월 일본 30년물 국채금리(3.63%)가 한국(3.59%)을 추월한 건국 이래 최초의 사건은, 일본의 3단계 진입이 한국에 직접적 전이 리스크가 된다는 증거다.</p>
+</section>
+
+<!-- 6. 투자 전략 -->
+<section class="section fade-in">
+  <div class="section-number">06</div>
+  <h2>수익성과 안정성을 동시에 지키는 <span class="accent">투자 전략</span></h2>
+
+  <h3>로컬 자산 vs 글로벌 자산</h3>
+  <table class="comp-table fade-in">
+    <thead>
+      <tr><th>구분</th><th>로컬 자산</th><th>글로벌 자산</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>종류</td><td>원화, 한국 부동산, KOSPI</td><td>달러, 금, S&P 500, NASDAQ</td></tr>
+      <tr><td>의존 요인</td><td>한국 경제·신용·미래</td><td>글로벌 경제, 기축통화 지위</td></tr>
+      <tr><td>원화 약세 시</td><td>실질가치 하락</td><td>환차익 추가 발생</td></tr>
+      <tr><td>유동성</td><td>부동산은 비유동적</td><td>높은 유동성</td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>핵심 전략:</strong> 로컬 자산이 오를 때를 활용하여 글로벌 자산을 확보하는 것. 즉, 코스피 상승이나 부동산 가격 상승 시의 수익을 달러·금 등 글로벌 자산으로 전환하는 투자 프레임이 필요하다.</p>
+
+  <h3>코스피 투자자 구분</h3>
+  <div class="strategy-grid fade-in">
+    <div class="strategy-item">
+      <div class="label">기존 투자자</div>
+      <div class="title">안전마진 확보 상태</div>
+      <div class="desc">작년부터 코스피에 투자한 분들은 안전마진이 크다. 일시적 조정에도 기다리거나 익절 가능. 여유자금은 달러 자산 확보에 활용 권장.</div>
+    </div>
+    <div class="strategy-item">
+      <div class="label">미투자자</div>
+      <div class="title">펀치카드를 아껴라</div>
+      <div class="desc">워렌 버핏의 '인생 20번 펀치카드' 원칙. 미국에서 4년마다 20% 이상 폭락이 발생하며, 이때 한국은 30~40% 하락. <strong>급등기의 끝머리보다 폭락 후 회복기가 진정한 매수 기회.</strong></div>
+    </div>
+  </div>
+
+  <h3>달러 환전 전략</h3>
+
+  <div class="chart-container fade-in">
+    <div class="chart-title">💱 원/달러 환율과 1년·3년 평균선</div>
+    <canvas id="fxChart" height="240"></canvas>
+  </div>
+
+  <div class="strategy-grid fade-in">
+    <div class="strategy-item">
+      <div class="label">보수적 전략</div>
+      <div class="title">3년 평균 이하 매수 (현재 약 1,370원)</div>
+      <div class="desc">가장 확실한 매수 기회이나 현재 환율 수준에서 도달이 어려움. 이미 달러 자산이 충분한 경우 이 기준 유지.</div>
+    </div>
+    <div class="strategy-item">
+      <div class="label">기본 전략 (권장)</div>
+      <div class="title">1년 평균 이하 매수 (현재 약 1,420원)</div>
+      <div class="desc">현실적으로 접근 가능한 기준. 환율이 이 수준 이하로 하락할 때마다 분할 환전.</div>
+    </div>
+    <div class="strategy-item">
+      <div class="label">공격적 전략</div>
+      <div class="title">6개월 평균 이하 매수 (현재 약 1,435원)</div>
+      <div class="desc">달러 자산이 전혀 없는 경우 검토. 여러 차례 분할 매수로 리스크 분산.</div>
+    </div>
+  </div>
+
+  <h3>금·은 투자 전략 (양동작전)</h3>
+
+  <div class="info-box fade-in">
+    <p style="margin-bottom:10px"><strong>🛡 금 = 방패:</strong> 달러조차 약화될 것에 대비한 궁극적 안전자산. 불리온 뱅크(미국 초대형 은행)가 금값을 급락시킬 때가 매수 기회. 2월 2일 조정 시 금 1g = 21만 원 → 현재 23.4만 원으로 회복. KRX 금시장 매수 선호(수수료·부가세 절감).</p>
+    <p style="margin-bottom:0"><strong>⚔ 은 = 창:</strong> 금보다 변동성이 크고, 에너지 화폐로의 전환 중. 상승 시 금보다 크게 오르지만, 하락 시에도 더 크게 떨어짐. 은의 별명은 '악마의 금속' — 소량 편입으로 베타값(변동성 프리미엄) 확보.</p>
+  </div>
+</section>
+
+<!-- 7. 미국 증시 시사점 -->
+<section class="section fade-in">
+  <div class="section-number">07</div>
+  <h2>미국 증시·<span class="accent">연준 정책</span> 시사점</h2>
+
+  <h3>연준과 한국의 연결고리</h3>
+  <p>연준의 금리 정책은 한국의 원화가치에 직접적 영향을 미친다. 연준이 고금리를 유지할수록 한미 금리차가 확대되고, 이는 원화 약세 압력을 가중시킨다. 한국은행이 기준금리를 인하해도 시장금리가 오르는 현상(기준금리-시장금리 디커플링)은, 연준 정책과 한국 내부 요인이 복합적으로 작용한 결과다.</p>
+
+  <h3>글로벌 자산 지위의 변화</h3>
+  <p>미국의 자국중심주의(패권전쟁)로 인해 나스닥, 미국 국채 등의 '글로벌 자산' 지위가 점진적으로 약화되고 있다. 이는 '더러운 셔츠 이론'으로 설명된다 — 모든 통화가 더러워지는 가운데, 달러는 "그나마 덜 더러운 셔츠"에 불과하다. 달러마저 약화될 것에 대비해 금을 보유하는 것이 양동작전의 핵심이다.</p>
+
+  <div class="chart-container fade-in">
+    <div class="chart-title">⚖ 투자 전략 포트폴리오 프레임워크</div>
+    <canvas id="portfolioChart" height="220"></canvas>
+  </div>
+
+  <div class="takeaway fade-in">
+    <h3>종합 투자 프레임워크</h3>
+    <p><strong>변동성은 사다리다.</strong> 올라가는 사다리로 활용할지, 끊어지는 사다리로 추락할지는 준비에 달려 있다. 로컬 자산 상승기에 글로벌 자산을 확보하고, 환율 하락 시 분할 환전하며, 금리·환율 동반 상승이라는 최악의 시나리오에 대한 경보 체계를 유지하는 것이 핵심이다.</p>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p>본 문서는 박종원 강의(Part2 4강)의 내용을 미국 증시 및 경제적 관점에서 분석한 자료입니다.</p>
+  <p>투자 판단의 참고 자료이며, 투자의 최종 결정과 책임은 투자자 본인에게 있습니다.</p>
+  <p style="margin-top:8px">© 2026 Analysis Report</p>
+</div>
+
+<script>
+// ========== INTERSECTION OBSERVERS ==========
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+const chartConfigs = {};
+
+// ========== CHART 1: Yen Exchange Rate ==========
+chartConfigs['yenChart'] = () => {
+  new Chart(document.getElementById('yenChart'), {
+    type: 'line',
+    data: {
+      labels: ['1985','1987','1990','1995','2000','2005','2008','2012','2015','2018','2021','2024','2026'],
+      datasets: [{
+        label: 'USD/JPY 환율',
+        data: [240, 120, 145, 80, 105, 110, 90, 80, 120, 110, 110, 155, 156],
+        borderColor: '#e11d48',
+        backgroundColor: 'rgba(225,29,72,0.08)',
+        fill: true,
+        tension: 0.3,
+        borderWidth: 2.5,
+        pointRadius: 4,
+        pointBackgroundColor: '#e11d48'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => `1달러 = ${ctx.parsed.y}엔`
+          }
+        }
+      },
+      scales: {
+        y: {
+          reverse: false,
+          title: { display: true, text: '엔/달러', font: { size: 11 } },
+          grid: { color: 'rgba(0,0,0,0.05)' }
+        },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+};
+
+// ========== CHART 2: Korea vs Japan Comparison ==========
+chartConfigs['compChart'] = () => {
+  new Chart(document.getElementById('compChart'), {
+    type: 'line',
+    data: {
+      labels: ['시작점(T=0)', 'T+1년', 'T+2년', 'T+3년', 'T+4년', 'T+6년', 'T+9년'],
+      datasets: [{
+        label: '일본 엔화 (2012~)',
+        data: [100, 115, 130, 150, 145, 140, 195],
+        borderColor: '#6b7280',
+        backgroundColor: 'rgba(107,114,128,0.08)',
+        fill: true,
+        tension: 0.3,
+        borderWidth: 2,
+        borderDash: [6, 3],
+        pointRadius: 3
+      },{
+        label: '한국 원화 (2022~)',
+        data: [100, 108, 120, 118, 122, null, null],
+        borderColor: '#e11d48',
+        backgroundColor: 'rgba(225,29,72,0.08)',
+        fill: true,
+        tension: 0.3,
+        borderWidth: 2.5,
+        pointRadius: 4,
+        pointBackgroundColor: '#e11d48'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 16 } }
+      },
+      scales: {
+        y: {
+          title: { display: true, text: '환율 지수 (시작=100)', font: { size: 11 } },
+          grid: { color: 'rgba(0,0,0,0.05)' }
+        },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+};
+
+// ========== CHART 3: Fertility Rate ==========
+chartConfigs['fertilityChart'] = () => {
+  new Chart(document.getElementById('fertilityChart'), {
+    type: 'bar',
+    data: {
+      labels: ['일본 2007', '일본 2012', '일본 최근', '한국 2015', '한국 최저', '한국 2025'],
+      datasets: [{
+        label: '합계출산율',
+        data: [1.3, 1.3, 1.1, 1.24, 0.75, 0.8],
+        backgroundColor: ['#6b7280','#6b7280','#1a1a1a','#f43f5e','#e11d48','#e11d48'],
+        borderRadius: 6,
+        barThickness: 28
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: { label: ctx => `출산율: ${ctx.parsed.y}` }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 1.6,
+          title: { display: true, text: '합계출산율', font: { size: 11 } },
+          grid: { color: 'rgba(0,0,0,0.05)' }
+        },
+        x: {
+          grid: { display: false },
+          ticks: { font: { size: 10 } }
+        }
+      }
+    }
+  });
+};
+
+// ========== CHART 4: Eunma Apartment (Gold kg) ==========
+chartConfigs['eumaChart'] = () => {
+  new Chart(document.getElementById('eumaChart'), {
+    type: 'bar',
+    data: {
+      labels: ['2005년', '2015년', '2025년'],
+      datasets: [{
+        label: '원화 가격 (억 원)',
+        data: [7.5, 12, 37],
+        backgroundColor: '#2563eb',
+        borderRadius: 6,
+        barThickness: 30,
+        yAxisID: 'y'
+      },{
+        label: '금 환산 (kg)',
+        data: [40, 27, 15],
+        backgroundColor: '#e11d48',
+        borderRadius: 6,
+        barThickness: 30,
+        yAxisID: 'y1'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 16 } }
+      },
+      scales: {
+        y: {
+          position: 'left',
+          title: { display: true, text: '억 원', font: { size: 11 } },
+          grid: { color: 'rgba(0,0,0,0.05)' }
+        },
+        y1: {
+          position: 'right',
+          title: { display: true, text: '금 kg', font: { size: 11 } },
+          grid: { display: false }
+        },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+};
+
+// ========== CHART 5: Bond Yield Alert Zones ==========
+chartConfigs['bondChart'] = () => {
+  new Chart(document.getElementById('bondChart'), {
+    type: 'line',
+    data: {
+      labels: ['22.06','22.09','22.12','23.03','23.06','23.09','23.12','24.03','24.06','24.09','24.12','25.03','25.06','25.09','25.12','26.01','26.02'],
+      datasets: [{
+        label: '한국 10년물 금리',
+        data: [3.5, 4.2, 4.6, 3.8, 3.6, 4.1, 3.5, 3.4, 3.3, 3.0, 2.6, 2.9, 3.2, 3.4, 3.6, 3.7, 3.4],
+        borderColor: '#1a1a1a',
+        backgroundColor: 'rgba(26,26,26,0.05)',
+        fill: true,
+        tension: 0.3,
+        borderWidth: 2.5,
+        pointRadius: 3
+      },{
+        label: '경계선 (4.0%)',
+        data: Array(17).fill(4.0),
+        borderColor: '#eab308',
+        borderWidth: 1.5,
+        borderDash: [6, 4],
+        pointRadius: 0,
+        fill: false
+      },{
+        label: '대피선 (4.5%)',
+        data: Array(17).fill(4.5),
+        borderColor: '#ea580c',
+        borderWidth: 1.5,
+        borderDash: [6, 4],
+        pointRadius: 0,
+        fill: false
+      },{
+        label: '위기선 (5.0%)',
+        data: Array(17).fill(5.0),
+        borderColor: '#dc2626',
+        borderWidth: 1.5,
+        borderDash: [6, 4],
+        pointRadius: 0,
+        fill: false
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 10 }, boxWidth: 14 } }
+      },
+      scales: {
+        y: {
+          min: 2.0,
+          max: 5.5,
+          title: { display: true, text: '금리 (%)', font: { size: 11 } },
+          grid: { color: 'rgba(0,0,0,0.05)' }
+        },
+        x: {
+          grid: { display: false },
+          ticks: { font: { size: 9 }, maxRotation: 45 }
+        }
+      }
+    }
+  });
+};
+
+// ========== CHART 6: FX Rate with MA ==========
+chartConfigs['fxChart'] = () => {
+  new Chart(document.getElementById('fxChart'), {
+    type: 'line',
+    data: {
+      labels: ['2019','2020','2021','2022','2023','2024','2025','2026.02'],
+      datasets: [{
+        label: 'USD/KRW 환율',
+        data: [1160, 1180, 1190, 1300, 1310, 1400, 1450, 1440],
+        borderColor: '#e11d48',
+        backgroundColor: 'rgba(225,29,72,0.06)',
+        fill: true,
+        tension: 0.3,
+        borderWidth: 2.5,
+        pointRadius: 4,
+        pointBackgroundColor: '#e11d48'
+      },{
+        label: '1년 평균 (~1,420원)',
+        data: [null, null, null, null, null, null, 1420, 1420],
+        borderColor: '#2563eb',
+        borderWidth: 2,
+        borderDash: [8, 4],
+        pointRadius: 0,
+        fill: false
+      },{
+        label: '3년 평균 (~1,370원)',
+        data: [null, null, null, null, 1370, 1370, 1370, 1370],
+        borderColor: '#6b7280',
+        borderWidth: 2,
+        borderDash: [4, 4],
+        pointRadius: 0,
+        fill: false
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 10 }, boxWidth: 14 } }
+      },
+      scales: {
+        y: {
+          title: { display: true, text: '원/달러', font: { size: 11 } },
+          grid: { color: 'rgba(0,0,0,0.05)' }
+        },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+};
+
+// ========== CHART 7: Portfolio Framework ==========
+chartConfigs['portfolioChart'] = () => {
+  new Chart(document.getElementById('portfolioChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['달러 자산 (미국 주식·ETF)', '금 (KRX 금시장)', '은 (소량)', '코스피 (기존 투자)', '현금 (환전 대기)'],
+      datasets: [{
+        data: [35, 20, 5, 25, 15],
+        backgroundColor: ['#2563eb', '#e11d48', '#f43f5e', '#1a1a1a', '#6b7280'],
+        borderWidth: 2,
+        borderColor: '#ffffff'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '55%',
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { size: 11 }, boxWidth: 12, padding: 10 }
+        },
+        tooltip: {
+          callbacks: { label: ctx => `${ctx.label}: ${ctx.parsed}%` }
+        }
+      }
+    }
+  });
+};
+
+// ========== CHART OBSERVER ==========
+const chartObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const canvas = e.target.querySelector('canvas');
+      if (canvas && chartConfigs[canvas.id]) {
+        chartConfigs[canvas.id]();
+        e.target.classList.add('chart-ready');
+        chartObs.unobserve(e.target);
+      }
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+</script>
+
+</body>
+</html>

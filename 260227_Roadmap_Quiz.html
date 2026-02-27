@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>시험문제 — 원화가치 몰락에 따른 대응 방법</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #ffffff;
+  --bg-alt: #fafafa;
+  --text: #1a1a1a;
+  --text-sub: #777777;
+  --accent: #e11d48;
+  --accent2: #f43f5e;
+  --border: #e5e5e5;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  font-size: 15px;
+}
+.container { max-width: 640px; margin: 0 auto; padding: 0 20px; }
+
+.hero-mini {
+  background: #1a1a1a;
+  padding: 40px 20px 32px;
+  text-align: center;
+}
+.hero-mini h1 {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 24px;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.hero-mini h1 span { color: var(--accent); }
+.hero-mini p { color: rgba(255,255,255,0.5); font-size: 13px; }
+
+.section-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 20px;
+  font-weight: 700;
+  padding: 30px 0 16px;
+  border-bottom: 2px solid var(--accent);
+  margin-bottom: 24px;
+}
+
+.q-card {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  position: relative;
+}
+.q-card .q-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.q-num {
+  background: var(--accent);
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.q-type {
+  font-size: 11px;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+.type-mc { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+.type-ox { background: #fef2f2; color: #e11d48; border: 1px solid #fecaca; }
+.type-short { background: #f3f4f6; color: #6b7280; border: 1px solid #d1d5db; }
+.q-diff {
+  font-size: 10px;
+  margin-left: auto;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 500;
+}
+.diff-easy { background: #dcfce7; color: #16a34a; }
+.diff-mid { background: #fef9c3; color: #a16207; }
+.diff-hard { background: #fecaca; color: #dc2626; }
+
+.q-text {
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+.q-options {
+  display: grid;
+  gap: 8px;
+}
+.q-opt {
+  padding: 10px 14px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.q-opt strong { color: var(--accent); margin-right: 6px; }
+
+.answer-section {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 3px solid var(--accent);
+}
+
+.a-card {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+.a-card:last-child { border-bottom: none; }
+.a-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.a-num {
+  background: #1a1a1a;
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+}
+.a-answer {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 15px;
+}
+.a-explain {
+  font-size: 13.5px;
+  color: var(--text-sub);
+  line-height: 1.7;
+  padding-left: 36px;
+}
+
+.footer {
+  background: var(--bg-alt);
+  padding: 24px 20px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-sub);
+  margin-top: 30px;
+  border-top: 1px solid var(--border);
+}
+
+.toggle-btn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 30px 0;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.toggle-btn:hover { background: var(--accent2); }
+.hidden { display: none; }
+</style>
+</head>
+<body>
+
+<header class="hero-mini">
+  <h1>📝 <span>시험문제</span> 10선</h1>
+  <p>원화가치 몰락에 따른 대응 방법 · Part 2 4강</p>
+</header>
+
+<main class="container">
+
+<!-- =================== 문제 =================== -->
+<div class="section-title">📋 문제 (10문항)</div>
+
+<!-- Q1 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num">1</div>
+    <span class="q-type type-mc">객관식</span>
+    <span class="q-diff diff-easy">쉬움</span>
+  </div>
+  <div class="q-text">원화가치가 하락할 때의 패턴으로 올바른 것은?</div>
+  <div class="q-options">
+    <div class="q-opt"><strong>①</strong> 선형으로 꾸준히 하락한다</div>
+    <div class="q-opt"><strong>②</strong> 계단식으로 에너지를 응축한 뒤 급락한다</div>
+    <div class="q-opt"><strong>③</strong> 항상 V자 반등을 동반한다</div>
+    <div class="q-opt"><strong>④</strong> 매년 일정 비율로 하락한다</div>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num">2</div>
+    <span class="q-type type-ox">OX</span>
+    <span class="q-diff diff-easy">쉬움</span>
+  </div>
+  <div class="q-text">일본의 플라자 합의(1985) 이후 2년 만에 엔/달러 환율이 240엔에서 120엔으로 하락했다. 이는 엔화가치가 2배로 상승한 것이다.</div>
+</div>
+
+<!-- Q3 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num">3</div>
+    <span class="q-type type-mc">객관식</span>
+    <span class="q-diff diff-mid">보통</span>
+  </div>
+  <div class="q-text">일본의 엔화가치 붕괴(2012~2026)를 일으킨 3대 원인으로 적절하지 않은 것은?</div>
+  <div class="q-options">
+    <div class="q-opt"><strong>①</strong> 대규모 양적완화(아베노믹스)</div>
+    <div class="q-opt"><strong>②</strong> 초저금리의 장기화</div>
+    <div class="q-opt"><strong>③</strong> 플라자 합의에 의한 강제 엔저 정책</div>
+    <div class="q-opt"><strong>④</strong> 재정 확대로 인한 국가부채 폭증</div>
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num">4</div>
+    <span class="q-type type-short">단답형</span>
+    <span class="q-diff diff-mid">보통</span>
+  </div>
+  <div class="q-text">일본의 순 대외채권 규모는 약 (   )조 달러(약 6,000조 원)이며, 이것이 14년간 엔화 약세에도 경제가 버틸 수 있었던 핵심 이유다. 빈칸에 들어갈 숫자는?</div>
+</div>
+
+<!-- Q5 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num">5</div>
+    <span class="q-type type-mc">객관식</span>
+    <span class="q-diff diff-mid">보통</span>
+  </div>
+  <div class="q-text">저금리 함정의 3단계 중 현재 한국이 처해 있는 단계는?</div>
+  <div class="q-options">
+    <div class="q-opt"><strong>①</strong> 1단계(국내 자산 폭등)만 진행 중</div>
+    <div class="q-opt"><strong>②</strong> 1단계와 2단계(자본 해외 유출)가 동시 진행 중</div>
+    <div class="q-opt"><strong>③</strong> 2단계만 진행 중</div>
+    <div class="q-opt"><strong>④</strong> 이미 3단계(시장금리 급등)에 진입</div>
+  </div>
+</div>
+
+<!-- Q6 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num">6</div>
+    <span class="q-type type-short">단답형</span>
+    <span class="q-diff diff-easy">쉬움</span>
+  </div>
+  <div class="q-text">은마아파트를 금으로 환산하면 2005년에는 약 40kg이 필요했으나, 2025년에는 약 (   )kg만 있으면 된다. 이는 원화의 실질 구매력이 크게 하락했음을 의미한다.</div>
+</div>
+
+<!-- Q7 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num">7</div>
+    <span class="q-type type-mc">객관식</span>
+    <span class="q-diff diff-mid">보통</span>
+  </div>
+  <div class="q-text">한국 10년물 국채금리에 대한 경보 체계에서, '대피신호'에 해당하는 금리 수준은?</div>
+  <div class="q-options">
+    <div class="q-opt"><strong>①</strong> 3.5%</div>
+    <div class="q-opt"><strong>②</strong> 4.0%</div>
+    <div class="q-opt"><strong>③</strong> 4.5%</div>
+    <div class="q-opt"><strong>④</strong> 5.0%</div>
+  </div>
+</div>
+
+<!-- Q8 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num">8</div>
+    <span class="q-type type-ox">OX</span>
+    <span class="q-diff diff-hard">어려움</span>
+  </div>
+  <div class="q-text">'죽음의 나선(Death Spiral)'이란 금리가 하락하는데 환율이 동반 상승하는 현상을 말하며, 이는 전형적인 신흥국 위기의 전조이다.</div>
+</div>
+
+<!-- Q9 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num">9</div>
+    <span class="q-type type-mc">객관식</span>
+    <span class="q-diff diff-hard">어려움</span>
+  </div>
+  <div class="q-text">달러 환전 전략에서 '1년 평균 이하 매수 전략'의 현재 기준값으로 가장 가까운 것은?</div>
+  <div class="q-options">
+    <div class="q-opt"><strong>①</strong> 약 1,370원</div>
+    <div class="q-opt"><strong>②</strong> 약 1,420원</div>
+    <div class="q-opt"><strong>③</strong> 약 1,435원</div>
+    <div class="q-opt"><strong>④</strong> 약 1,480원</div>
+  </div>
+</div>
+
+<!-- Q10 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num">10</div>
+    <span class="q-type type-mc">객관식</span>
+    <span class="q-diff diff-mid">보통</span>
+  </div>
+  <div class="q-text">금·은 양동작전에서 금과 은의 역할이 올바르게 연결된 것은?</div>
+  <div class="q-options">
+    <div class="q-opt"><strong>①</strong> 금 = 공격적 창, 은 = 방어적 방패</div>
+    <div class="q-opt"><strong>②</strong> 금 = 방패(안전자산), 은 = 창(변동성 프리미엄)</div>
+    <div class="q-opt"><strong>③</strong> 금과 은을 동일 비중으로 보유해야 효과적이다</div>
+    <div class="q-opt"><strong>④</strong> 은이 주력이고 금은 보조 수단이다</div>
+  </div>
+</div>
+
+<!-- 정답 토글 버튼 -->
+<button class="toggle-btn" onclick="document.getElementById('answers').classList.toggle('hidden'); this.textContent = this.textContent.includes('보기') ? '정답 숨기기' : '✅ 정답 및 해설 보기'">✅ 정답 및 해설 보기</button>
+
+<!-- =================== 정답 및 해설 =================== -->
+<div id="answers" class="answer-section hidden">
+  <div class="section-title">✅ 정답 및 해설</div>
+
+  <div class="a-card">
+    <div class="a-header"><div class="a-num">1</div><div class="a-answer">정답: ②</div></div>
+    <div class="a-explain">원화(및 엔화) 가치 하락은 선형이 아니라 계단식으로 진행된다. 정부·중앙은행의 환율 관리로 일정 기간 안정되지만, 에너지가 응축된 후 급격히 한 단계 하락하는 패턴을 보인다. 일본 엔화의 2012→2015(1차)→2021~2024(2차) 상승이 대표적 사례다.</div>
+  </div>
+
+  <div class="a-card">
+    <div class="a-header"><div class="a-num">2</div><div class="a-answer">정답: O</div></div>
+    <div class="a-explain">1달러를 사는 데 필요한 엔화가 240엔에서 120엔으로 줄었으므로, 같은 엔화로 2배의 달러를 살 수 있게 된 것이다. 이는 엔화의 구매력(가치)이 2배로 상승한 것이 맞다. 한국 환율로 비유하면 1,400원→700원 수준의 변화다.</div>
+  </div>
+
+  <div class="a-card">
+    <div class="a-header"><div class="a-num">3</div><div class="a-answer">정답: ③</div></div>
+    <div class="a-explain">플라자 합의(1985)는 오히려 엔화 '강세'를 유도한 사건이지, 엔저 정책이 아니다. 엔화 붕괴의 3대 원인은 ①아베노믹스(대규모 양적완화), ②초저금리의 장기화, ③재정 확대로 인한 국가부채 폭증이다.</div>
+  </div>
+
+  <div class="a-card">
+    <div class="a-header"><div class="a-num">4</div><div class="a-answer">정답: 4 (4조 달러)</div></div>
+    <div class="a-explain">일본은 순 대외채권이 약 4조 달러(약 6,000조 원)에 달한다. 이는 30년간의 슈퍼 엔화 시대에 축적한 해외 자산이며, 14년간의 엔화 약세에도 일본 경제가 버틸 수 있었던 핵심 완충 역할을 했다. 반면 한국은 가구자산의 75%가 부동산에 편중되어 이러한 완충재가 부족하다.</div>
+  </div>
+
+  <div class="a-card">
+    <div class="a-header"><div class="a-num">5</div><div class="a-answer">정답: ②</div></div>
+    <div class="a-explain">현재 한국은 1단계(국내 자산 폭등: 코스피 상승, 부동산 가격 상승)와 2단계(자본 해외 유출 시작: 달러 수요 증가, 환율 상승 압력)가 동시에 진행 중이다. 3단계(기준금리 무관하게 시장금리 급등)는 아직 도래하지 않았다. 일본은 이미 3단계에 진입한 상태다.</div>
+  </div>
+
+  <div class="a-card">
+    <div class="a-header"><div class="a-num">6</div><div class="a-answer">정답: 15 (약 15kg)</div></div>
+    <div class="a-explain">2005년 은마아파트 7.5억 원 ÷ 금 1kg 1,860만 원 = 약 40kg. 2025년 은마아파트 37억 원 ÷ 금 1kg 2.4억 원 = 약 15kg. 원화 기준으로는 아파트 가격이 5배 올랐지만, 실질(금 기준)으로는 ⅓ 토막이 난 것이다.</div>
+  </div>
+
+  <div class="a-card">
+    <div class="a-header"><div class="a-num">7</div><div class="a-answer">정답: ③ (4.5%)</div></div>
+    <div class="a-explain">경보 체계: 4.0% = 경계경보, 4.5% = 대피신호, 5.0% = 위기신호. 주가는 오버슈팅으로 눈을 속일 수 있지만, 금리는 시장 상황을 정직하게 반영하므로 10년물 국채금리를 지속적으로 모니터링하는 것이 중요하다.</div>
+  </div>
+
+  <div class="a-card">
+    <div class="a-header"><div class="a-num">8</div><div class="a-answer">정답: X</div></div>
+    <div class="a-explain">죽음의 나선은 금리가 '상승'하는데 환율도 '동반 상승'하는 현상이다. 금리 '하락'이 아니라 '상승'이 핵심이다. 금리가 올라 높은 이자를 줘도 외국인이 자금을 빼가는 것(환율 상승)이므로, 이는 그 나라에 대한 신뢰가 완전히 무너졌다는 의미다.</div>
+  </div>
+
+  <div class="a-card">
+    <div class="a-header"><div class="a-num">9</div><div class="a-answer">정답: ② (약 1,420원)</div></div>
+    <div class="a-explain">①약 1,370원은 3년 평균 기준, ②약 1,420원이 현재의 1년 평균 기준, ③약 1,435원은 6개월 평균(공격적 전략) 기준이다. 권장 전략은 1년 평균 이하인 약 1,420원 아래에서 분할 환전하는 것이다.</div>
+  </div>
+
+  <div class="a-card">
+    <div class="a-header"><div class="a-num">10</div><div class="a-answer">정답: ②</div></div>
+    <div class="a-explain">금은 방패(안전자산)로서 달러마저 약화될 때를 대비한 궁극적 자산이고, 은은 창(변동성 프리미엄)으로서 상승 시 금보다 더 큰 수익을 기대할 수 있다. 다만 은은 '악마의 금속'이라는 별명처럼 하락 시에도 더 크게 떨어지므로, 소량만 편입해야 한다. 금이 주력, 은이 보조다.</div>
+  </div>
+</div>
+
+</main>
+
+<div class="footer">
+  <p>난이도 구성: 쉬움 30% (3문제) · 보통 50% (5문제) · 어려움 20% (2문제)</p>
+  <p>본 시험문제는 강의 내용 기반으로 작성되었습니다.</p>
+</div>
+
+</body>
+</html>
