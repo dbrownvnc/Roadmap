@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Part 3-1강 | 정보 홍수 속에서 진짜 신호 찾기</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg2: #fafafa;
+    --text: #1a1a1a;
+    --text2: #777777;
+    --accent: #e11d48;
+    --accent2: #f43f5e;
+    --border: #e5e5e5;
+    --table-header: #e11d48;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  /* ── FADE-IN (required pattern) ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .chart-container {
+    position: relative;
+    max-height: 340px;
+  }
+  .chart-container canvas {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    max-height: 300px;
+  }
+  .chart-container.chart-ready canvas {
+    opacity: 1;
+  }
+
+  /* ── HEADER ── */
+  .issue-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 0 12px;
+    border-bottom: 3px solid var(--text);
+    margin-bottom: 8px;
+  }
+  .issue-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text2);
+  }
+  .issue-date {
+    font-size: 10px;
+    color: var(--text2);
+    letter-spacing: 1px;
+  }
+
+  .hero {
+    padding: 36px 0 28px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 6vw, 38px);
+    font-weight: 900;
+    line-height: 1.18;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    margin-bottom: 18px;
+  }
+  .hero h1 em {
+    color: var(--accent);
+    font-style: italic;
+  }
+  .hero-sub {
+    font-family: 'Source Serif 4', serif;
+    font-size: 16px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text2);
+    line-height: 1.6;
+    border-left: 3px solid var(--accent);
+    padding-left: 14px;
+    margin-bottom: 20px;
+  }
+  .hero-meta {
+    font-size: 11px;
+    color: var(--text2);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .hero-meta span {
+    margin-right: 16px;
+  }
+
+  /* ── SECTIONS ── */
+  section { margin-bottom: 44px; }
+
+  .section-label {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 14px;
+    color: var(--text);
+  }
+  h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    margin: 20px 0 8px;
+    color: var(--text);
+  }
+  p {
+    font-family: 'Source Serif 4', serif;
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  /* ── PULL QUOTE ── */
+  .pull-quote {
+    border-top: 2px solid var(--text);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 0;
+    margin: 28px 0;
+  }
+  .pull-quote p {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px;
+    font-weight: 700;
+    font-style: italic;
+    line-height: 1.45;
+    color: var(--text);
+    margin: 0;
+  }
+  .pull-quote .attr {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--text2);
+    text-transform: uppercase;
+    margin-top: 10px;
+  }
+
+  /* ── WAVE CARDS ── */
+  .wave-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .wave-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--border);
+    padding: 16px 18px;
+    position: relative;
+  }
+  .wave-card.swell { border-left-color: #1a1a1a; }
+  .wave-card.wave  { border-left-color: var(--accent); }
+  .wave-card.spray { border-left-color: var(--text2); }
+
+  .wave-card .wc-type {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .wave-card.swell .wc-type { color: #1a1a1a; }
+  .wave-card.wave  .wc-type { color: var(--accent); }
+  .wave-card.spray .wc-type { color: var(--text2); }
+
+  .wave-card .wc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .wave-card .wc-desc {
+    font-size: 13px;
+    color: var(--text2);
+    font-family: 'Source Serif 4', serif;
+    font-weight: 300;
+    margin: 0;
+  }
+  .wave-card .wc-dur {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text2);
+    margin-top: 8px;
+  }
+  .wave-card .wc-dur strong { color: var(--text); }
+
+  /* ── NUMBERED LIST ── */
+  .num-list { list-style: none; margin: 12px 0; padding: 0; }
+  .num-list li {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 14px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+  .num-list li .num {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    background: var(--text);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+  }
+
+  /* ── TABLE ── */
+  .tbl-wrap {
+    overflow-x: auto;
+    margin: 16px 0;
+    border: 1px solid var(--border);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: var(--bg2);
+  }
+  th {
+    background: var(--table-header);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    font-family: 'Source Serif 4', serif;
+    font-weight: 300;
+    color: var(--text);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  td strong {
+    font-weight: 600;
+    color: var(--accent);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+  }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight-box {
+    background: var(--text);
+    color: #fff;
+    padding: 22px 20px;
+    margin: 20px 0;
+  }
+  .highlight-box p {
+    color: #fff;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  .highlight-box p:last-child { margin: 0; }
+  .highlight-box strong { color: var(--accent2); }
+
+  /* ── STAT CHIPS ── */
+  .stat-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 14px 0;
+  }
+  .stat-chip {
+    border: 1px solid var(--border);
+    background: var(--bg2);
+    padding: 12px 16px;
+    flex: 1;
+    min-width: 120px;
+  }
+  .stat-chip .val {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-chip .lbl {
+    font-size: 11px;
+    color: var(--text2);
+    letter-spacing: 0.3px;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 32px 0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding-top: 24px;
+    border-top: 3px solid var(--text);
+    font-size: 10px;
+    color: var(--text2);
+    letter-spacing: 1px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* ── INSIGHT STRIP ── */
+  .insight-strip {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 16px 18px;
+    margin: 14px 0;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .insight-strip .icon {
+    font-size: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .insight-strip .body { font-size: 13px; font-family: 'Source Serif 4', serif; font-weight: 300; line-height: 1.6; }
+  .insight-strip .body strong { font-weight: 600; font-family: 'DM Sans', sans-serif; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<!-- ISSUE BAR -->
+<div class="issue-bar">
+  <span class="issue-label">박종원의 경제로드맵 · Part 3 · 1강</span>
+  <span class="issue-date">2026. 03. 06</span>
+</div>
+
+<!-- HERO -->
+<header class="hero fade-in">
+  <span class="hero-tag">투자 교육 강의 분석</span>
+  <h1>정보 홍수 속에서<br><em>진짜 신호</em> 찾기</h1>
+  <p class="hero-sub">
+    위기의 파도를 타는 서퍼가 되려면, 먼저 너울·파도·물보라를 구별해야 한다.
+    장기 투자의 성패는 IQ가 아니라 감정 통제와 구조적 변화를 읽는 눈에 달려 있다.
+  </p>
+  <div class="hero-meta">
+    <span>📍 미국 증시 · 거시경제</span>
+    <span>⏱ 연준 정책</span>
+    <span>🔵 투자 심리</span>
+  </div>
+</header>
+
+<!-- 01 핵심 프레임워크 -->
+<section class="fade-in">
+  <div class="section-label">01 · Core Framework</div>
+  <h2>세 가지 파도: 너울·파도·물보라</h2>
+  <p>
+    시장에 쏟아지는 모든 정보는 세 종류로 나뉜다.
+    이 구분만 익혀도 투자에서 살아남을 기초 체력이 생긴다.
+  </p>
+
+  <div class="wave-grid">
+    <div class="wave-card swell fade-in">
+      <div class="wc-type">🌊 너울 (Swell)</div>
+      <div class="wc-title">10년 이상을 바꾸는 구조적 변화</div>
+      <p class="wc-desc">한번 방향이 정해지면 다시 되돌아오지 않는 불가역적 거대 변화. 겉보기엔 잔잔하지만 삶을 송두리째 바꾼다.</p>
+      <div class="wc-dur">기간: <strong>10년 ~ 수십년</strong></div>
+    </div>
+    <div class="wave-card wave fade-in">
+      <div class="wc-type">🏄 파도 (Wave)</div>
+      <div class="wc-title">6개월~5년의 경기 사이클</div>
+      <p class="wc-desc">실적, 금리, 반도체 사이클 등 반복되는 순환. 오르막이 있으면 반드시 내리막이 따른다. 실전 투자의 핵심 무대.</p>
+      <div class="wc-dur">기간: <strong>6개월 ~ 5년</strong></div>
+    </div>
+    <div class="wave-card spray fade-in">
+      <div class="wc-type">💦 물보라 (Spray)</div>
+      <div class="wc-title">일회성 뉴스·단기 변동성</div>
+      <p class="wc-desc">테마주, 루머, 일회성 경제 지표. 화려하게 눈앞을 가리지만 밟으면 푹 꺼진다. 초보 투자자가 가장 많이 당하는 함정.</p>
+      <div class="wc-dur">기간: <strong>수일 ~ 수주</strong></div>
+    </div>
+  </div>
+
+  <div class="pull-quote fade-in">
+    <p>"초보 서퍼는 물보라에 당하고, 고수는 저 멀리서 오는 너울을 먼저 알아본다."</p>
+    <div class="attr">— 박종원, Part 3 1강</div>
+  </div>
+</section>
+
+<!-- 02 4대 너울 -->
+<section class="fade-in">
+  <div class="section-label">02 · The Four Swells</div>
+  <h2>앞으로 30년을 결정짓는 4대 너울</h2>
+  <p>
+    너울의 판별 기준은 하나다: <strong>"이것이 10년 뒤에도 영향을 미치는가?"</strong>
+    구조 자체가 변하고, 한 번 바뀌면 다시 옛날로 돌아갈 수 없어야 진짜 너울이다.
+  </p>
+
+  <ul class="num-list">
+    <li>
+      <span class="num">1</span>
+      <div><strong>고령화·저출산</strong> — 이미 30년 미래가 결정돼 있다. 원화 가치 하락의 구조적 원인이다. 젊은 납세자가 줄고 복지 지출은 줄일 수 없으니 국가부채는 필연적으로 증가한다.</div>
+    </li>
+    <li>
+      <span class="num">2</span>
+      <div><strong>미·중 패권전쟁</strong> — 지정학적 디커플링이 경제 구조를 재편한다. 두 경제권이 완전히 나뉘면 진영을 넘나드는 자산(원자재·귀금속)의 중요성이 커진다.</div>
+    </li>
+    <li>
+      <span class="num">3</span>
+      <div><strong>전세계 천문학적 국가부채</strong> — 선진국 공통 현상. 결국 중앙은행이 돈을 찍어 국채를 매입하는 방향으로 수렴한다. 금 장기 우상향의 구조적 근거다.</div>
+    </li>
+    <li>
+      <span class="num">4</span>
+      <div><strong>AI 혁명의 지속성</strong> — 인류가 AI를 맛본 이상 예전으로 돌아갈 수 없다. 다만 진행 속도에는 파도가 있어 선형 상승이 아니다.</div>
+    </li>
+  </ul>
+
+  <div class="insight-strip fade-in">
+    <span class="icon">💡</span>
+    <div class="body">
+      <strong>원화 환율 시사점</strong> — 원화는 한국 경제의 주가와 같다. 고령화·저출산이 구조적으로 진행되면 장기적으로 원화 가치 하락이 불가피하다. 외환당국이 1,500원 선을 2~4년간 억누를 수 있지만 너울을 막을 순 없다. 달러 자산을 포트폴리오에 편입하는 이유가 여기에 있다.
+    </div>
+  </div>
+</section>
+
+<!-- 03 너울 판별 훈련 -->
+<section class="fade-in">
+  <div class="section-label">03 · Identifying Swells</div>
+  <h2>너울을 보는 5가지 질문</h2>
+  <p>경제학 교과서는 "모든 변수는 균형으로 회귀한다"고 가르친다. 이 때문에 저명한 경제학자들이 구조적 변화(너울)를 외생변수·노이즈로 취급하며 놓친다. 진화경제학 관점에서 시장은 회귀하지 않고 새롭게 진화한다.</p>
+
+  <ul class="num-list">
+    <li><span class="num">①</span><div><strong>인구구조와 연관이 있는가?</strong> — 인구 변화는 10~20년 후 경제구조를 통째로 바꾼다.</div></li>
+    <li><span class="num">②</span><div><strong>기술의 본질적 변화인가?</strong> — 3D프린터·PDA는 세상을 바꾸지 못했다. 스마트폰·AI처럼 이전 패러다임을 대체하는지 판단해야 한다.</div></li>
+    <li><span class="num">③</span><div><strong>지정학적 패권 이동인가?</strong> — 감정을 배제하고 냉정하게 파워 밸런스를 읽어야 부의 이동 방향이 보인다.</div></li>
+    <li><span class="num">④</span><div><strong>자원·에너지 구조가 변하는가?</strong> — 진정한 산업혁명은 에너지 구조가 바뀔 때 일어난다. 석탄(1차) → 석유(2차) → ?</div></li>
+    <li><span class="num">⑤</span><div><strong>10년 이상 지속될 흐름인가?</strong> — 사이클이 아닌 단방향 구조 변화여야 진짜 너울이다.</div></li>
+  </ul>
+
+  <div class="highlight-box fade-in">
+    <p><strong>역사적 사례:</strong> 2008년 11월, 영국 여왕 엘리자베스 2세가 런던 정경대 석학들에게 물었다. "왜 아무도 금융위기를 예측하지 못했습니까?" 아무도 대답하지 못했다. 교과서 경제학이 너울(구조적 변화)을 노이즈로 취급하기 때문이다.</p>
+    <p><strong>일론 머스크:</strong> "Economics has 'con' in it." — 경제학자들은 단기 사이클(파도)에 집착하며 장기 구조 변화를 못 본다고 비판했다.</p>
+  </div>
+</section>
+
+<!-- 04 파도 패턴 차트 -->
+<section class="fade-in">
+  <div class="section-label">04 · Wave Patterns</div>
+  <h2>나스닥 하락 사이클의 통계</h2>
+  <p>주가 하락은 무작위가 아니다. 역사적 패턴을 알면 공포에 파는 실수를 줄일 수 있다. 하락폭이 클수록 매수 기회의 안전마진도 커진다.</p>
+
+  <div class="chart-container fade-in">
+    <canvas id="chartCycles" height="230"></canvas>
+  </div>
+
+  <div class="tbl-wrap fade-in">
+    <table>
+      <thead>
+        <tr>
+          <th>하락 규모</th>
+          <th>발생 주기</th>
+          <th>평균 하락폭</th>
+          <th>지속 기간</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>10~20% 조정</td>
+          <td>거의 매년</td>
+          <td><strong>-14%</strong></td>
+          <td>2개월 ~ 6개월</td>
+        </tr>
+        <tr>
+          <td>20% 이상</td>
+          <td>3~4년마다</td>
+          <td><strong>-35%</strong></td>
+          <td>9개월 ~ 13개월</td>
+        </tr>
+        <tr>
+          <td>30% 이상</td>
+          <td>7~8년마다</td>
+          <td><strong>-45%</strong></td>
+          <td>1년 ~ 2년</td>
+        </tr>
+        <tr>
+          <td>50% 이상</td>
+          <td>15년마다</td>
+          <td><strong>-60%</strong></td>
+          <td>2년 ~ 3년</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p style="font-size:13px;color:var(--text2);margin-top:8px;font-style:italic;">
+    ※ 나스닥 역대 최대 일간 상승 Top 4는 모두 폭락장 한복판에서 발생한 데드캣 바운스였다. 역대급 반등이 곧 매수 신호가 아니라는 역설적 교훈이다.
+  </p>
+</section>
+
+<!-- 05 속도 비대칭 -->
+<section class="fade-in">
+  <div class="section-label">05 · Speed Asymmetry</div>
+  <h2>시장의 속도 비대칭성</h2>
+  <p>
+    상승은 에스컬레이터처럼 느리고 불규칙하다. 하락은 엘리베이터 줄이 끊긴 듯 순식간에 떨어진다.
+    이 비대칭성을 이해하지 못하면 반드시 파도를 거꾸로 타게 된다.
+  </p>
+
+  <div class="chart-container fade-in">
+    <canvas id="chartAsym" height="220"></canvas>
+  </div>
+
+  <div class="insight-strip fade-in">
+    <span class="icon">🥇</span>
+    <div class="body">
+      <strong>금값 사례 (최근):</strong> 트로이온스 5,500달러 → 4,900달러 하락에 <strong>48시간</strong>. 4,900달러 → 5,200달러 회복에 <strong>한 달</strong>. 낙폭의 절반만 회복하는 데 약 15배의 시간이 걸렸다.
+    </div>
+  </div>
+
+  <div class="stat-row fade-in">
+    <div class="stat-chip">
+      <div class="val">48h</div>
+      <div class="lbl">금 10% 하락 소요 시간</div>
+    </div>
+    <div class="stat-chip">
+      <div class="val">1mo</div>
+      <div class="lbl">낙폭 절반 회복 시간</div>
+    </div>
+    <div class="stat-chip">
+      <div class="val">16%</div>
+      <div class="lbl">2024년 개인 평균 수익률</div>
+    </div>
+    <div class="stat-chip">
+      <div class="val">25%</div>
+      <div class="lbl">S&P 500 같은 해 상승률</div>
+    </div>
+  </div>
+  <p style="font-size:12px;color:var(--text2);">※ 달바(Dalbar) 연구. 개인이 시장을 9%p 하회한 원인: 공포에 팔고 탐욕에 사는 감정적 행동.</p>
+</section>
+
+<!-- 06 KOSPI 분석 -->
+<section class="fade-in">
+  <div class="section-label">06 · KOSPI Analysis</div>
+  <h2>KOSPI FOMO의 함정</h2>
+  <p>
+    2025년 1분기 KOSPI 2,500 → 2026년 2월 5,900. 상승률 140%(2.4배).
+    이 시점에 FOMO(Fear of Missing Out)를 느끼고 진입하는 것이 얼마나 위험한지 수치로 확인해야 한다.
+  </p>
+
+  <div class="chart-container fade-in">
+    <canvas id="chartKospi" height="220"></canvas>
+  </div>
+
+  <div class="tbl-wrap fade-in">
+    <table>
+      <thead>
+        <tr><th>시나리오</th><th>기준가</th><th>목표가</th><th>예상 수익률</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>2,500에서 매수 (이미 발생)</td><td>2,500</td><td>5,900</td><td><strong>+140%</strong></td></tr>
+        <tr><td>5,900에서 매수 → 7,000 목표</td><td>5,900</td><td>7,000</td><td><strong>+18.6%</strong></td></tr>
+        <tr><td>5,900에서 매수 → 7,700 목표 (강세론)</td><td>5,900</td><td>7,700</td><td><strong>+30.5%</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight-box fade-in">
+    <p>그래프를 그려보면 5,900에서 7,000~7,700이 얼마나 작은 구간인지 한눈에 보인다. <strong>파도의 정점 근처에서 공포(FOMO)에 진입하는 것은 가장 위험한 서핑 자세다.</strong></p>
+    <p>워렌 버핏은 지금 2년째 현금을 늘리며 기다리고 있다. "투자는 IQ가 아니라 감정을 통제하는 기질의 게임"이라는 그의 원칙이 유효하다.</p>
+  </div>
+</section>
+
+<!-- 07 상승장 주도주 교체 -->
+<section class="fade-in">
+  <div class="section-label">07 · Sector Rotation</div>
+  <h2>상승장마다 반드시 바뀌는 주도주</h2>
+  <p>시대의 요구가 달라지기 때문에 이전 상승장의 주도 섹터가 다음 상승장을 이끄는 경우는 거의 없다.</p>
+
+  <div class="tbl-wrap fade-in">
+    <table>
+      <thead>
+        <tr><th>시기</th><th>주도 섹터</th><th>배경</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>2020~2021</td><td>언택트·인터넷·게임</td><td>코로나 팬데믹</td></tr>
+        <tr><td>2022</td><td>전기차·배터리·에너지</td><td>인플레이션·탄소중립</td></tr>
+        <tr><td>2024~</td><td>AI·GPU·엔비디아 → 메모리 반도체</td><td>AI 혁명 1차 파도</td></tr>
+        <tr><td>Next(불확실)</td><td>로보틱스 / AI 서비스 / 원자재</td><td>AI 2차 파도 여부 판단 필요</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="insight-strip fade-in">
+    <span class="icon">⚠️</span>
+    <div class="body">
+      <strong>로보틱스 주의사항:</strong> 한국 로보틱스 스타트업은 아직 옥석이 가려지지 않았다. 결국 대형 플레이어가 시장을 장악할 가능성이 높아 소형주 투자에는 신중해야 한다. AI 서비스 기업으로의 전환이 없으면 AI 혁명 자체가 쉬어갈 수 있다.
+    </div>
+  </div>
+</section>
+
+<!-- 08 투자 원칙 -->
+<section class="fade-in">
+  <div class="section-label">08 · Investment Principles</div>
+  <h2>서핑을 위한 4가지 핵심 원칙</h2>
+
+  <ul class="num-list">
+    <li>
+      <span class="num">1</span>
+      <div><strong>하락의 기회를 활용하라 (안전마진 확보)</strong> — 주가가 떨어졌을 때 사는 것이 안전마진을 만든다. 정점 근처 진입은 조그만 추가 하락에도 공포 매도를 유발한다.</div>
+    </li>
+    <li>
+      <span class="num">2</span>
+      <div><strong>상승의 지루함을 견뎌라 (속도 비대칭 인식)</strong> — 상승은 느리고 불규칙하다. 조바심에 갈아타거나 조기 매도하면 최종 수익의 대부분을 날린다. 레이 달리오조차 매수 타이밍을 정확히 맞추지 못한다고 고백했다.</div>
+    </li>
+    <li>
+      <span class="num">3</span>
+      <div><strong>역대급 반등에 흔들리지 마라</strong> — 나스닥 역대 상승률 Top 4는 모두 폭락장 한복판의 데드캣 바운스였다. 급반등 이후 다시 폭락이 온 후 재진입하는 패턴이 반복된다.</div>
+    </li>
+    <li>
+      <span class="num">4</span>
+      <div><strong>감정 통제 = AI와 경쟁하는 유일한 무기</strong> — 현재 시장의 실질적 거래 상대방은 AI다. AI가 인간의 감정적 패턴을 학습해 역이용한다. 2024년 개인 평균 수익률(16%) vs S&P 500(25%)의 격차가 이를 증명한다.</div>
+    </li>
+  </ul>
+
+  <div class="pull-quote fade-in">
+    <p>"파도는 무릎에서 사서 어깨에서만 팔아도 된다. 바닥에서 사서 정점에서 팔려다 아무것도 못 먹는 것보다 낫다."</p>
+    <div class="attr">— 박종원, 서핑의 절반의 승리</div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- KEY TAKEAWAYS -->
+<section class="fade-in">
+  <div class="section-label">Summary · 핵심 요약</div>
+  <h2>미국 증시·거시경제 투자 시사점</h2>
+
+  <div class="insight-strip fade-in">
+    <span class="icon">🇺🇸</span>
+    <div class="body">
+      <strong>연준(Fed) 관점:</strong> 전 세계 국가부채 팽창은 중앙은행의 화폐 발행으로 수렴한다. 연준의 QE·저금리 정책이 반복될 수밖에 없는 구조적 이유다. 이는 달러 약세와 실물자산(금·원자재) 장기 강세 논리의 바탕이 된다.
+    </div>
+  </div>
+
+  <div class="insight-strip fade-in">
+    <span class="icon">📊</span>
+    <div class="body">
+      <strong>AI 섹터:</strong> 드러켄밀러는 AI 1차 파도가 마무리됐다고 보고 포트폴리오를 재편했다. 그의 13F 공시는 45일 시차가 있으므로 현재 시점의 세부 포지션 추종은 역효과다. 다음 AI 너울 신호가 포착될 때 재참고해야 한다.
+    </div>
+  </div>
+
+  <div class="insight-strip fade-in">
+    <span class="icon">🥇</span>
+    <div class="body">
+      <strong>금 포트폴리오:</strong> 미국 당국의 선물 증거금 조정 등 단기 개입(물보라·파도)은 통상 3개월 이내 종료. 장기 우상향 너울(국가부채 확대 + 달러 경쟁자 억제)은 유효하다. 전 재산의 10% 비중 제안. 2019년 매수가 1,300달러 → 현재 4,900~5,200달러 구간.
+    </div>
+  </div>
+
+  <div class="insight-strip fade-in">
+    <span class="icon">📉</span>
+    <div class="body">
+      <strong>경기순환 파도:</strong> 나스닥 연간 조정(평균 -14%)은 매수 기회. 3~4년 주기의 -35% 조정은 핵심 적립 구간. 단, 경기 불황 시 금·원자재도 일시 하락하므로 너울(장기 확신)이 없으면 이탈하게 된다.
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>PARK JONG-WON · ECONOMIC ROADMAP</span>
+  <span>PART 3 · LECTURE 1</span>
+</footer>
+
+<script>
+// ── INTERSECTION OBSERVERS (required pattern) ──
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+const chartConfigs = {};
+
+chartConfigs['chartCycles'] = () => {
+  new Chart(document.getElementById('chartCycles'), {
+    type: 'bar',
+    data: {
+      labels: ['10~20% 조정\n(매년)', '20% 이상\n(3~4년)', '30% 이상\n(7~8년)', '50% 이상\n(15년)'],
+      datasets: [{
+        label: '평균 하락폭 (%)',
+        data: [-14, -35, -45, -60],
+        backgroundColor: ['#6b7280', '#e11d48', '#1a1a1a', '#000000'],
+        borderWidth: 0,
+        borderRadius: 2
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => ` 평균 ${ctx.raw}%`
+          }
+        }
+      },
+      scales: {
+        x: {
+          min: -70, max: 0,
+          grid: { color: '#e5e5e5' },
+          ticks: {
+            font: { family: 'DM Sans', size: 11 },
+            color: '#777777',
+            callback: v => v + '%'
+          }
+        },
+        y: {
+          grid: { display: false },
+          ticks: {
+            font: { family: 'DM Sans', size: 11 },
+            color: '#1a1a1a'
+          }
+        }
+      }
+    }
+  });
+};
+
+chartConfigs['chartAsym'] = () => {
+  const labels = Array.from({length: 31}, (_, i) => i);
+  // Simulate: fast drop (48h → ~2 units), slow recovery
+  const data = [];
+  for (let i = 0; i <= 30; i++) {
+    if (i === 0) data.push(100);
+    else if (i === 1) data.push(92);
+    else if (i === 2) data.push(88); // fast drop
+    else {
+      const prev = data[i-1];
+      data.push(Math.min(100, prev + 1.0 + Math.sin(i)*0.3));
+    }
+  }
+  new Chart(document.getElementById('chartAsym'), {
+    type: 'line',
+    data: {
+      labels: labels.map(i => i === 0 ? '0h' : i === 2 ? '48h\n(바닥)' : i === 17 ? '1mo' : i === 30 ? '6mo' : ''),
+      datasets: [{
+        label: '금값 (지수화)',
+        data,
+        borderColor: '#e11d48',
+        backgroundColor: 'rgba(225,29,72,0.07)',
+        fill: true,
+        tension: 0.4,
+        pointRadius: (ctx) => (ctx.dataIndex === 2 || ctx.dataIndex === 0) ? 5 : 0,
+        pointBackgroundColor: '#e11d48'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: false },
+        annotation: {}
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: { font: { family: 'DM Sans', size: 10 }, color: '#777' }
+        },
+        y: {
+          grid: { color: '#e5e5e5' },
+          ticks: {
+            font: { family: 'DM Sans', size: 10 },
+            color: '#777',
+            callback: v => v.toFixed(0)
+          },
+          min: 80, max: 105
+        }
+      }
+    }
+  });
+};
+
+chartConfigs['chartKospi'] = () => {
+  new Chart(document.getElementById('chartKospi'), {
+    type: 'bar',
+    data: {
+      labels: ['2,500→5,900\n(이미 달성)', '5,900→7,000\n(FOMO 진입)', '5,900→7,700\n(강세 시나리오)'],
+      datasets: [{
+        label: '수익률 (%)',
+        data: [140, 18.6, 30.5],
+        backgroundColor: ['#1a1a1a', '#e11d48', '#f43f5e'],
+        borderWidth: 0,
+        borderRadius: 3
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: { label: ctx => ` +${ctx.raw}%` }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: { font: { family: 'DM Sans', size: 10 }, color: '#1a1a1a' }
+        },
+        y: {
+          grid: { color: '#e5e5e5' },
+          ticks: {
+            font: { family: 'DM Sans', size: 11 },
+            color: '#777',
+            callback: v => v + '%'
+          }
+        }
+      }
+    }
+  });
+};
+
+const chartObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const canvas = e.target.querySelector('canvas');
+      if (canvas && chartConfigs[canvas.id]) {
+        chartConfigs[canvas.id]();
+        e.target.classList.add('chart-ready');
+        chartObs.unobserve(e.target);
+      }
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+</script>
+</body>
+</html>
