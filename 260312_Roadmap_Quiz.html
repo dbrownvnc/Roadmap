@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>시험문제 & 정답 | Part 3 · 2강</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Serif+KR:wght@300;400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg2: #fafafa;
+    --text: #1a1a1a;
+    --text2: #777777;
+    --accent: #e11d48;
+    --accent2: #f43f5e;
+    --border: #e5e5e5;
+    --correct: #16a34a;
+    --wrong: #dc2626;
+    --neutral: #2563eb;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Serif KR', serif;
+    font-size: 14px;
+    line-height: 1.8;
+    max-width: 480px;
+    margin: 0 auto;
+    padding-bottom: 60px;
+  }
+
+  /* HEADER */
+  .exam-header {
+    background: var(--text);
+    color: #fff;
+    padding: 32px 20px 24px;
+    border-bottom: 4px solid var(--accent);
+  }
+  .exam-header .tag {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 8px;
+  }
+  .exam-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .exam-header p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.5;
+  }
+  .exam-meta {
+    display: flex;
+    gap: 16px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+  .exam-meta span {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    background: rgba(255,255,255,0.1);
+    padding: 4px 10px;
+    border-radius: 20px;
+    color: rgba(255,255,255,0.8);
+  }
+
+  /* TAB */
+  .tab-bar {
+    display: flex;
+    border-bottom: 2px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 100;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 14px 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: var(--text2);
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* PANELS */
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* QUESTION CARD */
+  .q-card {
+    border-bottom: 1px solid var(--border);
+    padding: 24px 20px;
+  }
+  .q-card:last-child { border-bottom: none; }
+
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .q-num {
+    background: var(--accent);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    min-width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .q-meta {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+  }
+  .badge {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+  }
+  .badge-type { background: #fce7eb; color: var(--accent); }
+  .badge-easy { background: #dcfce7; color: var(--correct); }
+  .badge-medium { background: #fef9c3; color: #854d0e; }
+  .badge-hard { background: #fee2e2; color: var(--wrong); }
+
+  .q-text {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 14px;
+  }
+
+  /* CHOICES */
+  .choices { display: flex; flex-direction: column; gap: 8px; }
+  .choice {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    background: var(--bg2);
+    transition: background 0.15s, border-color 0.15s;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .choice:hover { background: #fce7eb; border-color: var(--accent2); }
+  .choice .choice-num {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .choice.selected { background: #fff1f3; border-color: var(--accent); }
+  .choice.correct { background: #f0fdf4; border-color: var(--correct); }
+  .choice.wrong { background: #fef2f2; border-color: var(--wrong); }
+
+  /* SHORT ANSWER */
+  .short-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: 'Noto Serif KR', serif;
+    font-size: 13px;
+    background: var(--bg2);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .short-input:focus { border-color: var(--accent); }
+
+  /* OX */
+  .ox-buttons { display: flex; gap: 12px; }
+  .ox-btn {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    text-align: center;
+    cursor: pointer;
+    background: var(--bg2);
+    transition: all 0.15s;
+  }
+  .ox-btn:first-child { color: var(--correct); }
+  .ox-btn:last-child { color: var(--wrong); }
+  .ox-btn:hover { transform: scale(1.03); }
+  .ox-btn.selected-o { background: #f0fdf4; border-color: var(--correct); }
+  .ox-btn.selected-x { background: #fef2f2; border-color: var(--wrong); }
+
+  /* CHECK BUTTON */
+  .check-btn {
+    margin-top: 12px;
+    padding: 9px 20px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    border-radius: 2px;
+    transition: background 0.15s;
+  }
+  .check-btn:hover { background: var(--accent2); }
+  .check-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+  /* FEEDBACK */
+  .feedback {
+    display: none;
+    margin-top: 12px;
+    padding: 12px 14px;
+    border-radius: 4px;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .feedback.correct-fb { background: #f0fdf4; border-left: 4px solid var(--correct); color: #166534; }
+  .feedback.wrong-fb { background: #fef2f2; border-left: 4px solid var(--wrong); color: #991b1b; }
+  .feedback .fb-title {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+
+  /* SCORE */
+  .score-bar {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 480px;
+    background: var(--text);
+    color: #fff;
+    padding: 14px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 200;
+  }
+  .score-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--accent2);
+  }
+
+  /* ANSWER PANEL */
+  .answer-card {
+    border-bottom: 1px solid var(--border);
+    padding: 20px 20px;
+  }
+  .answer-card:last-child { border-bottom: none; }
+  .ans-qnum {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .ans-q {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
+  .ans-answer {
+    background: #fce7eb;
+    border-left: 3px solid var(--accent);
+    padding: 8px 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 8px;
+    border-radius: 0 4px 4px 0;
+  }
+  .ans-explain {
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.7;
+    background: var(--bg2);
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<div class="exam-header">
+  <div class="tag">시험문제 · 정답 & 해설</div>
+  <h1>Part 3 · 2강<br>확인 테스트</h1>
+  <p>미래는 절대 직선으로 오지 않는다 — 박종원 강의</p>
+  <div class="exam-meta">
+    <span>📝 총 10문제</span>
+    <span>🟢 쉬움 3문제</span>
+    <span>🟡 보통 5문제</span>
+    <span>🔴 어려움 2문제</span>
+  </div>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('quiz')">문제 풀기</button>
+  <button class="tab-btn" onclick="switchTab('answers')">정답 & 해설</button>
+</div>
+
+<!-- ===================== QUIZ PANEL ===================== -->
+<div id="panel-quiz" class="panel active">
+
+  <!-- Q1 -->
+  <div class="q-card" id="q1">
+    <div class="q-header">
+      <div class="q-num">1</div>
+      <div>
+        <div class="q-meta">
+          <span class="badge badge-type">객관식</span>
+          <span class="badge badge-easy">🟢 쉬움</span>
+        </div>
+        <div class="q-text">혁신 기술이 실생활에 보급될 때 따르는 곡선의 명칭으로 올바른 것은?</div>
+      </div>
+    </div>
+    <div class="choices" data-answer="3" data-id="q1">
+      <div class="choice" onclick="selectChoice(this, 'q1')"><span class="choice-num">①</span> J커브</div>
+      <div class="choice" onclick="selectChoice(this, 'q1')"><span class="choice-num">②</span> 가우시안 곡선</div>
+      <div class="choice" onclick="selectChoice(this, 'q1')"><span class="choice-num">③</span> S자(시그모이드) 커브</div>
+      <div class="choice" onclick="selectChoice(this, 'q1')"><span class="choice-num">④</span> 톱니바퀴형 곡선</div>
+    </div>
+    <button class="check-btn" onclick="checkChoice('q1')" disabled>확인</button>
+    <div class="feedback" id="fb-q1"></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-card" id="q2">
+    <div class="q-header">
+      <div class="q-num">2</div>
+      <div>
+        <div class="q-meta">
+          <span class="badge badge-type">OX</span>
+          <span class="badge badge-easy">🟢 쉬움</span>
+        </div>
+        <div class="q-text">S커브에서 0%에서 10%까지 보급되는 기간은 10%에서 80%까지 보급되는 기간보다 더 짧다.</div>
+      </div>
+    </div>
+    <div class="ox-buttons" id="ox-q2">
+      <div class="ox-btn" onclick="selectOX(this, 'q2', 'O')">O</div>
+      <div class="ox-btn" onclick="selectOX(this, 'q2', 'X')">X</div>
+    </div>
+    <button class="check-btn" onclick="checkOX('q2', 'X')" disabled>확인</button>
+    <div class="feedback" id="fb-q2"></div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-card" id="q3">
+    <div class="q-header">
+      <div class="q-num">3</div>
+      <div>
+        <div class="q-meta">
+          <span class="badge badge-type">객관식</span>
+          <span class="badge badge-easy">🟢 쉬움</span>
+        </div>
+        <div class="q-text">에버럿 로저스 등 학자들이 주장하는 S커브의 '티핑 포인트' 기준 보급률은?</div>
+      </div>
+    </div>
+    <div class="choices" data-answer="2" data-id="q3">
+      <div class="choice" onclick="selectChoice(this, 'q3')"><span class="choice-num">①</span> 10%</div>
+      <div class="choice" onclick="selectChoice(this, 'q3')"><span class="choice-num">②</span> 16%</div>
+      <div class="choice" onclick="selectChoice(this, 'q3')"><span class="choice-num">③</span> 25%</div>
+      <div class="choice" onclick="selectChoice(this, 'q3')"><span class="choice-num">④</span> 50%</div>
+    </div>
+    <button class="check-btn" onclick="checkChoice('q3')" disabled>확인</button>
+    <div class="feedback" id="fb-q3"></div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-card" id="q4">
+    <div class="q-header">
+      <div class="q-num">4</div>
+      <div>
+        <div class="q-meta">
+          <span class="badge badge-type">객관식</span>
+          <span class="badge badge-medium">🟡 보통</span>
+        </div>
+        <div class="q-text">가트너 하이프사이클에서 인간의 기대가 기술 발전 속도를 앞지르는 현상을 이 강의에서 어떻게 표현했는가?</div>
+      </div>
+    </div>
+    <div class="choices" data-answer="4" data-id="q4">
+      <div class="choice" onclick="selectChoice(this, 'q4')"><span class="choice-num">①</span> 기술이 시속 4km, 인간 기대도 시속 4km로 움직인다</div>
+      <div class="choice" onclick="selectChoice(this, 'q4')"><span class="choice-num">②</span> 기술이 시속 300km로 달리는데 인간은 4km로 걷는다</div>
+      <div class="choice" onclick="selectChoice(this, 'q4')"><span class="choice-num">③</span> 기술이 시속 60km, 인간 기대도 시속 60km로 동기화된다</div>
+      <div class="choice" onclick="selectChoice(this, 'q4')"><span class="choice-num">④</span> 기술은 시속 60km, 인간 기대는 시속 300km로 질주한다</div>
+    </div>
+    <button class="check-btn" onclick="checkChoice('q4')" disabled>확인</button>
+    <div class="feedback" id="fb-q4"></div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-card" id="q5">
+    <div class="q-header">
+      <div class="q-num">5</div>
+      <div>
+        <div class="q-meta">
+          <span class="badge badge-type">단답형</span>
+          <span class="badge badge-medium">🟡 보통</span>
+        </div>
+        <div class="q-text">닷컴버블 붕괴 당시 아마존의 주가는 고점 대비 약 몇 분의 1 토막이 났는가? (숫자로 답하시오)</div>
+      </div>
+    </div>
+    <input class="short-input" id="short-q5" type="text" placeholder="예: 5">
+    <button class="check-btn" onclick="checkShort('q5', ['18', '18분의 1', '18배'])" style="margin-top:10px">확인</button>
+    <div class="feedback" id="fb-q5"></div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-card" id="q6">
+    <div class="q-header">
+      <div class="q-num">6</div>
+      <div>
+        <div class="q-meta">
+          <span class="badge badge-type">객관식</span>
+          <span class="badge badge-medium">🟡 보통</span>
+        </div>
+        <div class="q-text">강사가 2026년 현재 전기차 침투율(도로 위 비중)로 제시한 수치는?</div>
+      </div>
+    </div>
+    <div class="choices" data-answer="2" data-id="q6">
+      <div class="choice" onclick="selectChoice(this, 'q6')"><span class="choice-num">①</span> 약 2%</div>
+      <div class="choice" onclick="selectChoice(this, 'q6')"><span class="choice-num">②</span> 약 5%</div>
+      <div class="choice" onclick="selectChoice(this, 'q6')"><span class="choice-num">③</span> 약 16%</div>
+      <div class="choice" onclick="selectChoice(this, 'q6')"><span class="choice-num">④</span> 약 25%</div>
+    </div>
+    <button class="check-btn" onclick="checkChoice('q6')" disabled>확인</button>
+    <div class="feedback" id="fb-q6"></div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-card" id="q7">
+    <div class="q-header">
+      <div class="q-num">7</div>
+      <div>
+        <div class="q-meta">
+          <span class="badge badge-type">OX</span>
+          <span class="badge badge-medium">🟡 보통</span>
+        </div>
+        <div class="q-text">닷컴버블 붕괴 이후 아마존의 주가가 전고점을 회복하는 데 약 9년이 걸렸으며, 강사는 AI 시대 환멸의 골짜기 회복도 9년 이상 걸릴 것으로 전망했다.</div>
+      </div>
+    </div>
+    <div class="ox-buttons" id="ox-q7">
+      <div class="ox-btn" onclick="selectOX(this, 'q7', 'O')">O</div>
+      <div class="ox-btn" onclick="selectOX(this, 'q7', 'X')">X</div>
+    </div>
+    <button class="check-btn" onclick="checkOX('q7', 'X')" disabled>확인</button>
+    <div class="feedback" id="fb-q7"></div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-card" id="q8">
+    <div class="q-header">
+      <div class="q-num">8</div>
+      <div>
+        <div class="q-meta">
+          <span class="badge badge-type">객관식</span>
+          <span class="badge badge-medium">🟡 보통</span>
+        </div>
+        <div class="q-text">강사가 제시한 '하이프사이클에서 정점 경계 신호'로 가장 적절한 것은?</div>
+      </div>
+    </div>
+    <div class="choices" data-answer="3" data-id="q8">
+      <div class="choice" onclick="selectChoice(this, 'q8')"><span class="choice-num">①</span> 주요 언론에서 해당 기술을 비판하는 기사가 늘어날 때</div>
+      <div class="choice" onclick="selectChoice(this, 'q8')"><span class="choice-num">②</span> 관련 기업의 매출이 감소하기 시작할 때</div>
+      <div class="choice" onclick="selectChoice(this, 'q8')"><span class="choice-num">③</span> 주변 사람들에게 투자를 강권하게 될 때</div>
+      <div class="choice" onclick="selectChoice(this, 'q8')"><span class="choice-num">④</span> 정부가 해당 기술에 보조금을 지원할 때</div>
+    </div>
+    <button class="check-btn" onclick="checkChoice('q8')" disabled>확인</button>
+    <div class="feedback" id="fb-q8"></div>
+  </div>
+
+  <!-- Q9 (Hard) -->
+  <div class="q-card" id="q9">
+    <div class="q-header">
+      <div class="q-num">9</div>
+      <div>
+        <div class="q-meta">
+          <span class="badge badge-type">객관식</span>
+          <span class="badge badge-hard">🔴 어려움</span>
+        </div>
+        <div class="q-text">강사가 제시한 '환멸의 골짜기를 건너는 기업' 판별을 위한 3가지 옥석 원칙에 해당하지 않는 것은?</div>
+      </div>
+    </div>
+    <div class="choices" data-answer="4" data-id="q9">
+      <div class="choice" onclick="selectChoice(this, 'q9')"><span class="choice-num">①</span> 강력한 현금 흐름 창출 능력</div>
+      <div class="choice" onclick="selectChoice(this, 'q9')"><span class="choice-num">②</span> 경쟁자 도태 후 시장 점유율 자연 증가</div>
+      <div class="choice" onclick="selectChoice(this, 'q9')"><span class="choice-num">③</span> 다음 시대의 인프라 독점에 투자</div>
+      <div class="choice" onclick="selectChoice(this, 'q9')"><span class="choice-num">④</span> 마케팅과 서사(스토리텔링)의 설득력</div>
+    </div>
+    <button class="check-btn" onclick="checkChoice('q9')" disabled>확인</button>
+    <div class="feedback" id="fb-q9"></div>
+  </div>
+
+  <!-- Q10 (Hard) -->
+  <div class="q-card" id="q10">
+    <div class="q-header">
+      <div class="q-num">10</div>
+      <div>
+        <div class="q-meta">
+          <span class="badge badge-type">단답형</span>
+          <span class="badge badge-hard">🔴 어려움</span>
+        </div>
+        <div class="q-text">강사가 AI 혁명에서 QQQ(나스닥 100 ETF) 투자가 과거보다 적합하지 않다고 보는 핵심 이유를 2가지 이상 서술하시오.</div>
+      </div>
+    </div>
+    <textarea class="short-input" id="short-q10" rows="4" placeholder="자유롭게 서술하세요..."></textarea>
+    <button class="check-btn" onclick="showExplain('q10')" style="margin-top:10px">해설 보기</button>
+    <div class="feedback" id="fb-q10"></div>
+  </div>
+
+</div>
+<!-- ===================== ANSWER PANEL ===================== -->
+<div id="panel-answers" class="panel">
+
+  <div class="answer-card">
+    <div class="ans-qnum">Q1 · 객관식 · 쉬움</div>
+    <div class="ans-q">혁신 기술이 실생활에 보급될 때 따르는 곡선의 명칭으로 올바른 것은?</div>
+    <div class="ans-answer">정답: ③ S자(시그모이드) 커브</div>
+    <div class="ans-explain">자동차, 스마트폰, 인터넷 등 모든 혁신 기술의 실생활 보급은 시그모이드(S자) 곡선을 따릅니다. J커브는 복리 성장, 톱니바퀴형은 지정학적 갈등에 해당합니다.</div>
+  </div>
+
+  <div class="answer-card">
+    <div class="ans-qnum">Q2 · OX · 쉬움</div>
+    <div class="ans-q">S커브에서 0%에서 10%까지 보급 기간 &lt; 10%에서 80%까지 보급 기간이다.</div>
+    <div class="ans-answer">정답: X (거짓)</div>
+    <div class="ans-explain">강의에서 "0%→10% 기간과 10%→나머지 80% 기간이 똑같다"고 설명했습니다. 즉 초반 잠복기가 예상보다 길고, 일단 시작되면 폭발적으로 가속화됩니다. 0→10% 기간이 더 짧다는 설명은 틀렸습니다.</div>
+  </div>
+
+  <div class="answer-card">
+    <div class="ans-qnum">Q3 · 객관식 · 쉬움</div>
+    <div class="ans-q">학자들이 주장하는 티핑 포인트 기준 보급률은?</div>
+    <div class="ans-answer">정답: ② 16%</div>
+    <div class="ans-explain">제프리 무어, 에버럿 로저스 이론 기준 16% 돌파 시 티핑 포인트입니다. 강사 개인적으로는 10~20% 범위를 사용하지만, 학술적 기준은 16%입니다.</div>
+  </div>
+
+  <div class="answer-card">
+    <div class="ans-qnum">Q4 · 객관식 · 보통</div>
+    <div class="ans-q">하이프사이클에서 속도 불일치 표현은?</div>
+    <div class="ans-answer">정답: ④ 기술 60km, 인간 기대 300km</div>
+    <div class="ans-explain">기술은 시속 60km로 꾸준히 발전하는데, 4km로 걷던 인간이 흥분하여 기대치를 300km까지 올립니다. 이 불일치가 하이프사이클의 과도한 정점과 환멸의 골짜기를 만드는 근본 원인입니다.</div>
+  </div>
+
+  <div class="answer-card">
+    <div class="ans-qnum">Q5 · 단답형 · 보통</div>
+    <div class="ans-q">닷컴버블 당시 아마존 주가 하락 배율은?</div>
+    <div class="ans-answer">정답: 18 (18분의 1 토막)</div>
+    <div class="ans-explain">2022년 기준 주가로 환산 시, 정점 5달러 33센트 → 저점 30센트로 약 18분의 1 토막이 났습니다. 그럼에도 2026년 기준 4,200달러로 회복, 저점 대비 약 13,000배 이상 상승했습니다.</div>
+  </div>
+
+  <div class="answer-card">
+    <div class="ans-qnum">Q6 · 객관식 · 보통</div>
+    <div class="ans-q">2026년 현재 전기차 침투율(도로 위 비중)?</div>
+    <div class="ans-answer">정답: ② 약 5%</div>
+    <div class="ans-explain">강사는 26년 전기차 침투율을 "5% 안팎"으로 제시했습니다. 따라서 여전히 잠복기에 해당하며, 티핑 포인트(16%) 달성은 2030년경으로 예상합니다.</div>
+  </div>
+
+  <div class="answer-card">
+    <div class="ans-qnum">Q7 · OX · 보통</div>
+    <div class="ans-q">강사는 AI 환멸의 골짜기 회복도 9년 이상 걸릴 것으로 전망했다.</div>
+    <div class="ans-answer">정답: X (거짓)</div>
+    <div class="ans-explain">강사는 "이번에는 닷컴버블 경험이 있으므로 9년보다 훨씬 빠를 것, 단 9개월은 아닐 것"이라며 "수년 정도 걸릴 것"으로 전망했습니다. 베이비부머 투자자들의 학습 효과 덕분입니다.</div>
+  </div>
+
+  <div class="answer-card">
+    <div class="ans-qnum">Q8 · 객관식 · 보통</div>
+    <div class="ans-q">하이프사이클 정점 경계 신호로 가장 적절한 것은?</div>
+    <div class="ans-answer">정답: ③ 주변에 투자를 강권하게 될 때</div>
+    <div class="ans-explain">강사의 표현: "내가 샀는데 맨 마지막에 산 것 같은 불안감이 들면 남들에게 사라고 난리친다." 이것이 정점 경계 신호입니다. 심리적으로 확인 받으려는 탐욕이 극대화된 상태입니다.</div>
+  </div>
+
+  <div class="answer-card">
+    <div class="ans-qnum">Q9 · 객관식 · 어려움</div>
+    <div class="ans-q">옥석 원칙에 해당하지 않는 것은?</div>
+    <div class="ans-answer">정답: ④ 마케팅과 서사(스토리텔링)의 설득력</div>
+    <div class="ans-explain">강사는 오히려 "서사에 매몰되면 안 된다"고 강조합니다. 3대 원칙은 ①현금 흐름 창출, ②경쟁자 도태 후 점유율 자연 증가, ③다음 시대 인프라 독점입니다. 스토리가 아무리 그럴듯해도 실질 지표가 없으면 의미 없습니다.</div>
+  </div>
+
+  <div class="answer-card">
+    <div class="ans-qnum">Q10 · 단답형 · 어려움</div>
+    <div class="ans-q">AI 시대 QQQ 투자가 과거보다 적합하지 않은 이유 2가지 이상.</div>
+    <div class="ans-answer">모범 답안</div>
+    <div class="ans-explain">
+      <strong>① 살아남는 기업이 극소수:</strong> AI 혁명은 기존 소프트웨어 산업 전체를 대체 가능하여 최종 생존 기업이 3~5개에 불과할 수 있음. QQQ(100개 기업)에 투자하면 망하는 기업을 다수 포함.<br><br>
+      <strong>② 죽는 기업이 지수를 끌어내릴 위험:</strong> 환멸의 골짜기에서 100~200개 AI 기업 중 대다수가 파산하면 분산 ETF의 평균 수익률이 집중 투자보다 낮아질 가능성.<br><br>
+      <strong>③ 닷컴버블과 달리 옥석 격차 극대화:</strong> 살아남는 1~3개 기업은 수천 배 상승하지만, 나머지는 0에 수렴. 이 양극화 환경에서 분산보다 집중이 유리.
+    </div>
+  </div>
+
+</div>
+
+<!-- SCORE BAR -->
+<div class="score-bar" id="score-bar">
+  <span>현재 점수</span>
+  <span class="score-val" id="score-display">0 / 0</span>
+</div>
+
+<script>
+let scores = {};
+let answered = {};
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('panel-' + tab).classList.add('active');
+}
+
+function selectChoice(el, qid) {
+  if (answered[qid]) return;
+  el.closest('.choices').querySelectorAll('.choice').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  el.closest('.q-card').querySelector('.check-btn').disabled = false;
+}
+
+function checkChoice(qid) {
+  if (answered[qid]) return;
+  const choicesEl = document.querySelector(`[data-id="${qid}"]`);
+  const correct = parseInt(choicesEl.dataset.answer);
+  const choices = choicesEl.querySelectorAll('.choice');
+  const selected = choicesEl.querySelector('.choice.selected');
+  if (!selected) return;
+  const selectedIdx = Array.from(choices).indexOf(selected) + 1;
+  answered[qid] = true;
+  choices.forEach((c, i) => {
+    if (i + 1 === correct) c.classList.add('correct');
+    else if (c === selected && selectedIdx !== correct) c.classList.add('wrong');
+  });
+  const fb = document.getElementById('fb-' + qid);
+  if (selectedIdx === correct) {
+    scores[qid] = 1;
+    fb.className = 'feedback correct-fb';
+    fb.innerHTML = '<div class="fb-title">✅ 정답입니다!</div>정답 해설은 [정답 & 해설] 탭에서 확인하세요.';
+  } else {
+    scores[qid] = 0;
+    fb.className = 'feedback wrong-fb';
+    fb.innerHTML = `<div class="fb-title">❌ 오답입니다.</div>정답은 ${correct}번입니다. 해설을 확인해보세요.`;
+  }
+  fb.style.display = 'block';
+  document.querySelector(`#${qid} .check-btn`).disabled = true;
+  updateScore();
+}
+
+function selectOX(el, qid, val) {
+  if (answered[qid]) return;
+  document.querySelectorAll(`#ox-${qid} .ox-btn`).forEach(b => b.className = 'ox-btn');
+  el.classList.add(val === 'O' ? 'selected-o' : 'selected-x');
+  el.dataset.selected = val;
+  document.querySelector(`#${qid} .check-btn`).disabled = false;
+}
+
+function checkOX(qid, correctAnswer) {
+  if (answered[qid]) return;
+  const buttons = document.querySelectorAll(`#ox-${qid} .ox-btn`);
+  let selectedVal = null;
+  buttons.forEach(b => { if (b.dataset.selected) selectedVal = b.dataset.selected; });
+  if (!selectedVal) return;
+  answered[qid] = true;
+  const fb = document.getElementById('fb-' + qid);
+  if (selectedVal === correctAnswer) {
+    scores[qid] = 1;
+    fb.className = 'feedback correct-fb';
+    fb.innerHTML = '<div class="fb-title">✅ 정답입니다!</div>해설은 [정답 & 해설] 탭을 확인하세요.';
+  } else {
+    scores[qid] = 0;
+    fb.className = 'feedback wrong-fb';
+    fb.innerHTML = `<div class="fb-title">❌ 오답입니다.</div>정답은 ${correctAnswer}입니다.`;
+  }
+  fb.style.display = 'block';
+  document.querySelector(`#${qid} .check-btn`).disabled = true;
+  updateScore();
+}
+
+function checkShort(qid, correctList) {
+  if (answered[qid]) return;
+  const input = document.getElementById('short-' + qid).value.trim();
+  if (!input) return;
+  answered[qid] = true;
+  const isCorrect = correctList.some(ans => input.includes(ans));
+  const fb = document.getElementById('fb-' + qid);
+  if (isCorrect) {
+    scores[qid] = 1;
+    fb.className = 'feedback correct-fb';
+    fb.innerHTML = '<div class="fb-title">✅ 정답입니다!</div>';
+  } else {
+    scores[qid] = 0;
+    fb.className = 'feedback wrong-fb';
+    fb.innerHTML = `<div class="fb-title">❌ 오답.</div>정답: ${correctList[0]}. 해설을 확인하세요.`;
+  }
+  fb.style.display = 'block';
+  updateScore();
+}
+
+function showExplain(qid) {
+  const fb = document.getElementById('fb-' + qid);
+  fb.className = 'feedback correct-fb';
+  fb.innerHTML = '<div class="fb-title">📖 해설</div>[정답 & 해설] 탭에서 Q10 모범답안을 확인하세요.';
+  fb.style.display = 'block';
+  answered[qid] = true;
+  updateScore();
+}
+
+function updateScore() {
+  const total = Object.keys(answered).length;
+  const correct = Object.values(scores).filter(v => v === 1).length;
+  const bar = document.getElementById('score-bar');
+  bar.style.display = 'flex';
+  document.getElementById('score-display').textContent = `${correct} / ${total}`;
+}
+</script>
+</body>
+</html>

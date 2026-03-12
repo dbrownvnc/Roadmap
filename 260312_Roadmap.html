@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>미래는 절대 직선으로 오지 않는다 | 박종원 강의 분석</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Serif+KR:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg2: #fafafa;
+    --text: #1a1a1a;
+    --text2: #777777;
+    --accent: #e11d48;
+    --accent2: #f43f5e;
+    --c1: #e11d48;
+    --c2: #1a1a1a;
+    --c3: #6b7280;
+    --c4: #2563eb;
+    --table-bg: #fafafa;
+    --table-header: #e11d48;
+    --border: #e5e5e5;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Serif KR', serif;
+    font-size: 15px;
+    line-height: 1.8;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  .masthead {
+    border-bottom: 3px solid var(--accent);
+    padding: 24px 20px 16px;
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .masthead-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .masthead-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--text2);
+    font-weight: 300;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 40px 20px 32px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .hero-tag {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1.2;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+  .hero h1 em {
+    color: var(--accent);
+    font-style: italic;
+  }
+  .hero-sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.6;
+    border-left: 3px solid var(--accent);
+    padding-left: 14px;
+    margin-bottom: 20px;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: var(--text2);
+  }
+  .hero-meta span { display: flex; align-items: center; gap: 4px; }
+
+  /* SECTION */
+  .section {
+    padding: 32px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section:nth-child(even) { background: var(--bg2); }
+
+  .section-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 60px;
+    font-weight: 900;
+    color: var(--border);
+    line-height: 1;
+    margin-bottom: -10px;
+    display: block;
+  }
+  .section-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+  .section p {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.85;
+    margin-bottom: 12px;
+  }
+  .section p:last-child { margin-bottom: 0; }
+
+  /* PULLQUOTE */
+  .pullquote {
+    border-top: 3px solid var(--accent);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 0;
+    margin: 24px 0;
+  }
+  .pullquote p {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--text);
+    margin: 0;
+  }
+  .pullquote cite {
+    display: block;
+    margin-top: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: var(--accent);
+    font-style: normal;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* HIGHLIGHT BOX */
+  .highlight-box {
+    background: var(--bg2);
+    border-left: 4px solid var(--accent);
+    padding: 16px 18px;
+    margin: 20px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .highlight-box .box-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .highlight-box p {
+    font-size: 13px;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* CHART */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .chart-container {
+    position: relative;
+    max-height: 340px;
+    margin: 20px 0;
+  }
+  .chart-container canvas {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    max-height: 300px;
+  }
+  .chart-container.chart-ready canvas {
+    opacity: 1;
+  }
+  .chart-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text2);
+    margin-bottom: 8px;
+  }
+
+  /* TABLE */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    margin: 20px 0;
+  }
+  .data-table th {
+    background: var(--table-header);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .data-table td {
+    background: var(--table-bg);
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:nth-child(even) td { background: #f3f3f3; }
+
+  /* TIMELINE */
+  .timeline { margin: 20px 0; }
+  .tl-item {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 16px;
+    opacity: 0;
+    transform: translateX(-12px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .tl-item.visible { opacity: 1; transform: translateX(0); }
+  .tl-dot {
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 6px;
+    position: relative;
+  }
+  .tl-dot::after {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 10px;
+    width: 1px;
+    height: calc(100% + 12px);
+    background: var(--border);
+  }
+  .tl-item:last-child .tl-dot::after { display: none; }
+  .tl-year {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 2px;
+  }
+  .tl-desc {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* STAGE CARDS */
+  .stage-grid { display: flex; flex-direction: column; gap: 12px; margin: 20px 0; }
+  .stage-card {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .stage-card-header {
+    background: var(--accent);
+    color: #fff;
+    padding: 8px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .stage-card-header .stage-num {
+    background: rgba(255,255,255,0.25);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .stage-card-body {
+    padding: 12px 14px;
+    background: var(--table-bg);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .stage-card-body .tag {
+    display: inline-block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    background: #fce7eb;
+    color: var(--accent);
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-bottom: 6px;
+  }
+
+  /* KEY METRIC */
+  .metric-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .metric-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    padding: 14px 12px;
+    text-align: center;
+  }
+  .metric-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .metric-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: var(--text2);
+    line-height: 1.4;
+  }
+
+  /* INVEST RULE */
+  .invest-rule {
+    counter-reset: rule;
+    margin: 20px 0;
+  }
+  .rule-item {
+    counter-increment: rule;
+    display: flex;
+    gap: 12px;
+    margin-bottom: 14px;
+    padding: 12px 14px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+  }
+  .rule-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 28px;
+  }
+  .rule-content { font-size: 13px; line-height: 1.7; }
+  .rule-content strong {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: var(--text);
+    letter-spacing: 0.3px;
+  }
+
+  /* FOOTER */
+  .doc-footer {
+    background: var(--text);
+    color: #fff;
+    padding: 32px 20px;
+    text-align: center;
+  }
+  .doc-footer .footer-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .doc-footer p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.6;
+  }
+  .doc-footer .exam-link {
+    display: inline-block;
+    margin-top: 16px;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 10px 24px;
+    text-decoration: none;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* DIVIDER */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .divider span {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* CHECKLIST */
+  .checklist { margin: 16px 0; }
+  .check-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    line-height: 1.6;
+    align-items: flex-start;
+  }
+  .check-item::before {
+    content: '▶';
+    color: var(--accent);
+    font-size: 10px;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="masthead-label">Investment Insight</div>
+  <div class="masthead-title">박종원 정규 강의 VOD — Part 3, 2강 분석 리포트</div>
+</div>
+
+<!-- HERO -->
+<div class="hero fade-in">
+  <div class="hero-tag">미국 증시·거시경제 분석</div>
+  <h1>미래는 절대<br><em>직선으로</em><br>오지 않는다</h1>
+  <div class="hero-sub">
+    인간의 선형 편향이 어떻게 투자 손실을 만드는가. S커브, 가트너 하이프사이클, 티핑 포인트 — 세 가지 곡선으로 읽는 미국 증시의 미래.
+  </div>
+  <div class="hero-meta">
+    <span>📅 2026. 03. 12</span>
+    <span>📍 미국 증시·거시경제</span>
+    <span>⏱ 약 10분 읽기</span>
+  </div>
+</div>
+
+<!-- SECTION 1: 핵심 명제 -->
+<div class="section fade-in">
+  <span class="section-num">01</span>
+  <div class="section-label">Core Thesis</div>
+  <h2>선형 편향 — 투자자의 가장 위험한 착각</h2>
+
+  <p>인간의 뇌는 진화 과정에서 <strong>미래를 선형(직선)으로 예측</strong>하도록 설계되었습니다. 주가가 며칠 오르면 내일도 오를 것이라고, 떨어지면 계속 떨어질 것이라고 단정 짓습니다. 그러나 자연계와 경제의 거대한 흐름은 결코 직선으로 오지 않습니다.</p>
+
+  <div class="pullquote">
+    <p>"너울의 모양을 아는 자만이<br>앞으로 다가올 10년을 대비할 수 있다."</p>
+    <cite>— 박종원, Part 3 · 2강</cite>
+  </div>
+
+  <p>미국 증시의 관점에서 이 명제는 매우 중요합니다. 월가의 애널리스트들이 매년 전망에서 실패하는 핵심 이유가 바로 선형 편향이기 때문입니다. 선형 모델로 비선형 세계를 예측하면 항상 틀릴 수밖에 없습니다.</p>
+
+  <div class="metric-row">
+    <div class="metric-card fade-in">
+      <div class="metric-val">3가지</div>
+      <div class="metric-label">핵심 비선형 곡선<br>(S커브 / 하이프사이클 / J커브)</div>
+    </div>
+    <div class="metric-card fade-in">
+      <div class="metric-val">~90%</div>
+      <div class="metric-label">혁신기술 투자 실패율<br>(철도·자동차·닷컴 공통)</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2: S커브 -->
+<div class="section fade-in">
+  <span class="section-num">02</span>
+  <div class="section-label">S-Curve / Sigmoid</div>
+  <h2>S자 곡선 — 혁신 기술의 보급 방정식</h2>
+
+  <p>혁신 기술이 실생활에 침투하는 방식은 <strong>시그모이드(S자) 곡선</strong>을 따릅니다. 자동차, 인터넷, 스마트폰 모두 동일한 패턴을 보였습니다.</p>
+
+  <div class="chart-title">📊 혁신 기술 S커브 — 보급 단계별 특성</div>
+  <div class="chart-container fade-in">
+    <canvas id="sCurveChart" height="240"></canvas>
+  </div>
+
+  <div class="stage-grid">
+    <div class="stage-card fade-in">
+      <div class="stage-card-header">
+        <div class="stage-num">1</div>
+        잠복기 (0 → 10%)
+      </div>
+      <div class="stage-card-body">
+        <span class="tag">회색 구간</span>
+        <p>인프라 부족, 대중의 의심. 얼리어답터와 혁신가만 사용. 불편함을 감수하는 소수. 투자 리스크 최대 구간.</p>
+      </div>
+    </div>
+    <div class="stage-card fade-in">
+      <div class="stage-card-header">
+        <div class="stage-num">2</div>
+        티핑 포인트 (10~16%)
+      </div>
+      <div class="stage-card-body">
+        <span class="tag">노란색 구간 ★ 핵심</span>
+        <p>제프리 무어·에버럿 로저스 이론 기준 <strong>16%</strong> 돌파 시 티핑 포인트. 이 시점이 투자 최적 진입 구간. 실용주의 대중이 참여 시작.</p>
+      </div>
+    </div>
+    <div class="stage-card fade-in">
+      <div class="stage-card-header">
+        <div class="stage-num">3</div>
+        급성장기 (20 → 80%)
+      </div>
+      <div class="stage-card-body">
+        <span class="tag">주황색 구간</span>
+        <p>너도나도 기술 수용. 승자 기업 결정. 주가 폭등 구간. 0→10% 걸린 시간보다 짧은 시간에 80%까지 도달.</p>
+      </div>
+    </div>
+    <div class="stage-card fade-in">
+      <div class="stage-card-header">
+        <div class="stage-num">4</div>
+        포화기 (80%+)
+      </div>
+      <div class="stage-card-body">
+        <span class="tag">파란색 구간</span>
+        <p>교체 수요만 존재. 성장 둔화. 주가 상승률 감소. 단, 이미 투자했다면 계속 보유 가능.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 3: 티핑포인트 실사례 -->
+<div class="section fade-in">
+  <span class="section-num">03</span>
+  <div class="section-label">Tipping Point Cases</div>
+  <h2>실패한 기술 vs. 성공한 기술 — 16%의 벽</h2>
+
+  <p>티핑 포인트를 넘지 못하고 사장된 기술이 성공한 기술보다 <strong>100배 이상</strong> 많습니다.</p>
+
+  <table class="data-table fade-in">
+    <thead>
+      <tr><th>기술</th><th>결과</th><th>실패 원인</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>세그웨이</strong> (2001)</td><td>❌ 실패</td><td>대당 ~1천만원, 인도·차도 어디도 적합하지 않음</td></tr>
+      <tr><td><strong>3D TV</strong></td><td>❌ 실패</td><td>안경 착용 불편, 콘텐츠 공급 중단</td></tr>
+      <tr><td><strong>스마트폰</strong> (2007~)</td><td>✅ 성공</td><td>아이폰이 티핑 포인트 돌파, 2009년 기준 확인</td></tr>
+      <tr><td><strong>가솔린 자동차</strong> (20세기 초)</td><td>✅ 성공</td><td>전기차 대비 기술 우위로 경쟁 승리</td></tr>
+    </tbody>
+  </table>
+
+  <div class="highlight-box fade-in">
+    <div class="box-title">📌 스마트폰 S커브 타임라인</div>
+    <p>2000~2006: 잠복기 (보급률 ~2%) → 2007: 아이폰 출시 → 2009: 티핑 포인트 돌파 → 2010~2016: 폭발적 성장 → 2016~: 포화기 진입. <strong>2010년 애플 주식 매수만으로도 엄청난 수익.</strong></p>
+  </div>
+</div>
+
+<!-- SECTION 4: 전기차 현황 -->
+<div class="section fade-in">
+  <span class="section-num">04</span>
+  <div class="section-label">EV Investment Outlook</div>
+  <h2>전기차 — 아직 잠복기, 2030년이 변곡점</h2>
+
+  <p>전기차 투자 판단에서 중요한 것은 <strong>판매량이 아닌 침투율(도로 위 비중)</strong>입니다. 2026년 현재 전기차 침투율은 <strong>약 5%</strong>로 여전히 잠복기에 속합니다.</p>
+
+  <div class="chart-title">📊 전기차 침투율 시뮬레이션 (박종원 추정)</div>
+  <div class="chart-container fade-in">
+    <canvas id="evChart" height="220"></canvas>
+  </div>
+
+  <div class="highlight-box fade-in">
+    <div class="box-title">💡 미국 증시 투자 시사점</div>
+    <p>2026~2030년: 전기차 침투율 모니터링 구간. 10% 돌파 시 충전 인프라 수익화 시작. 16% 돌파 시 티핑 포인트 확인사살 → 배터리·충전소·전장부품 기업 투자 본격화.</p>
+  </div>
+
+  <p>배터리 산업의 과거 실패(2022~2024년 폭등 후 폭락)는 S커브를 직선으로 오해한 결과였습니다. 앞으로는 침투율 데이터를 매년 추적하며 티핑 포인트를 확인하는 것이 핵심입니다.</p>
+</div>
+
+<!-- SECTION 5: 가트너 하이프사이클 -->
+<div class="section fade-in">
+  <span class="section-num">05</span>
+  <div class="section-label">Gartner Hype Cycle</div>
+  <h2>가트너 하이프사이클 — 인간 심리가 만드는 투자의 함정</h2>
+
+  <p>기술은 <strong>시속 60km</strong>로 꾸준히 발전합니다. 그러나 인간은 4km로 걷다가 60km를 보는 순간 흥분하여 기대치를 <strong>300km</strong>로 끌어올립니다. 이 속도 불일치가 하이프사이클을 만듭니다.</p>
+
+  <div class="chart-title">📊 가트너 하이프사이클 — 투자 기회 구간</div>
+  <div class="chart-container fade-in">
+    <canvas id="hypeChart" height="240"></canvas>
+  </div>
+
+  <div class="stage-grid">
+    <div class="stage-card fade-in">
+      <div class="stage-card-header"><div class="stage-num">①</div>혁신 촉발 단계</div>
+      <div class="stage-card-body">
+        <span class="tag">투자 기회 A</span>
+        <p>소수 얼리어답터만 관심. 실제 성과 미미. 기술·업계 전문가에게 유리한 진입 시점. 리스크 최대, 리턴 최대.</p>
+      </div>
+    </div>
+    <div class="stage-card fade-in">
+      <div class="stage-card-header"><div class="stage-num">②</div>부풀려진 기대의 정점</div>
+      <div class="stage-card-body">
+        <span class="tag">⚠ 위험 구간</span>
+        <p>대중 탐욕 폭발. "주변에 투자하라고 권하는 단계"가 정점 신호. 성공사례 과장. 묻지마 매수. 이 구간 후 반드시 하락.</p>
+      </div>
+    </div>
+    <div class="stage-card fade-in">
+      <div class="stage-card-header"><div class="stage-num">③</div>환멸의 골짜기</div>
+      <div class="stage-card-body">
+        <span class="tag">투자 기회 B (고위험)</span>
+        <p>대중이 "사기"라고 비난. 기술은 여전히 60km로 진행 중. 아마존 사례: 18분의 1 토막(30센트) → 13,000배 상승. 옥석가리기 필수.</p>
+      </div>
+    </div>
+    <div class="stage-card fade-in">
+      <div class="stage-card-header"><div class="stage-num">④</div>계몽의 오르막</div>
+      <div class="stage-card-body">
+        <span class="tag">투자 기회 C ★ 추천</span>
+        <p>살아남은 기업 확인 후 진입. 아마존 2010년 기준 재돌파 → 이후 ~2,000배 수익. 시간이 충분한 구간. 개인 투자자 최적 타이밍.</p>
+      </div>
+    </div>
+    <div class="stage-card fade-in">
+      <div class="stage-card-header"><div class="stage-num">⑤</div>생산성의 안정기</div>
+      <div class="stage-card-body">
+        <span class="tag">장기 보유 구간</span>
+        <p>세상을 지배하는 거인 등장. 아마존 2010~2026: 글로벌 유통+클라우드 독점. 안정적 수익구조 완성. 이 단계도 투자 가능.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 6: 아마존 실사례 -->
+<div class="section fade-in">
+  <span class="section-num">06</span>
+  <div class="section-label">Amazon Case Study</div>
+  <h2>아마존 주가 — 하이프사이클의 살아있는 증거</h2>
+
+  <div class="timeline">
+    <div class="tl-item fade-in">
+      <div class="tl-dot"></div>
+      <div>
+        <div class="tl-year">1994년</div>
+        <div class="tl-desc">제프 베이조스, 차고에서 인터넷 서점 창업. 소수 얼리어답터만 이용. <strong>혁신 촉발 단계.</strong></div>
+      </div>
+    </div>
+    <div class="tl-item fade-in">
+      <div class="tl-dot"></div>
+      <div>
+        <div class="tl-year">1997년</div>
+        <div class="tl-desc">나스닥 상장. 인터넷 서점에 대한 의구심 팽배. 주가 지지부진 (~10센트/2022년 기준).</div>
+      </div>
+    </div>
+    <div class="tl-item fade-in">
+      <div class="tl-dot"></div>
+      <div>
+        <div class="tl-year">1999년 10월</div>
+        <div class="tl-desc">닷컴버블 정점. 주가 <strong>5달러 33센트</strong> (2022년 기준). <strong>부풀려진 기대의 정점.</strong></div>
+      </div>
+    </div>
+    <div class="tl-item fade-in">
+      <div class="tl-dot"></div>
+      <div>
+        <div class="tl-year">2000~2001년</div>
+        <div class="tl-desc">닷컴버블 붕괴. 나스닥 5,100→1,100 (5분의 1 토막). 아마존 주가 <strong>30센트</strong>로 추락 (18분의 1). "아마존 닷 밤(폭탄)" 조롱 팽배. <strong>환멸의 골짜기.</strong></div>
+      </div>
+    </div>
+    <div class="tl-item fade-in">
+      <div class="tl-dot"></div>
+      <div>
+        <div class="tl-year">2001~2010년</div>
+        <div class="tl-desc">물류혁신·AWS 기틀 구축. 주가 서서히 회복. 전고점(5달러) 재돌파에 <strong>9년</strong> 소요. <strong>계몽의 오르막.</strong></div>
+      </div>
+    </div>
+    <div class="tl-item fade-in">
+      <div class="tl-dot"></div>
+      <div>
+        <div class="tl-year">2010~2022년</div>
+        <div class="tl-desc">글로벌 유통·클라우드 지배. 주가 ~4,200달러 (2022년 액면분할 전). 2022년 20:1 분할 후 현재 ~210달러. <strong>생산성의 안정기.</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="metric-row">
+    <div class="metric-card fade-in">
+      <div class="metric-val">13,000×</div>
+      <div class="metric-label">환멸 골짜기(30¢)<br>→ 현재(4,200$) 수익률</div>
+    </div>
+    <div class="metric-card fade-in">
+      <div class="metric-val">2,000×</div>
+      <div class="metric-label">계몽 오르막(2$)<br>→ 현재(4,200$) 수익률</div>
+    </div>
+  </div>
+
+  <div class="highlight-box fade-in">
+    <div class="box-title">제프 베이조스의 명언</div>
+    <p><em>"주가는 회사가 아니다. 주가만 떨어졌을 뿐, 우리 기업의 본질 가치가 94% 떨어진 것인가?"</em> — 닷컴버블 붕괴 당시 직원들에게. 고객수·배송비용·운영효율성 지표로 재기 다짐.</p>
+  </div>
+</div>
+
+<!-- SECTION 7: AI 전망 -->
+<div class="section fade-in">
+  <span class="section-num">07</span>
+  <div class="section-label">AI Investment Outlook</div>
+  <h2>AI 혁명 — 2026년 현재 어디에 있는가</h2>
+
+  <p>강사는 AI 혁명이 현재 <strong>부풀려진 기대의 정점</strong>에서 <strong>환멸의 골짜기</strong>로 진입하는 전환점에 있다고 분석합니다. AI가 티핑 포인트를 넘을 가능성은 <strong>100%</strong>로 보지만, 투자 타이밍은 신중해야 합니다.</p>
+
+  <div class="divider"><span>닷컴버블 vs. AI버블 비교</span></div>
+
+  <table class="data-table fade-in">
+    <thead>
+      <tr><th>항목</th><th>닷컴버블 (2000)</th><th>AI 현재 (2026)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>기업 수</td><td>~10,000개</td><td>~100~200개</td></tr>
+      <tr><td>진입장벽</td><td>낮음 (인프라 국가 제공)</td><td>높음 (GPU·데이터 필요)</td></tr>
+      <tr><td>수익 여부</td><td>대부분 적자</td><td>빅테크는 실질 수익</td></tr>
+      <tr><td>생존 기업 예측</td><td>~0.1% (10/10,000)</td><td>3~5개 (자유진영+중국)</td></tr>
+      <tr><td>QQQ 적합성</td><td>이전엔 유효</td><td>점점 부적합 (강사 의견)</td></tr>
+    </tbody>
+  </table>
+
+  <p>핵심 차이: AI는 기존 소프트웨어 산업 전체를 대체할 수 있어, 살아남는 기업이 극소수일 가능성이 높습니다. 이는 QQQ 같은 분산 ETF보다 <strong>옥석 가리기 후 집중 투자</strong>가 유효한 이유입니다.</p>
+
+  <div class="highlight-box fade-in">
+    <div class="box-title">⚠ 주의 신호 — 정점 경계 체크리스트</div>
+    <p>주변 사람들이 투자를 강권하기 시작하면 정점 신호. "이번엔 다르다"는 논리가 팽배할 때, "빅테크가 실제 수익을 낸다"는 논리도 근본적 하이프사이클 법칙을 바꾸지 않음.</p>
+  </div>
+</div>
+
+<!-- SECTION 8: 옥석가리기 원칙 -->
+<div class="section fade-in">
+  <span class="section-num">08</span>
+  <div class="section-label">Stock Selection Principles</div>
+  <h2>환멸의 골짜기를 건널 기업 — 3가지 옥석 원칙</h2>
+
+  <div class="invest-rule">
+    <div class="rule-item fade-in">
+      <div class="rule-num">1</div>
+      <div class="rule-content">
+        <strong>현금 흐름 창출 능력</strong>
+        스스로 피를 돌게 하는 기업. 서사(스토리)가 아닌 실제 현금 흐름. 매출 규모가 폭발적으로 증가하는가. 투자금 의존 없이 자생 가능한가. (아마존: 책 판매로 캐시카우 유지)
+      </div>
+    </div>
+    <div class="rule-item fade-in">
+      <div class="rule-num">2</div>
+      <div class="rule-content">
+        <strong>경쟁자 도태 후 점유율 자연 증가</strong>
+        산업 전체 성장률이 꺾여도 점유율이 오르는 기업. 뼈를 깎는 비용 통제 + 핵심 사업 외 프로젝트 축소. AI 투자 과잉 기업보다 선별적 투자 기업 주가 상승 사례 이미 등장.
+      </div>
+    </div>
+    <div class="rule-item fade-in">
+      <div class="rule-num">3</div>
+      <div class="rule-content">
+        <strong>다음 시대 인프라 독점</strong>
+        아마존이 책에서 AWS 클라우드로 확장한 것처럼, AI 시대의 기반 인프라(컴퓨팅·전력·데이터)를 독점하는 기업. 현재 엔비디아에 대한 신뢰가 흔들리는 만큼 인프라 독점 기업 재평가 필요.
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box fade-in">
+    <div class="box-title">💀 죽을 기업 vs. 🏆 살아남을 기업</div>
+    <p><strong>죽는 기업:</strong> 돈을 쓸 줄만 아는 기업. 네오 클라우드(H100 리스업체) 등 구형 칩 의존 기업. 현금 없이 투자금만 의존.<br><strong>사는 기업:</strong> 강력한 현금 흐름 + 비용 통제 + 분명한 고객 가치 + 인프라 독점 포지션.</p>
+  </div>
+</div>
+
+<!-- SECTION 9: 연준 정책과의 연관성 -->
+<div class="section fade-in">
+  <span class="section-num">09</span>
+  <div class="section-label">Fed Policy & Macro</div>
+  <h2>거시경제·연준 정책과의 연결고리</h2>
+
+  <p>하이프사이클과 연준 정책은 긴밀하게 연결됩니다. 저금리 시대에는 미래 성장 기대에 기반한 고밸류에이션이 허용되지만, 긴축 국면에서는 <strong>"현금을 버는 기업"</strong>만 살아남습니다.</p>
+
+  <div class="checklist">
+    <div class="check-item fade-in">환멸의 골짜기에서 은행의 대출 중단 → 현금 흐름 없는 기업 도산 가속. 연준 긴축이 하이프사이클 환멸 단계를 앞당기는 촉매제 역할.</div>
+    <div class="check-item fade-in">2000~2002년 닷컴버블 붕괴 시 연준의 금리 인하로도 기술주 회복에 9년 소요 → 트라우마와 구조 개편이 금리보다 중요.</div>
+    <div class="check-item fade-in">AI 시대: 빅테크의 실질 수익 창출 → 연준 긴축 환경에서도 일부 기업 생존 가능성. 그러나 네오 클라우드·신생 AI 스타트업은 금리 민감도 매우 높음.</div>
+    <div class="check-item fade-in">원자재(리튬·코발트·니켈 등 배터리 금속)는 전기차 S커브 티핑 포인트와 동조. 2030년 전후가 핵심 모니터링 시점.</div>
+  </div>
+</div>
+
+<!-- SECTION 10: 투자 행동 지침 -->
+<div class="section fade-in">
+  <span class="section-num">10</span>
+  <div class="section-label">Action Plan</div>
+  <h2>지금 당장 할 수 있는 투자 행동 지침</h2>
+
+  <table class="data-table fade-in">
+    <thead>
+      <tr><th>시점</th><th>행동</th><th>근거</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>2026~2028</strong></td><td>AI 기업 생존 여부 모니터링. QQQ 비중 점진 축소 검토.</td><td>환멸의 골짜기 진입 가능성. 살아남는 기업 3~5개 집중 탐색.</td></tr>
+      <tr><td><strong>2028~2030</strong></td><td>살아남은 AI 기업 집중 투자. 계몽의 오르막 확인 후 진입.</td><td>아마존 2010년 사례처럼 전고점 회복 후도 2,000배 수익 가능.</td></tr>
+      <tr><td><strong>2026~2030</strong></td><td>전기차 침투율 매년 추적. 10~16% 돌파 시 배터리·충전 인프라 투자.</td><td>S커브 티핑 포인트 확인 투자 원칙.</td></tr>
+      <tr><td><strong>상시</strong></td><td>주변에서 투자 권유가 급증하면 비중 축소 신호로 인식.</td><td>정점 경계 신호: 탐욕이 극대화된 구간.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="pullquote">
+    <p>"개몽의 오르막은 시간이 충분하다.<br>마음 급하게 서두를 필요가 없다."</p>
+    <cite>— 박종원, Part 3 · 2강 핵심 메시지</cite>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="doc-footer">
+  <div class="footer-title">Part 3 · 2강 분석 완료</div>
+  <p>본 문서는 강의 내용을 미국 증시·거시경제 관점에서 재구성한 분석 리포트입니다.<br>투자 결정은 개인의 판단 하에 이루어져야 합니다.</p>
+  <a href="part3_lecture2_exam.html" class="exam-link">📝 시험문제 보기</a>
+</div>
+
+<script>
+// === INTERSECTION OBSERVER: FADE-IN ===
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+// === CHART CONFIGS ===
+const chartConfigs = {};
+
+// S-CURVE CHART
+chartConfigs['sCurveChart'] = () => {
+  const labels = ['0%','5%','10%','16%','20%','30%','50%','70%','80%','90%','100%'];
+  const data = [0,1,3,7,12,28,52,72,80,83,85];
+  new Chart(document.getElementById('sCurveChart'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label: '기술 보급률',
+        data,
+        borderColor: '#e11d48',
+        backgroundColor: 'rgba(225,29,72,0.08)',
+        borderWidth: 2.5,
+        tension: 0.45,
+        fill: true,
+        pointBackgroundColor: '#e11d48',
+        pointRadius: 3,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => `보급률: ${ctx.raw}%`
+          }
+        },
+        annotation: {}
+      },
+      scales: {
+        y: {
+          min: 0, max: 100,
+          ticks: { color: '#777', font: { size: 10 }, callback: v => v + '%' },
+          grid: { color: '#f0f0f0' }
+        },
+        x: {
+          ticks: { color: '#777', font: { size: 9 } },
+          grid: { display: false }
+        }
+      }
+    }
+  });
+};
+
+// EV CHART
+chartConfigs['evChart'] = () => {
+  const labels = ['2020','2022','2024','2026','2028','2030','2033','2037','2040','2045'];
+  const data = [1, 2.5, 4, 5, 8, 16, 30, 55, 70, 80];
+  new Chart(document.getElementById('evChart'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: '전기차 침투율 (추정)',
+          data,
+          borderColor: '#2563eb',
+          backgroundColor: 'rgba(37,99,235,0.07)',
+          borderWidth: 2.5,
+          tension: 0.45,
+          fill: true,
+          pointBackgroundColor: data.map((v,i) => i === 5 ? '#e11d48' : '#2563eb'),
+          pointRadius: data.map((v,i) => i === 5 ? 6 : 3),
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => `침투율: ${ctx.raw}%` } }
+      },
+      scales: {
+        y: {
+          min: 0, max: 85,
+          ticks: { color: '#777', font: { size: 10 }, callback: v => v + '%' },
+          grid: { color: '#f0f0f0' }
+        },
+        x: { ticks: { color: '#777', font: { size: 10 } }, grid: { display: false } }
+      }
+    }
+  });
+};
+
+// HYPE CYCLE CHART
+chartConfigs['hypeChart'] = () => {
+  const labels = ['혁신촉발','','','부풀린기대','','환멸골짜기','','계몽오르막','','생산성안정기'];
+  const hype = [10, 35, 70, 95, 60, 15, 25, 50, 68, 75];
+  const real = [5, 8, 12, 15, 18, 20, 28, 40, 58, 72];
+  new Chart(document.getElementById('hypeChart'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: '인간의 기대(하이프)',
+          data: hype,
+          borderColor: '#e11d48',
+          backgroundColor: 'rgba(225,29,72,0.06)',
+          borderWidth: 2.5,
+          tension: 0.4,
+          fill: false,
+          pointBackgroundColor: '#e11d48',
+          pointRadius: 3,
+        },
+        {
+          label: '기술 실제 발전',
+          data: real,
+          borderColor: '#2563eb',
+          backgroundColor: 'rgba(37,99,235,0.06)',
+          borderWidth: 2,
+          borderDash: [5, 4],
+          tension: 0.3,
+          fill: false,
+          pointBackgroundColor: '#2563eb',
+          pointRadius: 2,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'bottom',
+          labels: { color: '#777', font: { size: 10 }, boxWidth: 14 }
+        }
+      },
+      scales: {
+        y: {
+          display: false
+        },
+        x: { ticks: { color: '#777', font: { size: 9 } }, grid: { display: false } }
+      }
+    }
+  });
+};
+
+// === INTERSECTION OBSERVER: CHARTS ===
+const chartObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const canvas = e.target.querySelector('canvas');
+      if (canvas && chartConfigs[canvas.id]) {
+        chartConfigs[canvas.id]();
+        e.target.classList.add('chart-ready');
+        chartObs.unobserve(e.target);
+      }
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+</script>
+</body>
+</html>
