@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>사모 신용 위기 분석 — 긴급 매크로 브리핑</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg2: #fafafa;
+    --text: #1a1a1a;
+    --text2: #777777;
+    --accent: #e11d48;
+    --accent2: #f43f5e;
+    --border: #e5e5e5;
+    --c1: #e11d48;
+    --c2: #1a1a1a;
+    --c3: #6b7280;
+    --c4: #2563eb;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Source Serif 4', serif;
+    font-weight: 300;
+    line-height: 1.75;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  /* ─── HEADER ─── */
+  .masthead {
+    border-top: 4px solid var(--accent);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 0 18px;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .masthead-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .masthead h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 7vw, 38px);
+    font-weight: 900;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  .masthead h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .masthead-meta {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: var(--text2);
+    letter-spacing: 1px;
+  }
+  .masthead-meta span { margin: 0 8px; color: var(--border); }
+
+  /* ─── DECK ─── */
+  .deck {
+    font-family: 'Source Serif 4', serif;
+    font-size: 15px;
+    font-style: italic;
+    color: var(--text2);
+    line-height: 1.65;
+    padding: 20px 0 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
+
+  /* ─── SECTION LABELS ─── */
+  .section-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.25;
+  }
+
+  /* ─── HEADINGS ─── */
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(20px, 5vw, 26px);
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--text);
+    margin-bottom: 14px;
+  }
+  h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--text);
+    margin: 24px 0 8px;
+    text-transform: uppercase;
+  }
+
+  /* ─── BODY TEXT ─── */
+  p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+  p + p { margin-top: -4px; }
+
+  /* ─── PULL QUOTE ─── */
+  .pull-quote {
+    border-left: 3px solid var(--accent);
+    padding: 12px 20px;
+    margin: 28px 0;
+    background: var(--bg2);
+  }
+  .pull-quote p {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-style: italic;
+    line-height: 1.55;
+    color: var(--text);
+    margin: 0;
+  }
+  .pull-quote cite {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text2);
+    margin-top: 8px;
+  }
+
+  /* ─── STAT BOX ─── */
+  .stat-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .stat-box {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 18px 16px;
+    position: relative;
+  }
+  .stat-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+  }
+  .stat-box .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-box .label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: var(--text2);
+    line-height: 1.4;
+  }
+
+  /* ─── CHART ─── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .chart-container {
+    position: relative;
+    max-height: 340px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 20px 16px 14px;
+    margin: 24px 0;
+  }
+  .chart-container canvas {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    max-height: 300px;
+  }
+  .chart-container.chart-ready canvas {
+    opacity: 1;
+  }
+  .chart-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text2);
+    margin-bottom: 12px;
+  }
+
+  /* ─── COMPARISON TABLE ─── */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12.5px;
+    margin: 20px 0;
+  }
+  .compare-table thead th {
+    background: var(--accent);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .compare-table thead th:first-child { width: 38%; }
+  .compare-table tbody tr:nth-child(even) { background: var(--bg2); }
+  .compare-table tbody td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+    color: var(--text);
+  }
+  .compare-table tbody td:first-child {
+    font-weight: 600;
+    color: var(--text2);
+  }
+
+  /* ─── CALLOUT BOX ─── */
+  .callout {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 20px;
+    margin: 24px 0;
+  }
+  .callout-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .callout ul {
+    list-style: none;
+    padding: 0;
+  }
+  .callout ul li {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text);
+    padding: 6px 0 6px 20px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .callout ul li:last-child { border-bottom: none; }
+  .callout ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* ─── RISK STAGES ─── */
+  .stage-track {
+    display: flex;
+    gap: 6px;
+    margin: 20px 0;
+  }
+  .stage {
+    flex: 1;
+    padding: 10px 8px;
+    text-align: center;
+    border: 1px solid var(--border);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    position: relative;
+  }
+  .stage .snum {
+    display: block;
+    font-size: 20px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    margin-bottom: 4px;
+  }
+  .stage.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .stage.active .snum { color: #fff; }
+  .stage.inactive { color: var(--text2); }
+  .stage-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    color: var(--text2);
+    text-align: center;
+    margin-top: -8px;
+    margin-bottom: 16px;
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 36px 0;
+  }
+  .ornament {
+    text-align: center;
+    color: var(--accent);
+    font-size: 18px;
+    margin: -10px 0 36px;
+    line-height: 1;
+    background: var(--bg);
+    display: inline-block;
+    width: 100%;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 2px solid var(--border);
+    padding-top: 20px;
+    margin-top: 48px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    color: var(--text2);
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+  }
+
+  /* ─── HIGHLIGHT ─── */
+  .hl { color: var(--accent); font-weight: 600; }
+  .note {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11.5px;
+    color: var(--text2);
+    line-height: 1.55;
+    background: var(--bg2);
+    padding: 10px 14px;
+    border-left: 2px solid var(--border);
+    margin: 16px 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ MASTHEAD ═══ -->
+<div class="masthead fade-in">
+  <div class="masthead-label">긴급 매크로 브리핑 · 2026년 3월 17일</div>
+  <h1>사모 금융<br><em>시한폭탄</em>의<br>해부</h1>
+  <div class="masthead-meta">
+    미국 증시 · 거시경제 · 연준 정책<span>|</span>사모 신용 리스크 심층 분석
+  </div>
+</div>
+
+<p class="deck fade-in">
+  제이미 다이먼이 '대공황 경고'를 발했다. 월가의 거물들이 연일 위험 신호를 보낸다. 그런데 S&P 500은 왜 아직 멀쩡한가. 3조 5천억 달러 규모의 사모 신용(Private Credit) 시장, 그 땅속 폭탄의 실체를 들여다본다.
+</p>
+
+<!-- ═══ SECTION 1: 두 개의 숫자 ═══ -->
+<div class="section-label fade-in">핵심 지표</div>
+<h2 class="fade-in">먼저 두 개의 숫자를 기억하라</h2>
+
+<div class="stat-row fade-in">
+  <div class="stat-box">
+    <div class="num">9.2%</div>
+    <div class="label">사모 신용 중소기업<br>실질 부도 위험율<br><small>(피치 샘플링 300개사)</small></div>
+  </div>
+  <div class="stat-box">
+    <div class="num">$37억</div>
+    <div class="label">블랙스톤 1분기<br>환매 폭증 규모<br><small>(달러 기준)</small></div>
+  </div>
+</div>
+
+<p class="fade-in">
+  미국 공식 부도율은 <span class="hl">1.2~2.7%</span>다. 그런데 신용평가사 피치(Fitch)가 사모 신용 대출을 받은 중소기업 약 300개를 샘플링한 결과, 실질 부도 위험율은 <span class="hl">9.2%</span>였다. 즉 10개 중 1개가 사실상 도산 직전 상태라는 것이다.
+</p>
+<p class="fade-in">
+  그런데도 이 기업들이 아직 공식 부도 통계에 잡히지 않는 이유가 있다. 사모 신용 계약에는 두 가지 '숨기기 장치'가 내장되어 있기 때문이다.
+</p>
+
+<div class="callout fade-in">
+  <div class="callout-title">도산을 지연시키는 두 가지 장치</div>
+  <ul>
+    <li><strong>AME (만기 자동 연장):</strong> 돈을 못 갚아도 만기를 자동으로 늘려주는 조항. 실질적인 부도임에도 통계에 잡히지 않는다.</li>
+    <li><strong>PIK (이자의 원금 전환):</strong> 이자를 못 내면 그 이자를 원금에 더해주는 구조. 빚이 복리로 눈덩이처럼 불어난다.</li>
+  </ul>
+</div>
+
+<div class="chart-container fade-in">
+  <div class="chart-title">부도율 비교 — 공식 vs. 실질</div>
+  <canvas id="defaultChart" height="220"></canvas>
+</div>
+
+<!-- ═══ SECTION 2: 사모 신용이란 ═══ -->
+<hr class="divider">
+<div class="section-label fade-in">개념 이해</div>
+<h2 class="fade-in">사모 신용(Private Credit)이란 무엇인가</h2>
+
+<p class="fade-in">
+  기업이 미국에서 돈을 빌리는 방법은 크게 두 가지다. 하나는 <strong>은행 대출</strong>(금리 5~7%, 엄격한 심사), 다른 하나는 <strong>회사채 발행</strong>(대기업 전용). 2008년 금융위기 이후 은행 규제가 강화되면서 이 두 경로 모두 막힌 중소·중견기업들을 위해 등장한 제3의 경로가 바로 <span class="hl">사모 신용(Private Credit)</span>이다.
+</p>
+
+<div class="pull-quote fade-in">
+  <p>"연기금의 수익률 갈증과 중소기업의 자금 수요가 맞아떨어졌다. 그 결합이 만들어낸 시장이 이제 3조 5천억 달러로 불어났다."</p>
+  <cite>긴급 매크로 브리핑 요약</cite>
+</div>
+
+<p class="fade-in">
+  구조를 단순화하면 이렇다. 블랙록·블랙스톤 같은 대형 자산운용사가 중간에서 주선하고, 전 세계 연기금(국민연금, 캘리포니아 사학연금 등)의 자금을 모아 미국 중소·중견기업에 대출해준다. 연기금은 국채(당시 0.5%)보다 훨씬 높은 수익(10~14%)을 기대하며 투자했다.
+</p>
+
+<div class="chart-container fade-in">
+  <div class="chart-title">사모 신용 시장 규모 추이 (단위: 조 달러)</div>
+  <canvas id="growthChart" height="220"></canvas>
+</div>
+
+<p class="fade-in">
+  2008년 3천억 달러였던 글로벌 사모 신용 시장은 2026년 현재 <span class="hl">3조 5천억 달러</span>로 18년간 12배 폭증했다.
+</p>
+
+<!-- ═══ SECTION 3: 금리 폭탄 ═══ -->
+<hr class="divider">
+<div class="section-label fade-in">금리 리스크</div>
+<h2 class="fade-in">13~18%: 누구도 감당 못 할 이자율</h2>
+
+<p class="fade-in">
+  사모 신용 대출의 금리는 <strong>변동금리</strong>로 시장금리와 연동된다. 연준이 기준금리를 낮춰도 시장금리가 오르면 대출 이자도 올라간다. 저금리 시대(2020~2021)에는 10~14% 수준이었으나, 연준의 금리 인상 후 시장금리가 오르면서 현재 <span class="hl">13~18%</span>까지 상승했다.
+</p>
+
+<div class="chart-container fade-in">
+  <div class="chart-title">대출 유형별 금리 비교 (%)</div>
+  <canvas id="rateChart" height="220"></canvas>
+</div>
+
+<p class="fade-in">
+  미국 중소·중견기업의 평균 영업이익률은 18%에 한참 못 미친다. 이자를 갚고 남는 돈이 없다는 뜻이다. 더욱 심각한 것은 만기 구조다. 2020~2022년 상반기에 집중 조성된 대출들의 5년 만기가 <span class="hl">2025~2027년 상반기</span>에 집중된다. 이미 만기 절벽(Maturity Cliff)이 시작되고 있다.
+</p>
+
+<!-- ═══ SECTION 4: 세 가지 착시 ═══ -->
+<hr class="divider">
+<div class="section-label fade-in">시장 분석</div>
+<h2 class="fade-in">폭탄이 아직 안 터진 이유: 세 가지 착시</h2>
+
+<div class="callout fade-in">
+  <div class="callout-title">세 가지 착시 효과</div>
+  <ul>
+    <li><strong>셀프 성적표:</strong> 펀드매니저가 직접 자산 가치를 평가한다. 블랙스톤이 매긴 성적표를 국민연금이 그대로 받아들이는 구조. 실제 부도율 9.2%가 보고서에서는 3%로 둔갑한다.</li>
+    <li><strong>이중 카드 돌려막기:</strong> AME·PIK 장치로 위기를 계속 미래로 이연(移延)한다. 당장은 안 보이지만 폭탄의 크기는 매달 커진다.</li>
+    <li><strong>빅테크의 환상:</strong> 애플·엔비디아 등 S&P 500 대형주가 지수를 떠받치고 있다. 무너지는 것은 지수 밖의 중소·중견기업들이다. 화려한 외관 뒤로 바닥에 균열이 나고 있다.</li>
+  </ul>
+</div>
+
+<div class="note fade-in">
+  💡 <strong>블랙스톤 사태:</strong> 1분기 환매 폭증($37억) 후 블랙스톤 임직원 25명이 사재 4억 달러(약 6천억 원)를 자체 투입해 시장 신뢰를 방어했다. 이를 긍정 신호로 볼 수도, 반대로 "오죽 급했으면"이라는 의구심으로 볼 수도 있다.
+</div>
+
+<!-- ═══ SECTION 5: 2008년 비교 ═══ -->
+<hr class="divider">
+<div class="section-label fade-in">역사적 비교</div>
+<h2 class="fade-in">2008년 서브프라임 위기와 무엇이 같고, 다른가</h2>
+
+<table class="compare-table fade-in">
+  <thead>
+    <tr>
+      <th>비교 항목</th>
+      <th>2008 서브프라임</th>
+      <th>2026 사모 신용</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>기초 규모</td>
+      <td>1.3조 달러</td>
+      <td>3.5조 달러</td>
+    </tr>
+    <tr>
+      <td>파생 연결</td>
+      <td>10조 달러 파생 연쇄</td>
+      <td>파생 없음 (완충)</td>
+    </tr>
+    <tr>
+      <td>위기 전파</td>
+      <td>미국 내 집중</td>
+      <td>전 세계 연기금 분산</td>
+    </tr>
+    <tr>
+      <td>부실 은폐 방식</td>
+      <td>MBS 포장</td>
+      <td>PIK·AME 이연</td>
+    </tr>
+    <tr>
+      <td>금리 구조</td>
+      <td>고정→변동 (시차 있음)</td>
+      <td>전부 변동 (즉각 충격)</td>
+    </tr>
+    <tr>
+      <td>투명성</td>
+      <td>집값 공시로 신호 존재</td>
+      <td>장부 비공개, 신호 없음</td>
+    </tr>
+    <tr>
+      <td>한국 직접 노출</td>
+      <td>거의 없음</td>
+      <td>국민연금 100조+ 대체투자 포함 가능</td>
+    </tr>
+    <tr>
+      <td>부실 누적 구조</td>
+      <td>고정적 (정해진 뇌관)</td>
+      <td>복리 가속 (폭탄이 커짐)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="fade-in">
+  서브프라임의 파급 효과가 더 컸던 것은 10조 달러 규모 파생상품이 연쇄 붕괴했기 때문이다. 사모 신용에는 파생이 없어 즉각적 전파는 느리다. 그러나 PIK 구조 탓에 부실이 복리로 증가한다는 점에서, <strong>시간이 지날수록 폭탄이 커지는</strong> 더 위험한 구조라는 평가도 있다.
+</p>
+
+<!-- ═══ SECTION 6: 현재 단계 ═══ -->
+<hr class="divider">
+<div class="section-label fade-in">위기 단계</div>
+<h2 class="fade-in">현재 우리는 몇 단계인가</h2>
+
+<div class="stage-track fade-in">
+  <div class="stage active"><span class="snum">1</span>잠복</div>
+  <div class="stage active"><span class="snum">2</span>불안</div>
+  <div class="stage inactive"><span class="snum">3</span>전이</div>
+  <div class="stage inactive"><span class="snum">4</span>폭발</div>
+</div>
+<p class="stage-label fade-in">▲ 현재 1~2단계를 오가는 중 (블랙스톤 사재 투입 후 일시 진정)</p>
+
+<p class="fade-in">
+  지금은 <span class="hl">1단계(잠복)와 2단계(불안)</span> 사이를 왕복하고 있다. 블랙스톤의 사재 투입으로 시장이 잠시 안정됐으나, 만기 절벽과 고금리가 계속되는 한 불안은 재연될 수 있다.
+</p>
+
+<!-- ═══ SECTION 7: 이란 전쟁 변수 ═══ -->
+<hr class="divider">
+<div class="section-label fade-in">지정학 변수</div>
+<h2 class="fade-in">왜 하필 지금인가: 이란 전쟁이라는 방아쇠</h2>
+
+<p class="fade-in">
+  사모 신용 문제의 유일한 탈출구는 <strong>금리 하락</strong>이었다. 18% 대출금리가 9%로만 내려가도 대부분의 기업이 이자를 감당할 수 있다. 그런데 이란 전쟁으로 유가가 100달러를 돌파하면서 이 탈출로가 막혔다.
+</p>
+
+<div class="chart-container fade-in">
+  <div class="chart-title">시나리오별 사모 신용 위기 경로</div>
+  <canvas id="scenarioChart" height="230"></canvas>
+</div>
+
+<div class="pull-quote fade-in">
+  <p>"연준은 금리를 낮추면 인플레가 재점화되고, 금리를 유지하면 기업들이 줄도산한다. 이란 전쟁이 연준을 덫에 가뒀다."</p>
+  <cite>긴급 매크로 요약</cite>
+</div>
+
+<!-- ═══ SECTION 8: 폭발 조건 ═══ -->
+<hr class="divider">
+<div class="section-label fade-in">리스크 시나리오</div>
+<h2 class="fade-in">터질 조건 vs. 안 터질 조건</h2>
+
+<h3 class="fade-in">✅ 안 터지는 4가지 조건</h3>
+<div class="callout fade-in">
+  <ul>
+    <li>이란 전쟁 조기 종결 → 유가 80달러 이하 → 금리 인하 가능</li>
+    <li>연준 기준금리 인하 + 시장금리 동반 하락</li>
+    <li>대형 사모펀드 자체 구조조정 (좀비기업 정리)</li>
+    <li>미국 정부·재무부 유동성 공급 (SVB 위기 때처럼)</li>
+  </ul>
+</div>
+
+<h3 class="fade-in">❌ 터지는 4가지 조건</h3>
+<div class="callout fade-in">
+  <ul>
+    <li>이란 전쟁 장기화 → 유가 130달러+ → 연준 금리 동결 고착화</li>
+    <li>사모 신용 펀드 환매 폭증 → 유동성 도미노</li>
+    <li>기업 줄도산 → 신용경색</li>
+    <li>은행권으로 전이 → 2008년 재연</li>
+  </ul>
+</div>
+
+<p class="fade-in">
+  4가지 중 <span class="hl">3가지만 겹쳐도</span> 폭발 확률이 크게 높아진다는 것이 브리핑의 핵심 경고다. 단, 연준·재무부가 개입 수단을 보유하고 있기 때문에 즉각 폭발보다는 폭탄이 더 커지는 방향으로 진행될 가능성이 높다.
+</p>
+
+<!-- ═══ SECTION 9: 한국 영향 ═══ -->
+<hr class="divider">
+<div class="section-label fade-in">한국 영향</div>
+<h2 class="fade-in">이번엔 남의 이야기가 아니다</h2>
+
+<p class="fade-in">
+  서브프라임 위기(2008년) 때 한국 금융기관의 직접 노출은 거의 없었다. 그러나 이번 사모 신용 위기는 다르다. 국민연금의 대체 투자 규모는 현재 <span class="hl">100조 원 이상</span>이며, 그 안에 사모 대출(Private Credit)이 상당 비중 포함되어 있을 가능성이 높다.
+</p>
+
+<div class="stat-row fade-in">
+  <div class="stat-box">
+    <div class="num">100조+</div>
+    <div class="label">국민연금<br>대체 투자 규모<br>(사모 대출 비중 미공개)</div>
+  </div>
+  <div class="stat-box">
+    <div class="num">비공개</div>
+    <div class="label">국민연금의<br>사모 신용 투자 내역<br>("구체적 내역 비밀")</div>
+  </div>
+</div>
+
+<p class="fade-in">
+  국민연금은 언론의 문의에 "구체적인 자산 운용 내역은 비밀"이라고 답했다. 한국 금융당국조차 국내 기관의 사모 신용 노출 규모를 정확히 파악하지 못하고 있다. 미국 금융당국도 마찬가지다.
+</p>
+
+<!-- ═══ SECTION 10: 투자자 대응 지표 ═══ -->
+<hr class="divider">
+<div class="section-label fade-in">투자 시사점</div>
+<h2 class="fade-in">무엇을 봐야 하는가: 두 가지 신호등</h2>
+
+<div class="callout fade-in">
+  <div class="callout-title">⚠️ 위기 조기 경보 지표</div>
+  <ul>
+    <li><strong>원/달러 환율의 이유 없는 급등:</strong> 이란 사태와 무관한 환율 급등은 글로벌 달러 경색, 즉 사모 신용 위기의 신호일 수 있다. 외국인이 한국 자산을 우선 매도하는 현상과 연결된다.</li>
+    <li><strong>러셀 2000 지수의 독립적 하락:</strong> S&P 500은 횡보하는데 러셀 2000(미국 소형주 지수)만 하락하기 시작하면, 사모 신용과 연결된 실물 기업 부실이 수면 위로 올라오는 신호다.</li>
+  </ul>
+</div>
+
+<h3 class="fade-in">투자 시사점 요약</h3>
+<div class="callout fade-in">
+  <ul>
+    <li><strong>피할 것:</strong> 고배당 회사채, 레버리지 주식 투자 — 현재 불안정성이 너무 크다.</li>
+    <li><strong>유지·확대:</strong> 달러 비중 — 글로벌 유동성 경색 시 달러가 최후의 안전처.</li>
+    <li><strong>관찰 기회:</strong> 연기금의 자산 매각 압력으로 금값이 일시적으로 눌리는 구간이 발생할 수 있다.</li>
+    <li><strong>특이 현상:</strong> 비트코인이 금과 반대로 움직이는 것은 연기금이 아닌 개인 주도 자산임을 방증한다.</li>
+  </ul>
+</div>
+
+<!-- ═══ SECTION 11: 결론 ═══ -->
+<hr class="divider">
+<div class="section-label fade-in">결론</div>
+<h2 class="fade-in">터질 것인가, 아닌가</h2>
+
+<p class="fade-in">
+  이 질문에 단언하기는 불가능하다. 사모 신용은 구조 자체가 블랙박스다. 2008년 서브프라임은 집값이라는 공개 지표가 있었지만, 사모 신용은 신호조차 없다.
+</p>
+<p class="fade-in">
+  다만 한 가지는 분명하다. <span class="hl">안 터지고 계속 가는 과정에서 폭탄의 크기가 계속 커진다는 것.</span> 이자가 원금으로 덮이고, 그 원금에 다시 18% 이자가 붙는 복리 구조는 시간이 지날수록 위험을 키운다.
+</p>
+<p class="fade-in">
+  연준과 미국 재무부가 이 문제를 인지하고 있으며, 현재도 시장 지지를 위해 적극 개입하고 있다는 점은 긍정적이다. 그러나 이란 전쟁이라는 외생 변수가 연준의 선택지를 좁히고 있다. 전황의 향방이 곧 사모 신용의 향방이다.
+</p>
+
+<div class="pull-quote fade-in">
+  <p>"지금은 화려한 S&P 500 뒤로 바닥에 균열이 나는 시기다. 발밑을 먼저 보는 훈련이 필요하다."</p>
+  <cite>긴급 매크로 브리핑 핵심 메시지</cite>
+</div>
+
+<footer class="fade-in">
+  <p>본 문서는 2026년 3월 17일 긴급 매크로 브리핑(7강) 강연 내용을 미국 증시 및 경제적 관점에서 정리한 분석 요약본입니다. 투자 권유나 특정 종목 추천을 목적으로 하지 않습니다. 수록된 수치와 통계는 원본 강연 내용을 그대로 사용했습니다.</p>
+</footer>
+
+<script>
+// ─── FADE-IN OBSERVER ───
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+// ─── CHART CONFIGS ───
+const chartConfigs = {};
+
+chartConfigs['defaultChart'] = () => {
+  new Chart(document.getElementById('defaultChart'), {
+    type: 'bar',
+    data: {
+      labels: ['공식 부도율 (낮은 추정)', '공식 부도율 (높은 추정)', '사모 신용 실질 위험율'],
+      datasets: [{
+        data: [1.2, 2.7, 9.2],
+        backgroundColor: ['#6b7280', '#2563eb', '#e11d48'],
+        borderRadius: 3,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` ${ctx.raw}%`
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 12,
+          ticks: {
+            callback: v => v + '%',
+            font: { family: 'DM Sans', size: 10 },
+            color: '#777'
+          },
+          grid: { color: '#e5e5e5' }
+        },
+        x: {
+          ticks: {
+            font: { family: 'DM Sans', size: 10 },
+            color: '#777',
+            maxRotation: 0,
+            callback: function(val, idx) {
+              const labels = ['공식 (낮음)', '공식 (높음)', '사모 실질'];
+              return labels[idx];
+            }
+          },
+          grid: { display: false }
+        }
+      }
+    }
+  });
+};
+
+chartConfigs['growthChart'] = () => {
+  new Chart(document.getElementById('growthChart'), {
+    type: 'bar',
+    data: {
+      labels: ['2008', '2012', '2016', '2020', '2026'],
+      datasets: [{
+        label: '시장 규모 (조 달러)',
+        data: [0.3, 0.7, 1.4, 2.2, 3.5],
+        backgroundColor: ['#6b7280','#6b7280','#6b7280','#2563eb','#e11d48'],
+        borderRadius: 4,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` $${ctx.raw}조 달러`
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: v => '$' + v + '조',
+            font: { family: 'DM Sans', size: 10 },
+            color: '#777'
+          },
+          grid: { color: '#e5e5e5' }
+        },
+        x: {
+          ticks: { font: { family: 'DM Sans', size: 11 }, color: '#777' },
+          grid: { display: false }
+        }
+      }
+    }
+  });
+};
+
+chartConfigs['rateChart'] = () => {
+  new Chart(document.getElementById('rateChart'), {
+    type: 'bar',
+    data: {
+      labels: ['은행 대출\n(최저)', '은행 대출\n(최고)', '사모 신용\n(저금리 시대)', '사모 신용\n(현재 최저)', '사모 신용\n(현재 최고)'],
+      datasets: [{
+        label: '금리 (%)',
+        data: [5, 7, 10, 13, 18],
+        backgroundColor: ['#2563eb','#2563eb','#6b7280','#f43f5e','#e11d48'],
+        borderRadius: 4,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.raw}%` } }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 22,
+          ticks: {
+            callback: v => v + '%',
+            font: { family: 'DM Sans', size: 10 },
+            color: '#777'
+          },
+          grid: { color: '#e5e5e5' }
+        },
+        x: {
+          ticks: {
+            font: { family: 'DM Sans', size: 9 },
+            color: '#777',
+            maxRotation: 0,
+            callback: function(val, idx) {
+              const ls = ['은행(최저)','은행(최고)','사모(과거)','사모(현재↓)','사모(현재↑)'];
+              return ls[idx];
+            }
+          },
+          grid: { display: false }
+        }
+      }
+    }
+  });
+};
+
+chartConfigs['scenarioChart'] = () => {
+  new Chart(document.getElementById('scenarioChart'), {
+    type: 'radar',
+    data: {
+      labels: ['유가 위험', '금리 인하 불가', '환매 압력', '기업 도산율', '연준 개입력', '시장 투명성'],
+      datasets: [
+        {
+          label: '현재 상황',
+          data: [75, 70, 55, 60, 65, 20],
+          borderColor: '#e11d48',
+          backgroundColor: 'rgba(225,29,72,0.12)',
+          pointBackgroundColor: '#e11d48',
+          borderWidth: 2,
+          pointRadius: 3
+        },
+        {
+          label: '2008 서브프라임',
+          data: [30, 40, 70, 85, 55, 45],
+          borderColor: '#2563eb',
+          backgroundColor: 'rgba(37,99,235,0.08)',
+          pointBackgroundColor: '#2563eb',
+          borderWidth: 2,
+          pointRadius: 3
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            font: { family: 'DM Sans', size: 10 },
+            color: '#777',
+            boxWidth: 12,
+            padding: 12
+          }
+        }
+      },
+      scales: {
+        r: {
+          min: 0,
+          max: 100,
+          ticks: {
+            display: false
+          },
+          pointLabels: {
+            font: { family: 'DM Sans', size: 10 },
+            color: '#1a1a1a'
+          },
+          grid: { color: '#e5e5e5' }
+        }
+      }
+    }
+  });
+};
+
+// ─── CHART INTERSECTION OBSERVER ───
+const chartObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const canvas = e.target.querySelector('canvas');
+      if (canvas && chartConfigs[canvas.id]) {
+        chartConfigs[canvas.id]();
+        e.target.classList.add('chart-ready');
+        chartObs.unobserve(e.target);
+      }
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+</script>
+</body>
+</html>
