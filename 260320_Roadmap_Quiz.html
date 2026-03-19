@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>시험문제 — 파멸의 J커브 & 공포의 톱니바퀴</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900&family=DM+Sans:wght@300;400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#ffffff;--bg2:#fafafa;--text:#1a1a1a;--text2:#777777;
+    --accent:#e11d48;--accent2:#f43f5e;--c4:#2563eb;--border:#e5e5e5;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;font-size:15px}
+
+  /* HEADER */
+  .masthead{background:var(--text);color:#fff;padding:44px 20px 32px;text-align:center;position:relative;overflow:hidden}
+  .masthead::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(-45deg,transparent,transparent 18px,rgba(225,29,72,.07) 18px,rgba(225,29,72,.07) 19px)}
+  .issue-label{font-size:9px;font-weight:500;letter-spacing:3.5px;text-transform:uppercase;color:var(--accent2);margin-bottom:12px}
+  .masthead h1{font-family:'Playfair Display',serif;font-size:clamp(24px,6vw,40px);font-weight:900;line-height:1.15;color:#fff;position:relative}
+  .masthead h1 em{color:var(--accent2);font-style:italic}
+  .masthead-sub{font-size:12px;color:rgba(255,255,255,.5);letter-spacing:.5px;margin-top:10px}
+  .red-rule{width:40px;height:3px;background:var(--accent);margin:16px auto}
+
+  /* SCORE CARD */
+  .score-header{background:var(--bg2);border-bottom:2px solid var(--border);padding:16px 20px}
+  .score-inner{max-width:680px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  .score-label{font-size:11px;font-weight:500;color:var(--text2);letter-spacing:1px;text-transform:uppercase}
+  .score-display{display:flex;align-items:center;gap:12px}
+  .score-num{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:var(--accent)}
+  .score-denom{font-size:13px;color:var(--text2);margin-top:4px}
+  .progress-bar{height:6px;background:var(--border);border-radius:3px;flex:1;min-width:120px;overflow:hidden}
+  .progress-fill{height:100%;background:var(--accent);border-radius:3px;transition:width .5s ease;width:0%}
+  .btn-reset-all{background:transparent;border:1px solid var(--border);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:11px;padding:6px 14px;border-radius:4px;cursor:pointer;letter-spacing:.5px;transition:all .2s}
+  .btn-reset-all:hover{border-color:var(--accent);color:var(--accent)}
+
+  /* LEGEND */
+  .legend{max-width:680px;margin:0 auto;padding:14px 20px;display:flex;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--border)}
+  .legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2)}
+  .legend-dot{width:10px;height:10px;border-radius:50%}
+
+  /* CONTAINER */
+  .container{max-width:680px;margin:0 auto;padding:20px 20px 40px}
+
+  /* DIFFICULTY SECTIONS */
+  .diff-section{margin-bottom:32px}
+  .diff-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--border)}
+  .diff-badge{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:4px}
+  .badge-easy{background:#dcfce7;color:#15803d}
+  .badge-med{background:#fef9c3;color:#a16207}
+  .badge-hard{background:#fee2e2;color:#dc2626}
+  .diff-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--text)}
+  .diff-count{font-size:11px;color:var(--text2);margin-left:auto}
+
+  /* QUIZ ITEM */
+  .quiz-item{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:14px;background:#fff;transition:box-shadow .2s}
+  .quiz-item:hover{box-shadow:0 2px 12px rgba(0,0,0,.06)}
+  .quiz-item.answered-correct{border-color:#86efac}
+  .quiz-item.answered-wrong{border-color:#fca5a5}
+
+  .quiz-header{padding:14px 16px;background:var(--bg2);display:flex;gap:10px;align-items:flex-start;cursor:pointer;user-select:none}
+  .q-num{font-size:10px;font-weight:700;color:var(--accent);background:#fff0f3;border:1px solid #fecdd3;border-radius:4px;padding:3px 9px;white-space:nowrap;flex-shrink:0;margin-top:1px}
+  .q-type-tag{font-size:9px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;padding:3px 7px;border-radius:4px;white-space:nowrap;flex-shrink:0;margin-top:1px}
+  .tag-easy{background:#dcfce7;color:#16a34a}
+  .tag-med{background:#fef9c3;color:#a16207}
+  .tag-hard{background:#fee2e2;color:#dc2626}
+  .q-text{font-size:14px;font-weight:500;flex:1;line-height:1.55;font-family:'Source Serif 4',serif}
+  .q-status{flex-shrink:0;font-size:16px;margin-left:6px;margin-top:1px}
+  .q-toggle{font-size:14px;color:var(--accent);flex-shrink:0;margin-top:2px;transition:transform .3s}
+  .quiz-item.open .q-toggle{transform:rotate(180deg)}
+
+  /* OPTIONS */
+  .quiz-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+  .quiz-item.open .quiz-body{max-height:800px}
+  .quiz-body-inner{padding:16px 16px 0}
+
+  .opt-list{list-style:none;margin-bottom:14px}
+  .opt-list li{padding:9px 14px;border-radius:7px;font-size:13px;margin-bottom:7px;background:var(--bg2);border:1px solid var(--border);cursor:pointer;transition:all .18s;line-height:1.5}
+  .opt-list li:hover{border-color:var(--accent2);background:#fff0f3}
+  .opt-list li.correct{background:#dcfce7;border-color:#86efac;color:#166534;cursor:default}
+  .opt-list li.wrong{background:#fee2e2;border-color:#fca5a5;color:#991b1b;cursor:default}
+  .opt-list li.disabled{pointer-events:none;opacity:.6}
+
+  /* OX BUTTONS */
+  .ox-row{display:flex;gap:10px;margin-bottom:14px}
+  .btn-ox{flex:1;padding:10px;border:2px solid var(--border);border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;background:#fff;transition:all .2s;font-family:'DM Sans',sans-serif}
+  .btn-ox:hover:not(:disabled){border-color:var(--accent);background:#fff0f3}
+  .btn-ox.selected-correct{background:#dcfce7;border-color:#86efac;color:#166534}
+  .btn-ox.selected-wrong{background:#fee2e2;border-color:#fca5a5;color:#991b1b}
+  .btn-ox:disabled{cursor:default}
+
+  /* SHORT ANSWER */
+  .short-row{display:flex;gap:8px;margin-bottom:14px}
+  .ans-input{flex:1;border:1px solid var(--border);border-radius:6px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .2s}
+  .ans-input:focus{border-color:var(--accent)}
+  .ans-input.correct-input{border-color:#86efac;background:#f0fdf4}
+  .ans-input.wrong-input{border-color:#fca5a5;background:#fef2f2}
+  textarea.ans-input{width:100%;resize:vertical;min-height:80px;flex:none}
+  .btn-submit{background:var(--accent);color:#fff;border:none;border-radius:6px;padding:9px 16px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .2s}
+  .btn-submit:hover{background:var(--accent2)}
+  .btn-submit:disabled{background:#ccc;cursor:default}
+
+  /* ANSWER BOX */
+  .reveal-row{display:flex;gap:8px;align-items:center;margin-bottom:14px}
+  .btn-reveal{background:transparent;border:1px solid var(--c4);color:var(--c4);border-radius:5px;padding:7px 14px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;cursor:pointer;letter-spacing:.5px;transition:all .2s}
+  .btn-reveal:hover{background:var(--c4);color:#fff}
+
+  .answer-box{background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:14px 16px;margin-bottom:16px;display:none}
+  .answer-box.show{display:block}
+  .ans-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#0369a1;margin-bottom:8px}
+  .ans-text{font-size:13px;color:var(--text);line-height:1.7;font-family:'Source Serif 4',serif}
+  .ans-text strong{color:var(--accent)}
+
+  /* FOOTER */
+  footer{background:var(--text);color:rgba(255,255,255,.4);text-align:center;padding:22px 20px;font-size:11px;letter-spacing:.5px}
+  footer strong{color:rgba(255,255,255,.7)}
+
+  @media(max-width:400px){.score-inner{flex-direction:column}.legend{gap:8px}}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="issue-label">시험문제 · Part 3 — 3강</div>
+  <div class="red-rule"></div>
+  <h1>파멸의 <em>J커브</em> &amp;<br>공포의 톱니바퀴</h1>
+  <div class="masthead-sub">핵심 개념 확인 시험 · 10문제 · 객관식 / OX / 단답형 / 서술형</div>
+</div>
+
+<!-- SCORE BAR -->
+<div class="score-header">
+  <div class="score-inner">
+    <div>
+      <div class="score-label">현재 점수</div>
+      <div class="score-display">
+        <div class="score-num" id="scoreNum">0</div>
+        <div class="score-denom">/ 10</div>
+      </div>
+    </div>
+    <div style="flex:1;min-width:100px">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div style="font-size:10px;color:var(--text2);margin-top:4px;text-align:right" id="progressPct">0% 완료</div>
+    </div>
+    <button class="btn-reset-all" onclick="resetAll()">↺ 전체 초기화</button>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#dcfce7;border:1px solid #86efac"></div>정답</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fee2e2;border:1px solid #fca5a5"></div>오답</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fef9c3;border:1px solid #fde047"></div>보통 난이도</div>
+  <div class="legend-item" style="margin-left:auto;font-size:11px;color:var(--text2)">각 문제 우측 ▼ 클릭으로 펼치기</div>
+</div>
+
+<div class="container">
+
+<!-- ── EASY ── -->
+<div class="diff-section">
+  <div class="diff-header">
+    <span class="diff-badge badge-easy">쉬움</span>
+    <span class="diff-title">기초 개념 확인</span>
+    <span class="diff-count">3문제 (30%)</span>
+  </div>
+
+  <!-- Q1 -->
+  <div class="quiz-item" id="q1">
+    <div class="quiz-header" onclick="toggleQ('q1')">
+      <span class="q-num">Q1</span>
+      <span class="q-type-tag tag-easy">객관식</span>
+      <span class="q-text">경제 위기(나쁜 일)가 찾아오는 전형적인 패턴으로 가장 적절한 것은?</span>
+      <span class="q-status" id="q1-status"></span>
+      <span class="q-toggle">▼</span>
+    </div>
+    <div class="quiz-body">
+      <div class="quiz-body-inner">
+        <ul class="opt-list" id="q1-opts">
+          <li onclick="selectOpt('q1',this,false)">① S커브 — 천천히 시작해 가속된다</li>
+          <li onclick="selectOpt('q1',this,false)">② 직선 — 일정한 속도로 진행된다</li>
+          <li onclick="selectOpt('q1',this,true)">③ J커브 — 잠복 후 임계점에서 수직 폭발한다</li>
+          <li onclick="selectOpt('q1',this,false)">④ 하이프사이클 — 과대평가 후 환멸기를 거친다</li>
+        </ul>
+        <div class="answer-box" id="q1-ans">
+          <div class="ans-label">✅ 정답 및 해설</div>
+          <div class="ans-text"><strong>③ J커브</strong>. 나쁜 일(위기)은 오랫동안 수면 아래에서 에너지를 축적하다 임계점을 돌파하는 순간 수직에 가까운 속도로 폭발한다. 강의에서는 이를 "J자 모양"으로 표현하며, 인플레이션·인구 감소·환율 모두 이 패턴을 따른다고 설명한다. 반면 성장(좋은 일)은 S커브를 따라 천천히 온다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="quiz-item" id="q2">
+    <div class="quiz-header" onclick="toggleQ('q2')">
+      <span class="q-num">Q2</span>
+      <span class="q-type-tag tag-easy">OX</span>
+      <span class="q-text">2008~2014년 미국 연준의 QE로 자산이 5배 증가했음에도 인플레이션이 발생하지 않았기 때문에, 2020년 팬데믹 QE도 인플레이션을 일으키지 않을 것이라는 판단은 합리적이었다.</span>
+      <span class="q-status" id="q2-status"></span>
+      <span class="q-toggle">▼</span>
+    </div>
+    <div class="quiz-body">
+      <div class="quiz-body-inner">
+        <div class="ox-row">
+          <button class="btn-ox" id="q2-O" onclick="oxSelect('q2','O','X')">O</button>
+          <button class="btn-ox" id="q2-X" onclick="oxSelect('q2','X','X')">X</button>
+        </div>
+        <div class="answer-box" id="q2-ans">
+          <div class="ans-label">✅ 정답: X (틀렸다)</div>
+          <div class="ans-text">이는 <strong>반복 편향(Recency Bias)</strong>의 전형적 오류다. 2020년 QE는 기존의 축적된 유동성($4.5조)에 추가로 $4.5조를 더해 임계점을 돌파했다. 세상은 선형이 아니므로, 같은 크기의 자극도 누적 효과가 더해지면 비선형적으로 폭발한다. 실제로 2022년 상반기 CPI가 9%까지 급등하며 40년 만의 최고치를 기록했다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="quiz-item" id="q3">
+    <div class="quiz-header" onclick="toggleQ('q3')">
+      <span class="q-num">Q3</span>
+      <span class="q-type-tag tag-easy">단답형</span>
+      <span class="q-text">생산가능인구(15~64세) 100명이 65세 이상 노인 몇 명을 부양하는지를 나타내는 지표를 무엇이라 하는가?</span>
+      <span class="q-status" id="q3-status"></span>
+      <span class="q-toggle">▼</span>
+    </div>
+    <div class="quiz-body">
+      <div class="quiz-body-inner">
+        <div class="short-row">
+          <input type="text" class="ans-input" id="q3-input" placeholder="답을 입력하세요...">
+          <button class="btn-submit" id="q3-btn" onclick="checkShort('q3','노인부양비')">제출</button>
+        </div>
+        <div class="reveal-row">
+          <button class="btn-reveal" onclick="revealAns('q3-ans')">정답 확인</button>
+        </div>
+        <div class="answer-box" id="q3-ans">
+          <div class="ans-label">✅ 정답</div>
+          <div class="ans-text"><strong>노인부양비(Old-Age Dependency Ratio)</strong>. 이 수치가 높아질수록 1명의 노동자가 더 많은 세금을 내야 하고, 사회 지출이 증가하며, 경제 성장률이 둔화된다. 강의에서는 2000년대 한국의 부양비가 10%(노동자 9명이 노인 1명 부양)에서 2050년 100%(노동자 1명이 노인 1명 부양)으로 급증할 것임을 경고했다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MEDIUM ── -->
+<div class="diff-section">
+  <div class="diff-header">
+    <span class="diff-badge badge-med">보통</span>
+    <span class="diff-title">심화 개념 이해</span>
+    <span class="diff-count">5문제 (50%)</span>
+  </div>
+
+  <!-- Q4 -->
+  <div class="quiz-item" id="q4">
+    <div class="quiz-header" onclick="toggleQ('q4')">
+      <span class="q-num">Q4</span>
+      <span class="q-type-tag tag-med">객관식</span>
+      <span class="q-text">강의자가 말하는 "공포의 톱니바퀴"가 J커브를 완성하는 메커니즘으로 가장 적절한 설명은?</span>
+      <span class="q-status" id="q4-status"></span>
+      <span class="q-toggle">▼</span>
+    </div>
+    <div class="quiz-body">
+      <div class="quiz-body-inner">
+        <ul class="opt-list" id="q4-opts">
+          <li onclick="selectOpt('q4',this,false)">① 정부가 금리를 급격히 올려 경기를 냉각시키는 것</li>
+          <li onclick="selectOpt('q4',this,true)">② 인플레 공포가 심리적으로 확산되며 물가 상승을 가속화하는 자기실현적 메커니즘</li>
+          <li onclick="selectOpt('q4',this,false)">③ 외국인 자금이 일시에 빠져나가며 주가를 폭락시키는 것</li>
+          <li onclick="selectOpt('q4',this,false)">④ 알고리즘 매매가 시장을 장악해 가격 변동성이 커지는 것</li>
+        </ul>
+        <div class="answer-box" id="q4-ans">
+          <div class="ans-label">✅ 정답 및 해설</div>
+          <div class="ans-text"><strong>② 자기실현적 공포 메커니즘</strong>. 강의에서는 인플레이션이 2%→3%로 오를 때는 사람들이 크게 신경 쓰지 않지만, 4%→5%로 오르면 공포심이 발동되어 "물가가 계속 오를 것"이라는 심리가 형성되고, 이것이 소비 폭발 → 임금 인상 요구 → 서비스 물가 상승으로 이어지는 악순환을 만든다고 설명한다. 이 공포 심리의 연쇄 반응이 "공포의 톱니바퀴"다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="quiz-item" id="q5">
+    <div class="quiz-header" onclick="toggleQ('q5')">
+      <span class="q-num">Q5</span>
+      <span class="q-type-tag tag-med">객관식</span>
+      <span class="q-text">강의자가 일본의 아베노믹스를 "실버민주주의의 포장지"라고 비판한 핵심 이유는?</span>
+      <span class="q-status" id="q5-status"></span>
+      <span class="q-toggle">▼</span>
+    </div>
+    <div class="quiz-body">
+      <div class="quiz-body-inner">
+        <ul class="opt-list" id="q5-opts">
+          <li onclick="selectOpt('q5',this,false)">① 수출보다 내수를 강조한 잘못된 경제 정책이기 때문에</li>
+          <li onclick="selectOpt('q5',this,false)">② 엔화 평가절하를 유도해 무역 흑자를 노린 환율 조작이기 때문에</li>
+          <li onclick="selectOpt('q5',this,true)">③ 고령층 복지를 줄이지 않으면서 젊은층 증세도 안 하기 위해 국채를 찍어 일본은행이 매입하는 구조이기 때문에</li>
+          <li onclick="selectOpt('q5',this,false)">④ 규제 완화와 구조 개혁에만 집중해 복지를 완전히 무시했기 때문에</li>
+        </ul>
+        <div class="answer-box" id="q5-ans">
+          <div class="ans-label">✅ 정답 및 해설</div>
+          <div class="ans-text"><strong>③ 국채 무제한 발행 + 일본은행 매입 구조</strong>. 아베는 고령층 복지 확대 + 젊은층 증세 없음이라는 양쪽 인기 정책을 동시에 추진했다. 재원 마련 방법은 일본은행이 무제한으로 국채를 매입하는 것이었고, 이것이 엔화 가치를 2012년 1달러=75엔에서 2022년 155엔까지 반토막 냈다. 실질적으로는 국민의 저축 구매력을 희석시킨 숨겨진 세금이다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="quiz-item" id="q6">
+    <div class="quiz-header" onclick="toggleQ('q6')">
+      <span class="q-num">Q6</span>
+      <span class="q-type-tag tag-med">단답형</span>
+      <span class="q-text">강의자가 한국판 아베노믹스의 원년으로 지목한 연도는? 그리고 그 이유를 한 가지 쓰시오.</span>
+      <span class="q-status" id="q6-status"></span>
+      <span class="q-toggle">▼</span>
+    </div>
+    <div class="quiz-body">
+      <div class="quiz-body-inner">
+        <div class="short-row">
+          <input type="text" class="ans-input" id="q6-input" placeholder="예: 20XX년, 이유: ...">
+          <button class="btn-submit" id="q6-btn" onclick="checkShort('q6','2022')">제출</button>
+        </div>
+        <div class="reveal-row">
+          <button class="btn-reveal" onclick="revealAns('q6-ans')">정답 확인</button>
+        </div>
+        <div class="answer-box" id="q6-ans">
+          <div class="ans-label">✅ 정답</div>
+          <div class="ans-text"><strong>2022년</strong>. 이유(다음 중 하나): ① 매년 약 100조 원 규모의 재정 적자 시작. ② 한국은행이 국채 금리를 인위적으로 낮추는 유사 양적완화(국고채 금리 억제)를 반복 시행. ③ 정치적 이유로 복지 지출 삭감이 불가능한 구조 고착화. 보수·진보 모두 매년 약 100조 원 재정 적자를 기록한다는 점에서 구조적으로 동일한 경로라고 강의자는 분석한다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="quiz-item" id="q7">
+    <div class="quiz-header" onclick="toggleQ('q7')">
+      <span class="q-num">Q7</span>
+      <span class="q-type-tag tag-med">객관식</span>
+      <span class="q-text">강의에서 설명한 J커브 연쇄 반응(체인 리액션)의 올바른 순서는?</span>
+      <span class="q-status" id="q7-status"></span>
+      <span class="q-toggle">▼</span>
+    </div>
+    <div class="quiz-body">
+      <div class="quiz-body-inner">
+        <ul class="opt-list" id="q7-opts">
+          <li onclick="selectOpt('q7',this,false)">① 물가 → 환율 → 세금 → 자산 양극화</li>
+          <li onclick="selectOpt('q7',this,true)">② 환율 → 물가 → 세금·준조세 → 자산 양극화</li>
+          <li onclick="selectOpt('q7',this,false)">③ 세금 → 환율 → 물가 → 자산 양극화</li>
+          <li onclick="selectOpt('q7',this,false)">④ 자산 양극화 → 물가 → 환율 → 세금</li>
+        </ul>
+        <div class="answer-box" id="q7-ans">
+          <div class="ans-label">✅ 정답 및 해설</div>
+          <div class="ans-text"><strong>② 환율 → 물가 → 세금·준조세 → 자산 양극화</strong>. 환율이 가장 빠른 선행 지표다. 환율 상승 → 수입물가 폭등 → 국내 물가 상승 → 재정 적자 심화로 세금·준조세 증가 → 노동소득 중심의 과세 강화로 자산 보유층과 비보유층의 격차 확대(자산 양극화) 순서다. 강의자는 이를 "4번 타자까지 5년 안쪽"이라고 표현했다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="quiz-item" id="q8">
+    <div class="quiz-header" onclick="toggleQ('q8')">
+      <span class="q-num">Q8</span>
+      <span class="q-type-tag tag-med">OX</span>
+      <span class="q-text">일본은 GDP 대비 수출 비중이 약 17%인 반면, 한국은 약 40%다. 따라서 글로벌 무역 환경이 악화될 때 한국 경제가 더 큰 충격을 받는다.</span>
+      <span class="q-status" id="q8-status"></span>
+      <span class="q-toggle">▼</span>
+    </div>
+    <div class="quiz-body">
+      <div class="quiz-body-inner">
+        <div class="ox-row">
+          <button class="btn-ox" id="q8-O" onclick="oxSelect('q8','O','O')">O</button>
+          <button class="btn-ox" id="q8-X" onclick="oxSelect('q8','X','O')">X</button>
+        </div>
+        <div class="answer-box" id="q8-ans">
+          <div class="ans-label">✅ 정답: O (맞다)</div>
+          <div class="ans-text">한국은 수출 의존도가 높아 글로벌 경기 둔화, 무역 분쟁, 반도체 다운사이클 등에 훨씬 취약하다. 강의에서는 <strong>"수출이 10% 줄면 일본은 GDP의 1.7%만 영향받지만, 한국은 GDP의 4%나 영향받는다"</strong>고 설명한다. 이는 원화 환율 변동성이 더 클 수밖에 없는 구조적 이유기도 하다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── HARD ── -->
+<div class="diff-section">
+  <div class="diff-header">
+    <span class="diff-badge badge-hard">어려움</span>
+    <span class="diff-title">심층 분석 · 종합 판단</span>
+    <span class="diff-count">2문제 (20%)</span>
+  </div>
+
+  <!-- Q9 -->
+  <div class="quiz-item" id="q9">
+    <div class="quiz-header" onclick="toggleQ('q9')">
+      <span class="q-num">Q9</span>
+      <span class="q-type-tag tag-hard">객관식</span>
+      <span class="q-text">강의자가 "한국이 일본보다 더 짧은 기간(4~5년)에 환율 J커브 임계점에 도달할 수 있다"고 예측한 핵심 이유로 적절하지 않은 것은?</span>
+      <span class="q-status" id="q9-status"></span>
+      <span class="q-toggle">▼</span>
+    </div>
+    <div class="quiz-body">
+      <div class="quiz-body-inner">
+        <ul class="opt-list" id="q9-opts">
+          <li onclick="selectOpt('q9',this,false)">① AI·알고리즘이 일본 아베노믹스 사례를 이미 학습하여 원화 약세 신호에 빠르게 반응</li>
+          <li onclick="selectOpt('q9',this,false)">② 한국의 합계출산율 하락 속도가 일본보다 약 2배 빠름</li>
+          <li onclick="selectOpt('q9',this,true)">③ 한국의 국가 신용등급이 일본보다 낮아 국채 발행이 어려움</li>
+          <li onclick="selectOpt('q9',this,false)">④ 원화는 비기축통화로 무제한 양적완화 시 즉각적인 환율 붕괴 위험</li>
+        </ul>
+        <div class="answer-box" id="q9-ans">
+          <div class="ans-label">✅ 정답 및 해설</div>
+          <div class="ans-text"><strong>③ 국가 신용등급 — 강의에서 언급되지 않음</strong>. 강의자가 제시한 핵심 이유는 ①AI 학습 효과로 알고리즘이 더 빠르게 반응, ②한국의 출산율 하락 속도가 2배 빠름, ④원화는 비기축통화라 무제한 QE 불가 — 이 세 가지다. 추가로 가계부채(GDP 120%), 부동산 집중(가계 순자산 75%), 수출 의존도(GDP 40%)도 한국의 취약성 이유로 든다. 신용등급 차이는 언급되지 않는다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="quiz-item" id="q10">
+    <div class="quiz-header" onclick="toggleQ('q10')">
+      <span class="q-num">Q10</span>
+      <span class="q-type-tag tag-hard">서술형</span>
+      <span class="q-text">강의자가 제시한 "3대 인간 편향"을 모두 쓰고, J커브 위기 대응 측면에서 각각이 왜 위험한지 설명하시오.</span>
+      <span class="q-status" id="q10-status"></span>
+      <span class="q-toggle">▼</span>
+    </div>
+    <div class="quiz-body">
+      <div class="quiz-body-inner">
+        <textarea class="ans-input" id="q10-input" placeholder="3가지 편향과 각각의 위험성을 기술하세요..."></textarea>
+        <div class="reveal-row" style="margin-top:10px">
+          <button class="btn-reveal" onclick="revealAns('q10-ans');markEssay('q10')">정답 확인 (서술형)</button>
+        </div>
+        <div class="answer-box" id="q10-ans">
+          <div class="ans-label">✅ 모범 답안</div>
+          <div class="ans-text">
+            <strong>① 선형 편향(Linear Bias)</strong>: 경제 변수가 직선으로 움직인다고 가정. 위험성: J커브는 임계점까지 변화가 미미하므로, 선형적으로 외삽하면 위기를 과소평가한다. 파월 의장의 "인플레 일시적" 발언이 대표 사례.<br><br>
+            <strong>② 반복 편향(Recency/Repetition Bias)</strong>: 직전 경험을 미래에 그대로 적용. 위험성: 2008~2014년 QE에서 인플레가 없었다고 2020년도 없을 것이라 판단 → 누적 임계점을 무시. 각 상황의 맥락(기존 유동성 축적량)이 다름을 간과한다.<br><br>
+            <strong>③ 낙관 편향(Optimism Bias)</strong>: 나쁜 일은 좀처럼 일어나지 않을 것이라는 기대. 위험성: 평상시에는 유효한 전략이지만, 역사적 최장 호황(17년)이 이어진 현시점에서 무조건적 낙관은 통계적 확률에 역행한다.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL RESULT -->
+<div id="finalResult" style="display:none;background:linear-gradient(135deg,#fff0f3,#fafafa);border:1px solid #fecdd3;border-radius:12px;padding:24px;text-align:center;margin-top:8px">
+  <div style="font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:var(--accent)" id="finalScore"></div>
+  <div style="font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text2);margin-top:6px" id="finalMsg"></div>
+  <button onclick="resetAll()" style="margin-top:16px;background:var(--accent);color:#fff;border:none;border-radius:6px;padding:10px 24px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer">↺ 다시 풀기</button>
+</div>
+
+</div><!-- /container -->
+
+<footer>
+  <strong>시험문제 — 파멸의 J커브 &amp; 공포의 톱니바퀴</strong><br>
+  강의: 박정희 경제 로드맵 Part 3 · 3강 ✦ 2026.03.19
+</footer>
+
+<script>
+let score = 0;
+let answered = {}; // q1~q10 : null / 'correct' / 'wrong'
+
+function toggleQ(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+function updateScore() {
+  const correct = Object.values(answered).filter(v => v === 'correct').length;
+  const total = Object.values(answered).filter(v => v !== null && v !== undefined).length;
+  document.getElementById('scoreNum').textContent = correct;
+  const pct = Math.round((total / 10) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '% 완료';
+
+  if (total === 10) {
+    const el = document.getElementById('finalResult');
+    el.style.display = 'block';
+    document.getElementById('finalScore').textContent = correct + ' / 10';
+    const msgs = ['다시 한번 강의를 복습해보세요!', '기초는 잡혔어요. 조금 더 심화 학습을!', '좋은 성적이에요! 핵심 개념을 잘 이해했군요.', '훌륭해요! J커브 전문가 수준입니다.', '만점! 완벽한 이해입니다. 🎉'];
+    const idx = correct <= 3 ? 0 : correct <= 5 ? 1 : correct <= 7 ? 2 : correct <= 9 ? 3 : 4;
+    document.getElementById('finalMsg').textContent = msgs[idx];
+  }
+}
+
+function markItem(qId, result) {
+  if (answered[qId]) return;
+  answered[qId] = result;
+  const item = document.getElementById(qId);
+  item.classList.add(result === 'correct' ? 'answered-correct' : 'answered-wrong');
+  document.getElementById(qId + '-status').textContent = result === 'correct' ? '✅' : '❌';
+  updateScore();
+}
+
+function selectOpt(qId, li, isCorrect) {
+  if (answered[qId]) return;
+  const opts = document.querySelectorAll('#' + qId + '-opts li');
+  opts.forEach(o => { o.classList.add('disabled'); });
+  li.classList.add(isCorrect ? 'correct' : 'wrong');
+  if (!isCorrect) {
+    opts.forEach(o => { if (o.getAttribute('onclick') && o.getAttribute('onclick').includes('true')) o.classList.add('correct'); });
+  }
+  revealAns(qId + '-ans');
+  markItem(qId, isCorrect ? 'correct' : 'wrong');
+}
+
+function oxSelect(qId, selected, correct) {
+  if (answered[qId]) return;
+  const isCorrect = selected === correct;
+  const btnO = document.getElementById(qId + '-O');
+  const btnX = document.getElementById(qId + '-X');
+  btnO.disabled = true;
+  btnX.disabled = true;
+  if (selected === 'O') {
+    btnO.classList.add(isCorrect ? 'selected-correct' : 'selected-wrong');
+    if (!isCorrect) btnX.classList.add('selected-correct');
+  } else {
+    btnX.classList.add(isCorrect ? 'selected-correct' : 'selected-wrong');
+    if (!isCorrect) btnO.classList.add('selected-correct');
+  }
+  revealAns(qId + '-ans');
+  markItem(qId, isCorrect ? 'correct' : 'wrong');
+}
+
+function checkShort(qId, keyword) {
+  if (answered[qId]) return;
+  const input = document.getElementById(qId + '-input');
+  const val = input.value.trim();
+  if (!val) return;
+  const isCorrect = val.includes(keyword);
+  input.classList.add(isCorrect ? 'correct-input' : 'wrong-input');
+  input.disabled = true;
+  document.getElementById(qId + '-btn').disabled = true;
+  revealAns(qId + '-ans');
+  markItem(qId, isCorrect ? 'correct' : 'wrong');
+}
+
+function markEssay(qId) {
+  if (answered[qId]) return;
+  answered[qId] = 'correct';
+  document.getElementById(qId + '-status').textContent = '📝';
+  updateScore();
+}
+
+function revealAns(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.add('show');
+}
+
+function resetAll() {
+  score = 0;
+  answered = {};
+  document.getElementById('scoreNum').textContent = '0';
+  document.getElementById('progressFill').style.width = '0%';
+  document.getElementById('progressPct').textContent = '0% 완료';
+  document.getElementById('finalResult').style.display = 'none';
+
+  for (let i = 1; i <= 10; i++) {
+    const item = document.getElementById('q' + i);
+    if (!item) continue;
+    item.classList.remove('open','answered-correct','answered-wrong');
+    const status = document.getElementById('q' + i + '-status');
+    if (status) status.textContent = '';
+    // opts
+    const opts = item.querySelectorAll('.opt-list li');
+    opts.forEach(o => { o.classList.remove('correct','wrong','disabled'); });
+    // ox
+    ['O','X'].forEach(l => {
+      const btn = document.getElementById('q' + i + '-' + l);
+      if (btn) { btn.disabled = false; btn.classList.remove('selected-correct','selected-wrong'); }
+    });
+    // inputs
+    const inp = document.getElementById('q' + i + '-input');
+    if (inp) { inp.value = ''; inp.disabled = false; inp.classList.remove('correct-input','wrong-input'); }
+    const btn = document.getElementById('q' + i + '-btn');
+    if (btn) btn.disabled = false;
+    // answer boxes
+    item.querySelectorAll('.answer-box').forEach(a => a.classList.remove('show'));
+  }
+}
+</script>
+</body>
+</html>

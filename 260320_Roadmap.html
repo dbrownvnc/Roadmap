@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>파멸의 J커브 — 미국 증시·경제 심층 분석</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg:#ffffff;--bg2:#fafafa;--text:#1a1a1a;--text2:#777777;
+    --accent:#e11d48;--accent2:#f43f5e;
+    --c1:#e11d48;--c2:#1a1a1a;--c3:#6b7280;--c4:#2563eb;
+    --tbl-bg:#fafafa;--tbl-hd:#e11d48;--border:#e5e5e5;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Source Serif 4',Georgia,serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:16px}
+
+  .masthead{background:var(--text);color:#fff;padding:48px 20px 36px;text-align:center;position:relative;overflow:hidden}
+  .masthead::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(-45deg,transparent,transparent 18px,rgba(225,29,72,.08) 18px,rgba(225,29,72,.08) 19px)}
+  .issue-label{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--accent2);margin-bottom:14px}
+  .masthead h1{font-family:'Playfair Display',serif;font-size:clamp(28px,7vw,52px);font-weight:900;line-height:1.1;color:#fff;margin-bottom:10px;position:relative}
+  .masthead h1 em{color:var(--accent2);font-style:italic}
+  .masthead-sub{font-family:'DM Sans',sans-serif;font-size:13px;color:rgba(255,255,255,.55);letter-spacing:1px;margin-top:12px}
+  .red-rule{width:48px;height:3px;background:var(--accent);margin:18px auto}
+
+  .container{max-width:680px;margin:0 auto;padding:0 20px}
+  section{padding:36px 0;border-bottom:1px solid var(--border)}
+  section:last-child{border-bottom:none}
+
+  .section-label{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:500;letter-spacing:3.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  h2{font-family:'Playfair Display',serif;font-size:clamp(22px,5vw,32px);font-weight:700;line-height:1.2;color:var(--text);margin-bottom:18px}
+  h2 em{font-style:italic;color:var(--accent)}
+  h3{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--text);margin:24px 0 10px}
+  p{margin-bottom:14px;color:var(--text)}
+  p:last-child{margin-bottom:0}
+
+  .lead{font-size:18px;font-weight:300;line-height:1.65;color:#333;border-left:3px solid var(--accent);padding-left:18px;margin-bottom:22px}
+  .pullquote{background:var(--bg2);border-left:4px solid var(--accent);padding:20px 20px 20px 22px;margin:28px 0;border-radius:0 6px 6px 0}
+  .pullquote p{font-family:'Playfair Display',serif;font-size:17px;font-style:italic;font-weight:700;color:var(--accent);margin:0;line-height:1.5}
+  .pullquote cite{display:block;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--text2);font-style:normal;letter-spacing:1px;margin-top:8px}
+
+  .highlight-box{background:linear-gradient(135deg,#fff0f3 0%,#fafafa 100%);border:1px solid #fecdd3;border-radius:8px;padding:20px;margin:22px 0}
+  .highlight-box .hb-title{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .highlight-box p{font-size:14px;margin-bottom:6px}
+
+  .stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:22px 0}
+  .stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center}
+  .stat-card .num{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:var(--accent);line-height:1}
+  .stat-card .unit{font-family:'DM Sans',sans-serif;font-size:11px;color:var(--text2);margin-top:4px;letter-spacing:.5px}
+  .stat-card .label{font-family:'DM Sans',sans-serif;font-size:12px;color:var(--text);margin-top:6px;font-weight:500}
+
+  .tbl-wrap{overflow-x:auto;margin:22px 0;border-radius:8px;border:1px solid var(--border)}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{background:var(--tbl-hd);color:#fff;font-family:'DM Sans',sans-serif;font-weight:500;padding:10px 12px;text-align:left;font-size:11px;letter-spacing:.5px}
+  td{padding:10px 12px;border-bottom:1px solid var(--border);background:var(--tbl-bg);font-size:13px}
+  tr:last-child td{border-bottom:none}
+  tr:nth-child(even) td{background:#f5f5f5}
+
+  .fade-in{opacity:0;transform:translateY(18px);transition:opacity 0.7s ease,transform 0.7s ease}
+  .fade-in.visible{opacity:1;transform:translateY(0)}
+  .chart-container{position:relative;max-height:340px;margin:22px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px}
+  .chart-container canvas{opacity:0;transition:opacity 0.4s ease;max-height:300px}
+  .chart-container.chart-ready canvas{opacity:1}
+  .chart-title{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;color:var(--text2);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px}
+
+  .sim-box{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;margin:22px 0}
+  .sim-title{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .sim-title::after{content:'▶ INTERACTIVE';font-size:8px;background:var(--accent);color:#fff;padding:2px 6px;border-radius:3px;letter-spacing:1px}
+  .slider-row{display:flex;flex-direction:column;gap:14px;margin-bottom:16px}
+  .slider-item label{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--text);display:flex;justify-content:space-between;margin-bottom:4px}
+  .slider-item label span{color:var(--accent);font-weight:700}
+  input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:4px;border-radius:2px}
+  .sim-result{background:#fff;border:1px solid var(--border);border-radius:8px;padding:14px 16px;font-family:'DM Sans',sans-serif;font-size:13px}
+  .sim-result .r-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border)}
+  .sim-result .r-row:last-child{border-bottom:none}
+  .sim-result .r-key{color:var(--text2);font-size:12px}
+  .sim-result .r-val{font-weight:700;color:var(--accent)}
+  .sim-result .r-val.good{color:#16a34a}
+  .sim-result .r-val.warn{color:#d97706}
+  .btn-reset{background:transparent;border:1px solid var(--accent);color:var(--accent);font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:1px;padding:6px 14px;border-radius:4px;cursor:pointer;margin-top:12px;transition:all .2s}
+  .btn-reset:hover{background:var(--accent);color:#fff}
+
+  .bias-grid{display:grid;grid-template-columns:1fr;gap:10px;margin:18px 0}
+  .bias-card{background:var(--bg2);border-left:4px solid var(--border);border-radius:0 6px 6px 0;padding:14px 16px;cursor:pointer;transition:all .25s}
+  .bias-card:hover{border-left-color:var(--accent);transform:translateX(4px)}
+  .bias-card.active{border-left-color:var(--accent);background:#fff0f3}
+  .bias-card-title{font-family:'DM Sans',sans-serif;font-weight:700;font-size:13px;color:var(--text);display:flex;align-items:center;gap:8px}
+  .bias-tag{font-size:10px;background:var(--border);padding:2px 7px;border-radius:10px;color:var(--text2)}
+  .bias-card.active .bias-tag{background:var(--accent);color:#fff}
+  .bias-body{font-size:13px;color:var(--text2);margin-top:8px;display:none;line-height:1.6}
+  .bias-card.active .bias-body{display:block;color:var(--text)}
+
+  .timeline{margin:22px 0}
+  .tl-item{display:flex;gap:16px;padding-bottom:20px;position:relative}
+  .tl-item::before{content:'';position:absolute;left:18px;top:30px;bottom:0;width:1px;background:var(--border)}
+  .tl-item:last-child::before{display:none}
+  .tl-dot{width:36px;height:36px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;flex-shrink:0}
+  .tl-content{padding-top:6px}
+  .tl-year{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;color:var(--accent);letter-spacing:1px}
+  .tl-title{font-weight:600;font-size:14px;margin:2px 0}
+  .tl-desc{font-size:13px;color:var(--text2)}
+
+  .chain{display:flex;flex-direction:column;gap:0;margin:18px 0}
+  .chain-item{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;margin-bottom:4px}
+  .chain-num{width:28px;height:28px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;flex-shrink:0;margin-top:2px}
+  .chain-body{flex:1}
+  .chain-title{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700}
+  .chain-desc{font-size:12px;color:var(--text2);margin-top:3px}
+  .chain-arrow{text-align:center;color:var(--accent);font-size:18px;margin:0;line-height:1}
+
+  .note{font-family:'DM Sans',sans-serif;font-size:11px;color:var(--text2);border-left:2px solid var(--border);padding-left:10px;margin:12px 0}
+
+  footer{background:var(--text);color:rgba(255,255,255,.4);text-align:center;padding:24px 20px;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:.5px}
+  footer strong{color:rgba(255,255,255,.7)}
+
+  @media(max-width:400px){.stat-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="issue-label">미국 증시·경제 심층 분석 ✦ Part 3 · 3강</div>
+  <div class="red-rule"></div>
+  <h1>파멸의 <em>J커브</em>와<br>공포의 톱니바퀴</h1>
+  <div class="masthead-sub">THE J-CURVE OF DOOM &amp; THE RATCHET OF FEAR — 2026.03.19</div>
+</div>
+
+<div class="container">
+
+<!-- 1. 개요 -->
+<section>
+  <div class="section-label">Executive Summary</div>
+  <h2>왜 나쁜 일은 <em>갑자기</em> 찾아오는가</h2>
+  <p class="lead">성장(Good News)은 S커브를 따라 느리게 오지만, 위기(Bad News)는 임계점을 돌파하는 순간 수직 상승하는 J커브를 그린다. 이 비대칭성을 이해하지 못하면 포트폴리오 전체가 단 한 번의 충격으로 무너진다.</p>
+  <p>강의자는 인플레이션·인구 감소·국가 부채라는 3대 악재가 모두 J커브 패턴을 따른다고 강조한다. 미국 증시 관점에서도 연준 QE → 인플레이션 폭발 → 금리 인상 사이클이 대표적 사례다.</p>
+  <div class="stat-grid fade-in">
+    <div class="stat-card"><div class="num">17년</div><div class="unit">2009 → 2026</div><div class="label">연속 강세장 지속 기간<br>(사상 최장 수준)</div></div>
+    <div class="stat-card"><div class="num">$9T</div><div class="unit">2020년 피크</div><div class="label">연준 총자산<br>(2008년 대비 10배)</div></div>
+    <div class="stat-card"><div class="num">9%</div><div class="unit">2022년 6월 피크</div><div class="label">美 CPI (40년 만의 최고치)</div></div>
+    <div class="stat-card"><div class="num">0.75</div><div class="unit">2024년 기준</div><div class="label">한국 합계출산율<br>(OECD 최저)</div></div>
+  </div>
+</section>
+
+<!-- 2. J커브 vs S커브 -->
+<section>
+  <div class="section-label">핵심 개념</div>
+  <h2>S커브 vs <em>J커브</em> — 성공과 파멸의 비대칭</h2>
+  <p>투자에서 좋은 일(수익)은 S커브를 그리며 천천히 온다. 초기 느린 구간(환멸기)에서 대다수 투자자가 포기한다. 반면 나쁜 일(위기)은 오랫동안 잠복하다 <strong>임계점(Tipping Point)</strong>을 넘는 순간 수직으로 폭발한다.</p>
+  <div class="chart-container fade-in">
+    <div class="chart-title">📈 S커브 vs J커브 — 시간에 따른 충격 강도 비교</div>
+    <canvas id="sjCurveChart" height="240"></canvas>
+  </div>
+  <div class="pullquote">
+    <p>"노벨경제학상 수상자 폴 크루그먼조차 '이제 인플레가 안 일어나는 시대가 됐다'고 선언했지만, 세상은 비선형으로 움직였다."</p>
+    <cite>— 강의 원문 요약</cite>
+  </div>
+  <p>전통 주류경제학은 모든 변수를 선형(Linear)으로 가정하기 때문에 J커브 충격에 반복적으로 오판한다. 파월 연준의장도 2021년까지 "인플레는 일시적"이라고 선언했으나 2022년 상반기 CPI가 9%까지 치솟으면서 완전히 틀렸음이 드러났다.</p>
+</section>
+
+<!-- 3. 연준 QE -->
+<section>
+  <div class="section-label">미국 증시 핵심 분석</div>
+  <h2>연준 자산과 <em>인플레이션</em> — J커브의 교과서적 사례</h2>
+  <div class="tbl-wrap fade-in">
+    <table>
+      <thead><tr><th>시기</th><th>연준 총자산</th><th>변화폭</th><th>인플레이션 반응</th></tr></thead>
+      <tbody>
+        <tr><td>2008년 이전 (기준)</td><td>$0.9조</td><td>—</td><td>안정적</td></tr>
+        <tr><td>2008~2014 QE1~3</td><td>$4.5조</td><td><strong>+$3.6조 (5배)</strong></td><td>❌ 인플레 미발생</td></tr>
+        <tr><td>2020~2022 팬데믹 QE</td><td>$9조</td><td><strong>+$4.5조 (2배 추가)</strong></td><td>✅ 2022년 CPI 9% 폭발</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>핵심은 <strong>"에너지 축적 → 임계점 돌파 → 수직 상승"</strong> 구조다. 2008년부터 쌓인 유동성이 2020년 팬데믹 QE와 결합해 임계점을 넘는 순간 인플레가 폭발했다.</p>
+  <div class="chart-container fade-in">
+    <div class="chart-title">📊 연준 총자산 vs 美 CPI 추이 (개념도)</div>
+    <canvas id="fedChart" height="240"></canvas>
+  </div>
+  <div class="highlight-box fade-in">
+    <div class="hb-title">🇺🇸 미국 증시 투자 시사점</div>
+    <p>✦ QE → 인플레 → 금리 인상 → 주가 조정의 사이클은 선형이 아닌 J커브 패턴으로 나타난다.</p>
+    <p>✦ "이번엔 다르다"(This time is different)는 사고방식이 가장 위험한 낙관 편향이다.</p>
+    <p>✦ 연준이 금리를 낮게 유지하는 기간이 길수록, 이후 인플레 폭발의 강도가 커진다.</p>
+    <p>✦ 2025~2026년 현재, 트럼프 관세 + 중동 전쟁 비용으로 금리 인하에 신중한 상황이다.</p>
+  </div>
+</section>
+
+<!-- 4. 3대 편향 -->
+<section>
+  <div class="section-label">행동경제학적 위험</div>
+  <h2>J커브를 놓치게 만드는 <em>3대 인간 편향</em></h2>
+  <p>아래 카드를 클릭해 각 편향의 실제 사례를 확인하세요.</p>
+  <div class="bias-grid">
+    <div class="bias-card" onclick="toggleBias(this)">
+      <div class="bias-card-title">📏 선형 편향 (Linear Bias) <span class="bias-tag">위험도 高</span></div>
+      <div class="bias-body">모든 경제 변수가 직선으로 움직인다고 가정하는 오류. 파월 의장이 "인플레는 일시적"이라고 선언한 근거다. 실제로는 에너지가 축적되다 임계점에서 폭발한다. 인구 감소도 마찬가지 — 출산율 0.75가 당장 경제 충격을 주지 않는다고 안심하다가 2025~2030년 부양비 급상승으로 직격탄을 맞는다.</div>
+    </div>
+    <div class="bias-card" onclick="toggleBias(this)">
+      <div class="bias-card-title">🔁 반복 편향 (Recency Bias) <span class="bias-tag">위험도 高</span></div>
+      <div class="bias-body">직전 경험을 미래에 그대로 투영하는 오류. 2008~2014년 QE 5배에도 인플레가 없었기 때문에 연준은 2020년 QE에서도 문제없다고 과신했다. 주식 시장에서는 "지난번도 회복됐으니까 이번도 괜찮을 것"이라는 식으로 최고점 매수를 유발한다.</div>
+    </div>
+    <div class="bias-card" onclick="toggleBias(this)">
+      <div class="bias-card-title">🌅 낙관 편향 (Optimism Bias) <span class="bias-tag">맥락 중요</span></div>
+      <div class="bias-body">경제 위기는 역사적으로 8~9년마다 발생했고, 가장 긴 호황은 11년이었다. 그러나 현재 2009년 이후 약 17년간 진정한 의미의 경제 위기가 없었다. 평시에는 낙관 편향이 유리하지만, 17년이 된 현시점에서 무조건적 낙관은 도박에 가깝다.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. 인구·고령화 -->
+<section>
+  <div class="section-label">구조적 리스크</div>
+  <h2>한국 고령화의 <em>J커브</em> — 이미 결정된 미래</h2>
+  <p>인구 구조는 예측 가능성이 가장 높은 경제 변수다. 이미 태어난 아이들이 20년 뒤의 노동인구를 결정하기 때문이다.</p>
+  <div class="chart-container fade-in">
+    <div class="chart-title">👴 한국 65세 이상 인구 추이 (J커브 가속)</div>
+    <canvas id="agingChart" height="240"></canvas>
+  </div>
+  <h3>노인부양비 — 경제 성장의 핵심 변수</h3>
+  <p><strong>노인부양비(Old-Age Dependency Ratio)</strong>란 생산가능인구(15~64세) 100명이 65세 이상 인구 몇 명을 부양하는지를 나타낸다. 이 수치가 상승하면 세금 부담 증가 → 소비 감소 → 성장 둔화가 자동으로 따라온다.</p>
+  <div class="tbl-wrap fade-in">
+    <table>
+      <thead><tr><th>연도</th><th>부양 구조</th><th>영향</th></tr></thead>
+      <tbody>
+        <tr><td>2000년대</td><td>노동자 9명 → 노인 1명</td><td>✅ 고성장 기반</td></tr>
+        <tr><td>2020년대 초</td><td>노동자 4.3명 → 노인 1명</td><td>⚠️ 유럽 수준 접근</td></tr>
+        <tr><td>2025~2026</td><td>영국·네덜란드 추월 시작</td><td>🔴 J커브 임계점</td></tr>
+        <tr><td>2030년대 초</td><td>노동자 2명 → 노인 1명</td><td>🔴 재정 위기 본격화</td></tr>
+        <tr><td>2050년</td><td>노동자 1명 → 노인 1명</td><td>🚨 전례 없는 충격</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="sim-box fade-in">
+    <div class="sim-title">노인부양비 부담 시뮬레이터</div>
+    <div class="slider-row">
+      <div class="slider-item">
+        <label>시뮬레이션 연도 <span id="simYearVal">2030</span>년</label>
+        <input type="range" id="simYear" min="2025" max="2050" value="2030" step="1" oninput="updateDependSim()">
+      </div>
+      <div class="slider-item">
+        <label>월 기초연금 금액 <span id="pensionVal">30</span>만원</label>
+        <input type="range" id="pensionAmt" min="30" max="50" value="30" step="1" oninput="updateDependSim()">
+      </div>
+    </div>
+    <div class="sim-result" id="dependResult"></div>
+    <button class="btn-reset" onclick="resetDependSim()">↺ 초기화</button>
+  </div>
+  <div class="highlight-box fade-in">
+    <div class="hb-title">💡 미국 증시 투자 시사점</div>
+    <p>✦ 한국의 고령화는 일본보다 2배 빠른 속도로 진행 → 원화 약세 장기화 가능성.</p>
+    <p>✦ 한국 비중 축소 + 달러 표시 자산(미국 주식·ETF) 비중 확대의 구조적 이유가 된다.</p>
+    <p>✦ 국민연금 개혁으로 보험료 수입 증가분의 55~60%가 달러 자산으로 투자 → 원화 공급 압력.</p>
+  </div>
+</section>
+
+<!-- 6. 기초연금 J커브 -->
+<section>
+  <div class="section-label">재정 리스크</div>
+  <h2>기초연금 <em>J커브</em> — 세수 절벽과의 충돌</h2>
+  <p>한국의 기초연금 지출은 전형적인 J커브를 그린다. 이 지출 확대가 세수 감소와 동시에 일어나면 국가 재정은 급격히 악화된다.</p>
+  <div class="chart-container fade-in">
+    <div class="chart-title">💰 기초연금 지출 vs 납세자 수 변화 (J커브 충돌)</div>
+    <canvas id="pensionChart" height="240"></canvas>
+  </div>
+  <div class="stat-grid fade-in">
+    <div class="stat-card"><div class="num">6.9조</div><div class="unit">2014년 도입</div><div class="label">기초연금 최초 예산</div></div>
+    <div class="stat-card"><div class="num">40조</div><div class="unit">2030년 전망</div><div class="label">기초연금 예산 (6배↑)</div></div>
+    <div class="stat-card"><div class="num">125조</div><div class="unit">2050년 전망</div><div class="label">기초연금 예산 (18배↑)</div></div>
+    <div class="stat-card"><div class="num">-33%</div><div class="unit">2024→2050</div><div class="label">납세자 수 감소<br>(3,600만 → 2,400만)</div></div>
+  </div>
+</section>
+
+<!-- 7. 아베노믹스 -->
+<section>
+  <div class="section-label">일본 선행 사례</div>
+  <h2>아베노믹스는 <em>실버민주주의</em>의 포장지였다</h2>
+  <p>일본의 아베노믹스는 화려한 경제 정책처럼 보이지만, 실체는 60세 이상 유권자를 위한 무제한 복지 지출 + 엔화 찍기였다.</p>
+  <div class="timeline fade-in">
+    <div class="tl-item">
+      <div class="tl-dot">①</div>
+      <div class="tl-content">
+        <div class="tl-year">1990년대~</div>
+        <div class="tl-title">일본 실버민주주의 시작</div>
+        <div class="tl-desc">합계출산율 1.3으로 하락. 노인 복지 지출 급증. 자민당·민주당 모두 복지 삭감 시도했다가 정권 잃음.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">②</div>
+      <div class="tl-content">
+        <div class="tl-year">2012년</div>
+        <div class="tl-title">아베노믹스 시작 — 1달러 = 75엔</div>
+        <div class="tl-desc">고령층 복지 유지 + 젊은층 증세 없음 → 재원 마련 위해 일본은행 무제한 국채 매입(사실상 무제한 QE).</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">③</div>
+      <div class="tl-content">
+        <div class="tl-year">2015~2021</div>
+        <div class="tl-title">1차 엔화 약세 — 1달러 = 120엔대</div>
+        <div class="tl-desc">일본은행 개입으로 일시 진정. 그러나 구조적 문제 지속.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">④</div>
+      <div class="tl-content">
+        <div class="tl-year">2022년</div>
+        <div class="tl-title">J커브 2차 폭발 — 1달러 = 155~160엔</div>
+        <div class="tl-desc">아베노믹스 시작 10년 만에 엔화가치 반토막. 물가 2~3%대 급등. 일본인들 실질임금 하락 고통.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">⑤</div>
+      <div class="tl-content">
+        <div class="tl-year">2022~현재</div>
+        <div class="tl-title">한국판 아베노믹스 원년</div>
+        <div class="tl-desc">매년 약 100조 원 재정 적자. 한국은행의 유사 양적완화(국채 금리 인위적 억제). 원화 약세 압력 구조화.</div>
+      </div>
+    </div>
+  </div>
+  <div class="chart-container fade-in">
+    <div class="chart-title">💱 달러/엔 환율 J커브 패턴 (한국 원화 미래 선행 지표)</div>
+    <canvas id="yenChart" height="240"></canvas>
+  </div>
+  <h3>한국 vs 일본 비교: 한국이 더 위험한 이유</h3>
+  <div class="tbl-wrap fade-in">
+    <table>
+      <thead><tr><th>비교 항목</th><th>일본</th><th>한국</th><th>위험 수준</th></tr></thead>
+      <tbody>
+        <tr><td>합계출산율 하락 속도</td><td>2.1→1.3 (수십 년)</td><td>2.1→0.75 (동일 기간)</td><td>🚨 2배 빠름</td></tr>
+        <tr><td>국제통화 지위</td><td>엔화 = 3대 기축통화</td><td>원화 = 비기축통화</td><td>🔴 취약</td></tr>
+        <tr><td>GDP 대비 수출 비중</td><td>약 17%</td><td>약 40%</td><td>🔴 글로벌 충격 취약</td></tr>
+        <tr><td>가계부채/GDP</td><td>65%</td><td>120%</td><td>🚨 세계 최고 수준</td></tr>
+        <tr><td>가계 순자산 중 부동산</td><td>37%</td><td>75%</td><td>🚨 세계 유일</td></tr>
+        <tr><td>학습 효과</td><td>전례 없음 (10년 버팀)</td><td>AI·알고리즘이 일본 사례 학습 완료</td><td>🔴 더 빠른 공격 가능</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 8. 환율 J커브 -->
+<section>
+  <div class="section-label">핵심 투자 전략</div>
+  <h2>환율 <em>J커브</em> 시뮬레이터</h2>
+  <p>강의자는 2026~2027년을 한국의 환율 J커브 임계점으로 본다. 일본이 아베노믹스 시작 10년 만에 폭발한 반면, 한국은 AI·알고리즘의 학습 효과로 인해 4~5년 내 임계점 도달 가능성이 높다고 분석한다.</p>
+  <div class="sim-box fade-in">
+    <div class="sim-title">원/달러 환율 시나리오 시뮬레이터</div>
+    <div class="slider-row">
+      <div class="slider-item">
+        <label>한국판 아베노믹스 경과 연수 <span id="koYearVal">4</span>년 (2022년 기준)</label>
+        <input type="range" id="koYear" min="1" max="12" value="4" step="1" oninput="updateFxSim()">
+      </div>
+      <div class="slider-item">
+        <label>달러 강세 지수 (DXY 방향) <span id="dxyVal">중립</span></label>
+        <input type="range" id="dxySlider" min="1" max="3" value="2" step="1" oninput="updateFxSim()">
+      </div>
+      <div class="slider-item">
+        <label>한국 재정적자 심화도 <span id="deficitVal">보통</span></label>
+        <input type="range" id="deficitSlider" min="1" max="3" value="2" step="1" oninput="updateFxSim()">
+      </div>
+    </div>
+    <div class="sim-result" id="fxResult"></div>
+    <button class="btn-reset" onclick="resetFxSim()">↺ 초기화</button>
+  </div>
+  <div class="highlight-box fade-in">
+    <div class="hb-title">📌 환율 J커브 대응 투자 전략</div>
+    <p>✦ <strong>달러 자산 확보</strong>: 환율 조정(원화 강세) 시 환전 분할 매수. 미국 ETF, S&P500 인덱스.</p>
+    <p>✦ <strong>금(Gold) 헤지</strong>: 달러도 장기적 신뢰 리스크가 있으므로 포트폴리오의 일부를 금으로 분산.</p>
+    <p>✦ <strong>KRX 금시장</strong>: 한국 내 세금 없이 금 투자 가능한 유일한 시장. 양도차익 비과세 (현재 기준).</p>
+    <p>✦ <strong>2027년 세수 절벽 대비</strong>: 반도체 메모리 다운사이클 + 고령화 비용 충돌 시점.</p>
+  </div>
+</section>
+
+<!-- 9. 연쇄 반응 -->
+<section>
+  <div class="section-label">체인 리액션</div>
+  <h2>J커브의 <em>연쇄 폭발</em> — 4단계 체인 리액션</h2>
+  <p>J커브 위기는 독립적으로 발생하지 않는다. 환율 → 물가 → 세금 → 자산 양극화로 이어지는 연쇄 반응을 이해해야 한다.</p>
+  <div class="chain">
+    <div class="chain-item">
+      <div class="chain-num">1</div>
+      <div class="chain-body"><div class="chain-title">🔴 환율 상승 J커브</div><div class="chain-desc">원/달러 급등 → 수입물가 폭등 → 기업 생산비 상승. 가장 빠른 선행 지표.</div></div>
+    </div>
+    <div class="chain-arrow">↓</div>
+    <div class="chain-item">
+      <div class="chain-num">2</div>
+      <div class="chain-body"><div class="chain-title">🔴 물가 상승 J커브</div><div class="chain-desc">한전 공공요금 역습 + 인건비·서비스 물가 악순환. 중산층·서민 실질소득 직격.</div></div>
+    </div>
+    <div class="chain-arrow">↓</div>
+    <div class="chain-item">
+      <div class="chain-num">3</div>
+      <div class="chain-body"><div class="chain-title">🔴 세금·준조세 J커브</div><div class="chain-desc">건보료 2028년 10% 돌파. 근로소득세 중과. 노동소득 집중 과세 (자본소득 세율 상대적 유리).</div></div>
+    </div>
+    <div class="chain-arrow">↓</div>
+    <div class="chain-item">
+      <div class="chain-num">4</div>
+      <div class="chain-body"><div class="chain-title">🔴 자산 양극화 J커브</div><div class="chain-desc">달러·금·자본소득 보유층은 상대적 이득. 노동소득 중심 중산층은 실질 구매력 감소. 부의 격차 급확대.</div></div>
+    </div>
+  </div>
+  <div class="note">※ 강의자 예측: 4번 타자(자산 양극화)까지 약 5년 안쪽이 남아 있다. 파이프라인(자동 수입원) 구축이 시급하다.</div>
+</section>
+
+<!-- 10. 투자 전략 -->
+<section>
+  <div class="section-label">실전 투자 가이드</div>
+  <h2>J커브 시대의 <em>생존 전략</em></h2>
+  <h3>① 달러 자산으로의 전환</h3>
+  <p>원화 가치 하락에 대비해 미국 주식·ETF·달러 예금으로 자산 일부를 이전한다. 환율이 일시 하락(원화 강세)할 때마다 분할 매수한다.</p>
+  <h3>② 금(Gold) 포트폴리오 편입</h3>
+  <p>달러 자체도 장기 신뢰 리스크가 있으므로 금을 달러의 헤지로 보유한다. KRX 금시장은 현재 양도차익 비과세로 수수료가 낮고 세금 혜택이 크다.</p>
+  <h3>③ 절세 계좌 최대 활용</h3>
+  <p>ISA, IRP, 연금저축 등 절세 계좌를 최대한 활용한다. 2030년대 이후 세율 급등이 예상되는 상황에서, 현재 면세·분리과세 혜택이 있는 계좌는 장기적으로 매우 중요한 자산이 된다.</p>
+  <h3>④ 가족 증여·자산 분산</h3>
+  <p>합법적 증여를 통해 세 부담을 분산한다. 자본주의 체제에서는 이미 취득한 권리는 법적으로 보호받으므로 세금이 개편되더라도 기보유 자산에 소급 적용은 어렵다.</p>
+  <h3>⑤ 국가 부채 J커브 — 파트4 예고</h3>
+  <p>2008년 이후 전 세계는 국가 주도 성장 체제로 전환됐다. 앞으로 10년간 한국 국가 부채가 J커브로 급증한다는 것이 다음 강의 시리즈의 핵심 주제다. "돈의 법칙이 달라진 세상"에서 지난 40년의 투자 공식은 폐기해야 한다.</p>
+  <div class="pullquote">
+    <p>"양극화를 피할 수는 없다. 그러나 준비한 사람에게 양극화는 위기가 아니라 기회다."</p>
+    <cite>— 강의 원문</cite>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <strong>파멸의 J커브 &amp; 공포의 톱니바퀴 — 분석 문서</strong><br>
+  강의: 박정희 경제 로드맵 Part 3 · 3강 ✦ 분석 기준일: 2026.03.19
+</footer>
+
+<script>
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 80); fadeObs.unobserve(e.target); }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+const chartConfigs = {};
+chartConfigs['sjCurveChart'] = () => {
+  const labels = Array.from({length:20},(_,i)=>`T${i+1}`);
+  new Chart(document.getElementById('sjCurveChart'), {
+    type:'line',
+    data:{ labels, datasets:[
+      {label:'S커브 (성장·수익)',data:[0.5,1,1.8,2.9,4.5,7,11,17,26,38,50,62,74,83,90,94,97,98.5,99,100],borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,0.08)',tension:0.4,fill:true,pointRadius:0},
+      {label:'J커브 (위기·파멸)',data:[0,0.2,0.4,0.6,0.8,1,1.3,1.7,2.2,2.8,3.8,5,8,15,30,55,80,95,100,100],borderColor:'#e11d48',backgroundColor:'rgba(225,29,72,0.08)',tension:0.4,fill:true,pointRadius:0,borderWidth:2.5}
+    ]},
+    options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{labels:{font:{family:'DM Sans',size:11},color:'#1a1a1a'}}},scales:{x:{grid:{color:'#f0f0f0'},ticks:{font:{family:'DM Sans',size:10},color:'#777'}},y:{grid:{color:'#f0f0f0'},ticks:{font:{family:'DM Sans',size:10},color:'#777'},title:{display:true,text:'충격 강도 (%)',font:{family:'DM Sans',size:10},color:'#777'}}}}
+  });
+};
+chartConfigs['fedChart'] = () => {
+  new Chart(document.getElementById('fedChart'), {
+    type:'bar',
+    data:{labels:['2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023'],datasets:[
+      {label:'연준 총자산 ($조)',data:[0.9,2.2,2.2,2.3,2.9,2.9,3.8,4.5,4.5,4.5,4.5,4.0,4.2,7.0,8.8,9.0,7.8],backgroundColor:'rgba(37,99,235,0.7)',yAxisID:'y',order:2},
+      {label:'美 CPI (%)',data:[2.9,3.8,-0.4,1.6,3.2,2.1,1.5,1.6,0.1,1.3,2.1,2.4,2.3,1.2,4.7,8.0,3.4],borderColor:'#e11d48',backgroundColor:'transparent',type:'line',tension:0.4,yAxisID:'y2',order:1,borderWidth:2.5,pointRadius:3,pointBackgroundColor:'#e11d48'}
+    ]},
+    options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{labels:{font:{family:'DM Sans',size:10},color:'#1a1a1a'}}},scales:{x:{grid:{color:'#f0f0f0'},ticks:{font:{family:'DM Sans',size:10},color:'#777'}},y:{position:'left',grid:{color:'#f0f0f0'},ticks:{font:{family:'DM Sans',size:10},color:'#2563eb'},title:{display:true,text:'자산 ($조)',font:{family:'DM Sans',size:10},color:'#2563eb'}},y2:{position:'right',grid:{drawOnChartArea:false},ticks:{font:{family:'DM Sans',size:10},color:'#e11d48'},title:{display:true,text:'CPI (%)',font:{family:'DM Sans',size:10},color:'#e11d48'}}}}
+  });
+};
+chartConfigs['agingChart'] = () => {
+  new Chart(document.getElementById('agingChart'), {
+    type:'line',
+    data:{labels:['2008','2010','2015','2020','2024','2030(전망)','2035(전망)','2040(전망)'],datasets:[{label:'65세 이상 인구 (백만 명)',data:[5,5.5,6.6,8.1,10,13,15,16.5],borderColor:'#e11d48',backgroundColor:'rgba(225,29,72,0.12)',fill:true,tension:0.4,borderWidth:2.5,pointBackgroundColor:'#e11d48',pointRadius:5}]},
+    options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{labels:{font:{family:'DM Sans',size:11},color:'#1a1a1a'}}},scales:{x:{grid:{color:'#f0f0f0'},ticks:{font:{family:'DM Sans',size:10},color:'#777'}},y:{grid:{color:'#f0f0f0'},ticks:{font:{family:'DM Sans',size:10},color:'#777'},title:{display:true,text:'백만 명',font:{family:'DM Sans',size:10},color:'#777'}}}}
+  });
+};
+chartConfigs['pensionChart'] = () => {
+  new Chart(document.getElementById('pensionChart'), {
+    type:'bar',
+    data:{labels:['2014','2020','2025','2030(전망)','2040(전망)','2050(전망)'],datasets:[
+      {label:'기초연금 지출 (조원)',data:[6.9,14,22,40,85,125],backgroundColor:'rgba(225,29,72,0.75)',yAxisID:'y',order:2},
+      {label:'납세자 수 (만 명)',data:[3200,3500,3600,3400,3000,2400],borderColor:'#2563eb',backgroundColor:'transparent',type:'line',tension:0.4,yAxisID:'y2',order:1,borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#2563eb'}
+    ]},
+    options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{labels:{font:{family:'DM Sans',size:10},color:'#1a1a1a'}}},scales:{x:{grid:{color:'#f0f0f0'},ticks:{font:{family:'DM Sans',size:10},color:'#777'}},y:{position:'left',grid:{color:'#f0f0f0'},ticks:{font:{family:'DM Sans',size:10},color:'#e11d48'},title:{display:true,text:'지출 (조원)',font:{family:'DM Sans',size:10},color:'#e11d48'}},y2:{position:'right',grid:{drawOnChartArea:false},ticks:{font:{family:'DM Sans',size:10},color:'#2563eb'},title:{display:true,text:'납세자 (만명)',font:{family:'DM Sans',size:10},color:'#2563eb'}}}}
+  });
+};
+chartConfigs['yenChart'] = () => {
+  new Chart(document.getElementById('yenChart'), {
+    type:'line',
+    data:{labels:['2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025'],datasets:[{label:'달러/엔 환율 (엔)',data:[87,78,80,97,106,121,108,112,110,109,107,110,131,141,151,152],borderColor:'#e11d48',backgroundColor:'rgba(225,29,72,0.1)',fill:true,tension:0.3,borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#e11d48'}]},
+    options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{labels:{font:{family:'DM Sans',size:11},color:'#1a1a1a'}}},scales:{x:{grid:{color:'#f0f0f0'},ticks:{font:{family:'DM Sans',size:10},color:'#777'}},y:{grid:{color:'#f0f0f0'},ticks:{font:{family:'DM Sans',size:10},color:'#777'},title:{display:true,text:'엔 (1달러당)',font:{family:'DM Sans',size:10},color:'#777'}}}}
+  });
+};
+
+const chartObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const canvas = e.target.querySelector('canvas');
+      if (canvas && chartConfigs[canvas.id]) { chartConfigs[canvas.id](); e.target.classList.add('chart-ready'); chartObs.unobserve(e.target); }
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+
+const dependRatios = {2025:23,2026:25,2027:28,2028:31,2029:34,2030:38,2031:42,2032:47,2033:52,2034:58,2035:64,2036:70,2037:76,2038:82,2039:88,2040:95,2041:100,2042:100,2043:100,2044:100,2045:100,2046:100,2047:100,2048:100,2049:100,2050:100};
+function updateDependSim() {
+  const yr = parseInt(document.getElementById('simYear').value);
+  const pension = parseInt(document.getElementById('pensionAmt').value);
+  document.getElementById('simYearVal').textContent = yr;
+  document.getElementById('pensionVal').textContent = pension;
+  const ratio = dependRatios[yr];
+  const taxPerWorker = Math.round(pension * ratio / 100);
+  let cls = taxPerWorker < 10 ? 'good' : taxPerWorker < 30 ? 'warn' : 'r-val';
+  document.getElementById('dependResult').innerHTML = `
+    <div class="r-row"><span class="r-key">${yr}년 노인부양비</span><span class="r-val">${ratio}명 / 노동자 100명</span></div>
+    <div class="r-row"><span class="r-key">노동자 1인당 부양 노인</span><span class="r-val">${(ratio/100).toFixed(2)}명</span></div>
+    <div class="r-row"><span class="r-key">노동자 1인 최소 부담 (기초연금)</span><span class="${cls}">${taxPerWorker}만원/월</span></div>
+    <div class="r-row"><span class="r-key">전체 기초연금 총지출 추정</span><span class="r-val">${Math.round(pension * ratio * 0.1 * 10)/10}조원/년</span></div>`;
+}
+function resetDependSim() { document.getElementById('simYear').value=2030; document.getElementById('pensionAmt').value=30; updateDependSim(); }
+updateDependSim();
+
+function updateFxSim() {
+  const yr = parseInt(document.getElementById('koYear').value);
+  const dxy = parseInt(document.getElementById('dxySlider').value);
+  const deficit = parseInt(document.getElementById('deficitSlider').value);
+  const dxyLabels = {1:'달러 약세',2:'중립',3:'달러 강세'};
+  const deficitLabels = {1:'양호',2:'보통',3:'심각'};
+  document.getElementById('koYearVal').textContent = yr;
+  document.getElementById('dxyVal').textContent = dxyLabels[dxy];
+  document.getElementById('deficitVal').textContent = deficitLabels[deficit];
+  const yearFactor = [0,0.03,0.06,0.10,0.15,0.22,0.32,0.45,0.62,0.80,1.00,1.10,1.20];
+  let multiplier = 1.0 + yearFactor[Math.min(yr,12)] + (dxy-2)*0.06 + (deficit-2)*0.05;
+  const estRate = Math.round(1480 * multiplier);
+  const jLabel = yr<=3?'잠복기 (임계점 미달)':yr<=6?'⚠️ 임계점 접근':'🔴 J커브 발동 구간';
+  let cls = yr<=3?'good':yr<=6?'warn':'r-val';
+  const yenRef = [75,80,90,97,105,115,108,112,111,109,107,110,131][Math.min(yr,12)];
+  document.getElementById('fxResult').innerHTML = `
+    <div class="r-row"><span class="r-key">한국판 아베노믹스 경과</span><span class="r-val">${2022+yr-1}년 (${yr}년차)</span></div>
+    <div class="r-row"><span class="r-key">예상 원/달러 환율</span><span class="${cls}">약 ${estRate.toLocaleString()}원</span></div>
+    <div class="r-row"><span class="r-key">일본 아베노믹스 동기간 엔율</span><span class="r-val">${yenRef}엔</span></div>
+    <div class="r-row"><span class="r-key">J커브 단계 판단</span><span class="${cls}">${jLabel}</span></div>`;
+}
+function resetFxSim() { document.getElementById('koYear').value=4; document.getElementById('dxySlider').value=2; document.getElementById('deficitSlider').value=2; updateFxSim(); }
+updateFxSim();
+
+function toggleBias(el) {
+  const wasActive = el.classList.contains('active');
+  document.querySelectorAll('.bias-card').forEach(c=>c.classList.remove('active'));
+  if (!wasActive) el.classList.add('active');
+}
+</script>
+</body>
+</html>
