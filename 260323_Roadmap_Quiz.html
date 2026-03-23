@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>정답 및 해설 | 박종훈 QA 분석</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg2: #fafafa;
+    --text: #1a1a1a;
+    --text2: #777777;
+    --accent: #e11d48;
+    --border: #e5e5e5;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  .header {
+    background: var(--text);
+    color: #fff;
+    padding: 40px 24px 32px;
+  }
+  .header .kicker {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #f43f5e;
+    margin-bottom: 10px;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 6vw, 32px);
+    font-weight: 700;
+    color: #fff;
+  }
+  .header p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 8px;
+  }
+  .container { max-width: 680px; margin: 0 auto; padding: 32px 20px; }
+  .notice {
+    background: #fff5f7;
+    border: 1px solid #fecdd3;
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 32px;
+  }
+  .answer-item {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .answer-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 18px;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+  }
+  .q-badge {
+    flex-shrink: 0;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 99px;
+    letter-spacing: 1px;
+    margin-top: 2px;
+  }
+  .q-text {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.55;
+    flex: 1;
+  }
+  .answer-body { padding: 16px 18px; }
+  .answer-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text2);
+    margin-bottom: 6px;
+    display: block;
+  }
+  .answer-value {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #15803d;
+    background: #dcfce7;
+    padding: 6px 14px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+  .answer-value::before { content: '✓'; }
+  .explain-text {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.7;
+    background: var(--bg2);
+    border-radius: 6px;
+    padding: 12px 14px;
+  }
+  .explain-text strong { color: var(--text); }
+  .difficulty {
+    font-size: 11px;
+    color: var(--text2);
+    margin-bottom: 4px;
+  }
+  .diff-easy { color: #16a34a; }
+  .diff-mid { color: #d97706; }
+  .diff-hard { color: var(--accent); }
+  .type-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text2);
+    margin-bottom: 8px;
+    display: block;
+  }
+  footer {
+    text-align: center;
+    padding: 28px 20px;
+    font-size: 11px;
+    color: var(--text2);
+    border-top: 1px solid var(--border);
+    letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="kicker">정답 및 해설지 · 교사/학습자용</div>
+  <h1>원화 약세의 구조적 진실<br>— 시험 정답 & 해설</h1>
+  <p>박종훈 소장 QA 강의 · 2026년 3월 4주차</p>
+</div>
+
+<div class="container">
+  <div class="notice">
+    ⚠️ 이 파일은 정답 해설 전용입니다. 문제 풀이 전에 열람하지 마세요.
+  </div>
+
+  <!-- Q1 -->
+  <div class="answer-item">
+    <div class="answer-header">
+      <span class="q-badge">Q1</span>
+      <div class="q-text">박종훈 소장이 설명하는 원화 약세의 구조적 원인이 <strong>아닌</strong> 것은?</div>
+    </div>
+    <div class="answer-body">
+      <span class="type-tag">객관식 · <span class="diff-easy">쉬움</span></span>
+      <span class="answer-label">정답</span>
+      <div class="answer-value">③ 외국인의 대규모 한국 부동산 매도</div>
+      <div class="explain-text">외국인의 한국 부동산 보유 비중은 크지 않으며, 부동산은 주식과 달리 즉각적인 대규모 매도가 불가능하다. 강의에서 언급된 4가지 구조적 원인은 <strong>① 인구구조 악화, ② 수출기업 달러 역송금 중단, ③ 국민연금의 달러 매수, ④ 달러 스마일 효과</strong>다.</div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="answer-item">
+    <div class="answer-header">
+      <span class="q-badge">Q2</span>
+      <div class="q-text">일본 엔/달러 환율이 2012년에서 2024년 사이 어떻게 변했는가?</div>
+    </div>
+    <div class="answer-body">
+      <span class="type-tag">객관식 · <span class="diff-easy">쉬움</span></span>
+      <span class="answer-label">정답</span>
+      <div class="answer-value">② 75엔 → 160엔</div>
+      <div class="explain-text">G2까지 갔던 일본조차 12년 만에 엔화가치가 절반 이하로 떨어졌다. 강의에서 이를 한국에 대입하면 <strong>원/달러 환율 1,500원 → 3,000원</strong>에 해당한다고 설명한다. 인구구조 등 구조적 문제가 해결되지 않으면 한국도 유사한 경로를 밟을 수 있다.</div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="answer-item">
+    <div class="answer-header">
+      <span class="q-badge">Q3</span>
+      <div class="q-text">주식시장 활성화 정책이 단기적으로 원화 약세를 가져오는 이유는?</div>
+    </div>
+    <div class="answer-body">
+      <span class="type-tag">객관식 · <span class="diff-mid">보통</span></span>
+      <span class="answer-label">정답</span>
+      <div class="answer-value">② 외국인 차익실현 → 달러 유출</div>
+      <div class="explain-text">한국 주식시장에 오랫동안 묶여 있던 외국인(총 약 1,500조원 규모)들이 주가지수 급등 시 7~8배 수익을 실현하며 달러로 자금을 빼간다. 이 과정에서 대규모 달러 유출이 발생해 원화가 약세가 된다. <strong>장기적으로는 신뢰 축적 후 원화 강세 요인이 될 수 있지만, 최소 5년 이상 걸린다.</strong></div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="answer-item">
+    <div class="answer-header">
+      <span class="q-badge">Q4</span>
+      <div class="q-text">"달러 스마일(Dollar Smile)"이란 무엇을 의미하는가?</div>
+    </div>
+    <div class="answer-body">
+      <span class="type-tag">객관식 · <span class="diff-mid">보통</span></span>
+      <span class="answer-label">정답</span>
+      <div class="answer-value">② 호황·위기 모두 달러 강세, 중간만 약세</div>
+      <div class="explain-text">달러 환율을 그래프로 그리면 U자(미소) 형태가 나타난다. <strong>미국 경기 호황 → 달러 강세, 글로벌 위기 → 달러 강세</strong>, 오직 <strong>미국 경기 침체 우려 + 연준 대규모 완화 구간</strong>에서만 달러 약세가 나타난다. 원화 입장에서는 대부분의 시나리오에서 불리하다.</div>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="answer-item">
+    <div class="answer-header">
+      <span class="q-badge">Q5</span>
+      <div class="q-text">2022~2026년 한국 M2 증가율과 미국 M2 증가율은 각각 얼마인가?</div>
+    </div>
+    <div class="answer-body">
+      <span class="type-tag">객관식 · <span class="diff-mid">보통</span></span>
+      <span class="answer-label">정답</span>
+      <div class="answer-value">③ 한국 21%/14% · 미국 4%</div>
+      <div class="explain-text">한국은행의 원발표 기준 <strong>+21%</strong>, 통계기준 변경 후 <strong>+14%</strong>, 미국은 <strong>+4%</strong>. 기준을 어떻게 바꾸더라도 한국이 미국보다 3~5배 빠르게 통화를 공급한 사실은 변하지 않는다. 성장률은 미국의 절반인데 통화는 3배 이상 찍었으니 원화가치 하락은 필연적이다.</div>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="answer-item">
+    <div class="answer-header">
+      <span class="q-badge">Q6</span>
+      <div class="q-text">박종훈 소장이 달러 투자에서 <strong>비추천</strong>하는 상품은?</div>
+    </div>
+    <div class="answer-body">
+      <span class="type-tag">객관식 · <span class="diff-mid">보통</span></span>
+      <span class="answer-label">정답</span>
+      <div class="answer-value">② TQQQ, ARK (레버리지·액티브 ETF)</div>
+      <div class="explain-text"><strong>TQQQ(레버리지 ETF)</strong>: 구조적 특성상 장기 보유 시 변동성 감소(Volatility Decay)로 손실이 확정된다. <strong>ARK(액티브 ETF)</strong>: 액티브 펀드는 호황기에 변동성 높은 종목에 집중하다가 하락기에 패시브보다 훨씬 큰 손실을 낸다. 액티브가 패시브를 이기는 기간은 대세 상승기에만 한정된다.</div>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="answer-item">
+    <div class="answer-header">
+      <span class="q-badge">Q7</span>
+      <div class="q-text">국민연금이 해외 투자 비중을 늘리는 이유로 가장 적절한 것은?</div>
+    </div>
+    <div class="answer-body">
+      <span class="type-tag">객관식 · <span class="diff-mid">보통</span></span>
+      <span class="answer-label">정답</span>
+      <div class="answer-value">② 자산 매도 시 국내 자산 폭락 방지</div>
+      <div class="explain-text">국민연금의 운용 자산 규모는 너무 커서 국내 자산을 매도하기 시작하면 가격이 폭락한다(연못 속의 고래). 이를 방지하기 위해 해외 자산 비중을 높이는 것은 합리적인 장기 전략이다. 단기적으로는 달러 매수를 늘려 환율 상승 압력이 되지만, 이는 구조적으로 피하기 어렵다.</div>
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="answer-item">
+    <div class="answer-header">
+      <span class="q-badge">Q8</span>
+      <div class="q-text">재정 확대 정책이 장기적으로 원화 약세를 가속화하는 구조적 이유는?</div>
+    </div>
+    <div class="answer-body">
+      <span class="type-tag">객관식 · <span class="diff-hard">어려움</span></span>
+      <span class="answer-label">정답</span>
+      <div class="answer-value">② 인구 감소로 상환 능력 저하 → 재정 신인도 하락</div>
+      <div class="explain-text">오늘 발행하는 10년 만기 국채를 상환할 시점(10년 후)에는 <strong>베이비붐 세대(~74년생 기준) 전원이 은퇴</strong>해 납세 인구가 급감한다. 현재 납세 주력 세대 대비 다음 세대 출생 인구가 약 절반 수준이라 세수 기반이 반토막난다. 재정 지속 가능성에 의구심이 생기면 국채 신용등급 하락 → 원화 신뢰도 하락 → 원화 약세로 이어진다.</div>
+    </div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="answer-item">
+    <div class="answer-header">
+      <span class="q-badge">Q9</span>
+      <div class="q-text">OX: "반도체 수출이 호황이면 원화가치는 반드시 강세가 된다."</div>
+    </div>
+    <div class="answer-body">
+      <span class="type-tag">OX · <span class="diff-easy">쉬움</span></span>
+      <span class="answer-label">정답</span>
+      <div class="answer-value">X (틀리다)</div>
+      <div class="explain-text">반도체 수출 호황에도 불구하고 수출기업들이 벌어들인 달러를 <strong>해외 법인에 유보하고 원화로 환전하지 않는다</strong>. 또한 HBM 제조에 필요한 장비·소재를 달러로 수입하므로 수출 증가만큼 수입도 늘어난다. 결과적으로 '울트라 슈퍼사이클' 반도체 호황에도 환율이 1,500원을 넘나드는 역설이 발생한다.</div>
+    </div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="answer-item">
+    <div class="answer-header">
+      <span class="q-badge">Q10</span>
+      <div class="q-text">박종훈 소장이 현재 권장하는 달러 환전 전략 방식은?</div>
+    </div>
+    <div class="answer-body">
+      <span class="type-tag">객관식 · <span class="diff-hard">어려움</span></span>
+      <span class="answer-label">정답</span>
+      <div class="answer-value">③ 자동환전 정액 분할 + 특정 환율 이하 3배 추가</div>
+      <div class="explain-text">과거의 "3년 평균 환율 이하 집중 매수" 원칙은 <strong>환율이 기조적으로 상승하는 뉴노멀</strong>에서는 더 이상 유효하지 않다. 이제는 ① 자동환전으로 매달 정액 분할 매수를 기본으로 하되, ② 환율이 특정 수준(예: 1,480원, 1,500원) 이하로 내려가면 3배 추가 환전하는 규칙을 걸어두는 방식을 권장한다. 급등 시에는 오히려 매수를 일시 중단하는 것을 고려한다.</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  정답 해설지 · 박종훈 소장 QA 강의 분석 · 2026년 3월 4주차 · 본 자료는 강의 내용을 기반으로 작성되었습니다
+</footer>
+</body>
+</html>

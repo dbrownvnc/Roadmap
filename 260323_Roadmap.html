@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>원화 약세의 구조적 진실 | 박종훈 QA 분석</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700;900&family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg2: #fafafa;
+    --text: #1a1a1a;
+    --text2: #777777;
+    --accent: #e11d48;
+    --accent2: #f43f5e;
+    --border: #e5e5e5;
+    --tbl-bg: #fafafa;
+    --tbl-header: #e11d48;
+    --c1: #e11d48;
+    --c2: #1a1a1a;
+    --c3: #6b7280;
+    --c4: #2563eb;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  /* ─── FADE-IN ─── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  .chart-container {
+    position: relative;
+    max-height: 340px;
+  }
+  .chart-container canvas {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    max-height: 300px;
+  }
+  .chart-container.chart-ready canvas { opacity: 1; }
+
+  /* ─── LAYOUT ─── */
+  .container { max-width: 680px; margin: 0 auto; padding: 0 20px; }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: var(--text);
+    color: #fff;
+    padding: 56px 20px 44px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.12;
+  }
+  .hero-kicker {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 14px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', 'Noto Serif KR', serif;
+    font-size: clamp(26px, 7vw, 38px);
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 16px;
+    color: #fff;
+  }
+  .hero h1 em {
+    color: var(--accent2);
+    font-style: italic;
+  }
+  .hero-meta {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .hero-meta span::before { content: '— '; }
+
+  /* ─── SECTIONS ─── */
+  section { padding: 44px 0 12px; }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+    display: block;
+  }
+  h2 {
+    font-family: 'Playfair Display', 'Noto Serif KR', serif;
+    font-size: clamp(20px, 5vw, 26px);
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 18px;
+    color: var(--text);
+  }
+  h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 24px 0 10px;
+    color: var(--text);
+  }
+  p { margin-bottom: 14px; color: var(--text); }
+
+  .divider {
+    width: 40px; height: 3px;
+    background: var(--accent);
+    margin: 0 0 28px;
+    border-radius: 2px;
+  }
+
+  /* ─── PULL QUOTE ─── */
+  .pull-quote {
+    border-left: 4px solid var(--accent);
+    padding: 14px 20px;
+    margin: 28px 0;
+    background: var(--bg2);
+    border-radius: 0 8px 8px 0;
+  }
+  .pull-quote p {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0;
+    line-height: 1.6;
+  }
+  .pull-quote cite {
+    font-size: 11px;
+    color: var(--text2);
+    display: block;
+    margin-top: 6px;
+    font-style: normal;
+  }
+
+  /* ─── FACTOR CARDS ─── */
+  .factor-grid { display: flex; flex-direction: column; gap: 16px; margin: 24px 0; }
+  .factor-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--bg);
+  }
+  .factor-card-header {
+    background: var(--accent);
+    color: #fff;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .factor-num {
+    font-size: 22px;
+    font-weight: 900;
+    font-family: 'Playfair Display', serif;
+    opacity: 0.6;
+    line-height: 1;
+  }
+  .factor-title { font-weight: 700; font-size: 14px; }
+  .factor-body { padding: 16px 18px; font-size: 14px; line-height: 1.7; color: var(--text2); }
+  .factor-body strong { color: var(--text); }
+
+  /* ─── POLICY TABLE ─── */
+  .policy-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 13px;
+  }
+  .policy-table th {
+    background: var(--tbl-header);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 700;
+  }
+  .policy-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    background: var(--tbl-bg);
+  }
+  .policy-table tr:last-child td { border-bottom: none; }
+  .tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 99px;
+    line-height: 1.6;
+  }
+  .tag-neg { background: #fee2e2; color: var(--accent); }
+  .tag-pos { background: #dcfce7; color: #16a34a; }
+  .tag-mix { background: #fef9c3; color: #a16207; }
+
+  /* ─── SIMULATOR ─── */
+  .simulator {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 20px;
+    margin: 28px 0;
+  }
+  .sim-title {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sim-title::before {
+    content: '⚙';
+    color: var(--accent);
+    font-size: 16px;
+  }
+  .slider-row { margin-bottom: 16px; }
+  .slider-row label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text2);
+    margin-bottom: 6px;
+  }
+  .slider-row label span { font-weight: 700; color: var(--accent); }
+  input[type=range] {
+    width: 100%;
+    accent-color: var(--accent);
+    height: 4px;
+    cursor: pointer;
+  }
+  .sim-result {
+    background: var(--text);
+    color: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 16px;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .sim-result .big-num {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--accent2);
+    font-family: 'Playfair Display', serif;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .sim-result .sub { font-size: 11px; color: rgba(255,255,255,0.5); }
+  .reset-btn {
+    margin-top: 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text2);
+    font-size: 12px;
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: all 0.2s;
+  }
+  .reset-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ─── DOLLAR STRATEGY ─── */
+  .strategy-steps { display: flex; flex-direction: column; gap: 0; margin: 20px 0; }
+  .strategy-step {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .strategy-step:last-child { border-bottom: none; }
+  .step-badge {
+    flex-shrink: 0;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 900;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+  }
+  .step-content { flex: 1; }
+  .step-content h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .step-content p { font-size: 13px; color: var(--text2); margin: 0; }
+
+  /* ─── CHART WRAPPER ─── */
+  .chart-wrap {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    margin: 24px 0;
+  }
+  .chart-wrap .chart-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text2);
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* ─── QUIZ ─── */
+  .quiz-section { background: var(--bg2); padding: 40px 0; margin-top: 40px; }
+  .quiz-section h2 { color: var(--text); }
+  .quiz-item {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    background: var(--bg);
+  }
+  .quiz-q {
+    padding: 14px 18px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    gap: 10px;
+  }
+  .quiz-q:hover { background: #fef2f4; }
+  .quiz-q-text { flex: 1; line-height: 1.5; }
+  .quiz-num {
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 900;
+    color: var(--accent);
+    background: #fee2e2;
+    padding: 2px 8px;
+    border-radius: 99px;
+  }
+  .quiz-arrow {
+    flex-shrink: 0;
+    font-size: 12px;
+    color: var(--text2);
+    transition: transform 0.2s;
+  }
+  .quiz-item.open .quiz-arrow { transform: rotate(180deg); }
+  .quiz-options {
+    padding: 0 18px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s;
+  }
+  .quiz-item.open .quiz-options { max-height: 400px; padding: 0 18px 12px; }
+  .quiz-option {
+    padding: 8px 12px;
+    margin: 4px 0;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.15s;
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  .quiz-option:hover { background: #fef2f4; border-color: var(--accent); }
+  .quiz-option.correct { background: #dcfce7; border-color: #16a34a; color: #15803d; font-weight: 700; }
+  .quiz-option.wrong { background: #fee2e2; border-color: var(--accent); color: var(--accent); }
+  .quiz-option.disabled { cursor: default; pointer-events: none; }
+  .quiz-explain {
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: var(--bg2);
+    border-radius: 6px;
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.6;
+    display: none;
+  }
+  .quiz-explain.show { display: block; }
+  .quiz-type-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text2);
+    margin-bottom: 2px;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--text);
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    padding: 28px 20px;
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+
+  /* ─── HIGHLIGHT BOX ─── */
+  .highlight-box {
+    border-left: 3px solid var(--accent);
+    padding: 12px 16px;
+    background: #fff5f7;
+    border-radius: 0 8px 8px 0;
+    margin: 20px 0;
+    font-size: 13px;
+    color: var(--text);
+  }
+  .highlight-box strong { color: var(--accent); }
+
+  /* ─── STAT ROW ─── */
+  .stat-row {
+    display: flex;
+    gap: 12px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+  }
+  .stat-box {
+    flex: 1;
+    min-width: 120px;
+    background: var(--text);
+    color: #fff;
+    border-radius: 10px;
+    padding: 16px 14px;
+    text-align: center;
+  }
+  .stat-box .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--accent2);
+    line-height: 1.1;
+    display: block;
+  }
+  .stat-box .stat-label { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+
+  @media (max-width: 400px) {
+    .stat-row { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+  <div class="container">
+    <div class="hero-kicker">박종훈 소장 QA 분석 · 2026년 3월 4주차</div>
+    <h1>원화 약세,<br><em>구조의 문제다</em></h1>
+    <div class="hero-meta">
+      <span>유동성 회복기 자산 상승 순서</span>
+      <span>달러 투자 전략</span>
+      <span>2028년 시나리오</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ OVERVIEW ═══ -->
+<div class="container">
+  <section>
+    <span class="section-label">강의 핵심 요약</span>
+    <h2>정부 정책만으로 원화 강세 전환이 가능한가?</h2>
+    <div class="divider"></div>
+    <p>이재명 정부의 재정 확대, 주식시장 활성화, 조선·방산·원자력 수출, 새만금 AI 인프라 투자 등 다양한 정책이 원화가치에 어떤 영향을 미치는지를 냉정하게 분석한다. 결론부터 말하면, <strong>정책 효과는 복합적이며 단기·중기적으로 원화 약세를 막기에는 역부족</strong>이다.</p>
+    <p>원화 약세의 본질은 정책 실패가 아닌 <strong>4가지 구조적 문제</strong>에 기인한다.</p>
+  </section>
+
+  <!-- ═══ POLICY IMPACT TABLE ═══ -->
+  <section>
+    <span class="section-label">정책별 원화 영향 분석</span>
+    <h2>각 정책이 원화에 미치는 효과</h2>
+    <div class="divider"></div>
+    <div class="fade-in">
+      <table class="policy-table">
+        <thead>
+          <tr>
+            <th>정책</th>
+            <th>단기</th>
+            <th>중장기</th>
+            <th>핵심 이유</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>조선·방산·원자력 수출</strong></td>
+            <td><span class="tag tag-pos">긍정</span></td>
+            <td><span class="tag tag-pos">긍정</span></td>
+            <td>달러 유입 확대 — 단, 구조 전환에는 역부족</td>
+          </tr>
+          <tr>
+            <td><strong>주식시장 활성화</strong></td>
+            <td><span class="tag tag-neg">부정</span></td>
+            <td><span class="tag tag-neg">중기 부정</span></td>
+            <td>외국인 차익실현 → 달러 유출 (1,500조원 대기 중)</td>
+          </tr>
+          <tr>
+            <td><strong>재정 확대·경기 부양</strong></td>
+            <td><span class="tag tag-mix">일시 긍정</span></td>
+            <td><span class="tag tag-neg">부정</span></td>
+            <td>국가채무 증가 + 인구 감소로 상환 능력 저하</td>
+          </tr>
+          <tr>
+            <td><strong>새만금 AI 인프라</strong></td>
+            <td><span class="tag tag-neg">미약 부정</span></td>
+            <td><span class="tag tag-mix">불확실</span></td>
+            <td>엔비디아 칩 수입 = 달러 지출 / AI 수출 경쟁력 미미</td>
+          </tr>
+          <tr>
+            <td><strong>K컬처·관광·내수</strong></td>
+            <td><span class="tag tag-mix">미미</span></td>
+            <td><span class="tag tag-mix">미미</span></td>
+            <td>GDP 대비 규모 너무 작음</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pull-quote fade-in">
+      <p>"주식시장 활성화는 단기에 원화 <strong>약세</strong>를 불러오고, 재정 확대는 중장기에 원화 <strong>약세</strong>를 가속화한다."</p>
+      <cite>— 박종훈 소장, 2026.03.23</cite>
+    </div>
+  </section>
+
+  <!-- ═══ 4 STRUCTURAL FACTORS ═══ -->
+  <section>
+    <span class="section-label">구조적 원인</span>
+    <h2>원화 약세의 4가지 뿌리</h2>
+    <div class="divider"></div>
+    <div class="factor-grid">
+
+      <div class="factor-card fade-in">
+        <div class="factor-card-header">
+          <span class="factor-num">01</span>
+          <span class="factor-title">인구구조 악화 — 확정된 미래</span>
+        </div>
+        <div class="factor-body">
+          생산가능인구(15~64세)가 급속도로 줄어들면서 <strong>잠재성장률 하락 → 외국 자본 유입 감소</strong>로 이어진다. 베이비붐 세대(~74년생)가 10년 내 전원 은퇴하면 세수 기반이 붕괴된다. 복지지출(기초연금, 의료비 4배 급증)은 재정적자를 구조화시키고, 결국 중앙은행이 국채를 매입하는 단계로 향할 수 있다.
+          <br><br>
+          <strong>일본의 선례:</strong> 2012년 75엔 → 2024년 160엔 (12년 만에 2배 이상 절하). 우리나라로 환산하면 1,500원 → 3,000원에 해당.
+        </div>
+      </div>
+
+      <div class="factor-card fade-in">
+        <div class="factor-card-header">
+          <span class="factor-num">02</span>
+          <span class="factor-title">수출기업 달러 역송금 중단</span>
+        </div>
+        <div class="factor-body">
+          반도체 수출 호조에도 환율이 1,500원을 넘는 핵심 이유다. 2010년대 초까지는 수출 달러를 <strong>전액 원화로 환전</strong>했지만, 이제는 해외 법인에 달러를 그대로 유보한다. 트럼프 압박으로 3,500억 달러 미국 투자 약속까지 겹쳐 달러 공급이 구조적으로 차단됐다.
+          <br><br>
+          <strong>추가 악재:</strong> HBM 생산에 필요한 ASML 노광기·일본 소재를 달러로 수입 → 수출 호황 = 수입도 동반 증가.
+        </div>
+      </div>
+
+      <div class="factor-card fade-in">
+        <div class="factor-card-header">
+          <span class="factor-num">03</span>
+          <span class="factor-title">국민연금의 구조적 달러 매수</span>
+        </div>
+        <div class="factor-body">
+          국민연금은 경기와 무관하게 <strong>기계적으로 해외 투자 비중을 확대</strong>한다. 2030년대 60% 중반까지 해외 자산 비중을 늘리기로 선언했다. 연금 납입이 계속되는 한 달러 매수는 멈추지 않는다.
+          <br><br>
+          <strong>역설:</strong> 정부가 환헤지를 강요하면 환헤지 비용이 국민 노후자산 수익률을 깎아먹는다. "환율 잡으려다 노후 잡는" 딜레마.
+        </div>
+      </div>
+
+      <div class="factor-card fade-in">
+        <div class="factor-card-header">
+          <span class="factor-num">04</span>
+          <span class="factor-title">달러 스마일(Dollar Smile) 효과</span>
+        </div>
+        <div class="factor-body">
+          달러는 <strong>미국 경기 호황</strong>일 때도, <strong>글로벌 위기</strong>일 때도 강세다. 달러 약세는 오직 미국 경기 침체 우려 + 연준 대규모 완화 구간에만 나타난다. 원화는 이 스마일 구조에서 항상 불리한 위치에 있다.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ CHARTS ═══ -->
+  <section>
+    <span class="section-label">데이터 시각화</span>
+    <h2>숫자로 보는 원화 약세</h2>
+    <div class="divider"></div>
+
+    <!-- Chart 1: M2 비교 -->
+    <div class="chart-wrap fade-in">
+      <div class="chart-label">📊 통화량(M2) 증가율 비교 (2022~2026)</div>
+      <div class="chart-container fade-in">
+        <canvas id="m2Chart" height="220"></canvas>
+      </div>
+      <p style="font-size:12px;color:var(--text2);margin-top:8px;margin-bottom:0;">한국 M2: 최초 발표 기준 +21%, 통계기준 변경 후 +14% / 미국 M2: +4%</p>
+    </div>
+
+    <!-- Chart 2: 엔/달러 역사 -->
+    <div class="chart-wrap fade-in">
+      <div class="chart-label">📉 일본 엔/달러 환율 변화 (2012→2024)</div>
+      <div class="chart-container fade-in">
+        <canvas id="yenChart" height="220"></canvas>
+      </div>
+      <p style="font-size:12px;color:var(--text2);margin-top:8px;margin-bottom:0;">G2까지 갔던 일본조차 75엔 → 160엔으로 2배 이상 절하. 한국이라면 750원 → 1,600원 수준.</p>
+    </div>
+
+    <!-- Chart 3: 환율 단계별 상승 -->
+    <div class="chart-wrap fade-in">
+      <div class="chart-label">📈 원/달러 환율 계단식 상승 추이 (개념도)</div>
+      <div class="chart-container fade-in">
+        <canvas id="wonChart" height="220"></canvas>
+      </div>
+      <p style="font-size:12px;color:var(--text2);margin-top:8px;margin-bottom:0;">한국은행 개입 → 일시 하락 → 재상승 반복. "계단식 상승" 패턴.</p>
+    </div>
+  </section>
+
+  <!-- ═══ SIMULATOR ═══ -->
+  <section>
+    <span class="section-label">인터랙티브 시뮬레이터</span>
+    <h2>달러 투자 수익 시뮬레이터</h2>
+    <div class="divider"></div>
+    <p>달러 정기예금 또는 단기채 ETF(SGOV 등)에 투자했을 때, 환율 변동과 금리 수익을 합산한 예상 수익을 계산해보세요.</p>
+
+    <div class="simulator fade-in">
+      <div class="sim-title">달러 보유 시나리오 계산기</div>
+
+      <div class="slider-row">
+        <label>투자 원금 (원화) <span id="principalVal">1,000만원</span></label>
+        <input type="range" id="principal" min="100" max="5000" step="100" value="1000">
+      </div>
+      <div class="slider-row">
+        <label>매수 환율 <span id="buyRateVal">1,450원</span></label>
+        <input type="range" id="buyRate" min="1300" max="1600" step="10" value="1450">
+      </div>
+      <div class="slider-row">
+        <label>예상 미래 환율 <span id="sellRateVal">1,550원</span></label>
+        <input type="range" id="sellRate" min="1300" max="2000" step="10" value="1550">
+      </div>
+      <div class="slider-row">
+        <label>연 금리 (달러 단기채/예금) <span id="rateVal">4.0%</span></label>
+        <input type="range" id="interestRate" min="1" max="7" step="0.1" value="4.0">
+      </div>
+      <div class="slider-row">
+        <label>보유 기간 (년) <span id="yearsVal">2년</span></label>
+        <input type="range" id="years" min="1" max="10" step="1" value="2">
+      </div>
+
+      <div class="sim-result">
+        <span class="big-num" id="totalReturn">–</span>
+        <div id="simBreakdown"></div>
+        <div class="sub" id="simSub"></div>
+      </div>
+      <button class="reset-btn" id="resetSim">↺ 초기값으로 리셋</button>
+    </div>
+  </section>
+
+  <!-- ═══ DOLLAR STRATEGY ═══ -->
+  <section>
+    <span class="section-label">실전 전략</span>
+    <h2>달러 투자 3단계 전략</h2>
+    <div class="divider"></div>
+
+    <div class="strategy-steps fade-in">
+      <div class="strategy-step">
+        <div class="step-badge">1</div>
+        <div class="step-content">
+          <h4>🔐 안전형 — 외화 RP · 달러 정기예금</h4>
+          <p>수시입출이 가능한 외화 RP(연 3~5%), 또는 달러 정기예금(연 3.0~3.1%). 예금자 보호 1억원까지 적용. 금리 변동에 원금 손실 없음. 초보자 최우선 추천.</p>
+        </div>
+      </div>
+      <div class="strategy-step">
+        <div class="step-badge">2</div>
+        <div class="step-content">
+          <h4>⚖️ 중간형 — SGOV 등 달러 단기채 ETF</h4>
+          <p>미국 단기 국채 ETF. 금리가 올라도 자본손실 없음(만기 짧음). 연 3.5~4% 수익. 언제든 매도 가능. TLT(장기채) ETF는 금리 상승 시 자본손실 위험 → 비추천.</p>
+        </div>
+      </div>
+      <div class="strategy-step">
+        <div class="step-badge">3</div>
+        <div class="step-content">
+          <h4>🚀 공격형 — QQQ·SPY 등 미국 주식 ETF</h4>
+          <p>정액 분할매수(적립식)로 접근. 미국 증시는 4년마다 20%↓, 8~9년마다 30%↓ 하락 이력. 하락 시 추가 매수 전략. TQQQ·ARK(액티브) ETF는 장기 보유 시 손실 위험 → 비추천.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight-box fade-in">
+      <strong>환전 전략 변화:</strong> 과거 "3년 평균 환율 이하 매수" 원칙 → 현재는 <strong>자동환전(정액 분할)</strong>으로 전환. 환율이 기조적으로 상승하는 뉴노멀 환경에서는 타이밍보다 꾸준함이 중요.
+    </div>
+
+    <div class="stat-row fade-in">
+      <div class="stat-box">
+        <span class="stat-num">1,500원</span>
+        <div class="stat-label">현재 원/달러 저항선</div>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num">4조$</span>
+        <div class="stat-label">일본의 대외 달러 자산 (6,000조원)</div>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num">60%+</span>
+        <div class="stat-label">국민연금 해외투자 목표 비중</div>
+      </div>
+    </div>
+  </section>
+</div><!-- /container -->
+
+<!-- ═══ QUIZ ═══ -->
+<div class="quiz-section">
+  <div class="container">
+    <span class="section-label">이해도 점검</span>
+    <h2>📝 핵심 개념 확인 문제 (10문항)</h2>
+    <div class="divider"></div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:24px;">문제를 클릭하면 선택지가 열립니다. 정답을 선택하면 해설을 확인할 수 있습니다.</p>
+
+    <!-- Q1 -->
+    <div class="quiz-item fade-in" data-qid="1">
+      <div class="quiz-q">
+        <span class="quiz-num">Q1 · 쉬움</span>
+        <span class="quiz-q-text">박종훈 소장이 설명하는 원화 약세의 구조적 원인이 <strong>아닌</strong> 것은?</span>
+        <span class="quiz-arrow">▼</span>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-type-badge">객관식</div>
+        <div class="quiz-option" data-correct="false">① 인구구조 악화</div>
+        <div class="quiz-option" data-correct="false">② 수출기업의 달러 역송금 중단</div>
+        <div class="quiz-option" data-correct="true">③ 외국인의 대규모 한국 부동산 매도</div>
+        <div class="quiz-option" data-correct="false">④ 국민연금의 구조적 달러 매수</div>
+        <div class="quiz-explain">외국인의 한국 부동산 보유 비중은 크지 않고, 부동산은 즉각 매도가 어렵다. 실제 구조적 원인은 ①②④ + 달러 스마일 효과 4가지다.</div>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-item fade-in" data-qid="2">
+      <div class="quiz-q">
+        <span class="quiz-num">Q2 · 쉬움</span>
+        <span class="quiz-q-text">일본 엔/달러 환율이 2012년에서 2024년 사이 어떻게 변했는가?</span>
+        <span class="quiz-arrow">▼</span>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-type-badge">객관식</div>
+        <div class="quiz-option" data-correct="false">① 75엔 → 120엔</div>
+        <div class="quiz-option" data-correct="true">② 75엔 → 160엔</div>
+        <div class="quiz-option" data-correct="false">③ 100엔 → 160엔</div>
+        <div class="quiz-option" data-correct="false">④ 80엔 → 140엔</div>
+        <div class="quiz-explain">2012년 약 75엔에서 2024년 약 160엔으로 2배 이상 상승. 한국 기준으로 환산하면 1,500원 → 3,000원에 해당하는 절하다.</div>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-item fade-in" data-qid="3">
+      <div class="quiz-q">
+        <span class="quiz-num">Q3 · 보통</span>
+        <span class="quiz-q-text">주식시장 활성화 정책이 단기적으로 원화 약세를 가져오는 이유는?</span>
+        <span class="quiz-arrow">▼</span>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-type-badge">객관식</div>
+        <div class="quiz-option" data-correct="false">① 국내 투자자들이 달러를 대거 매수하기 때문</div>
+        <div class="quiz-option" data-correct="true">② 오랫동안 갇혀 있던 외국인들이 주가 상승 시 차익실현을 위해 대거 매도하기 때문</div>
+        <div class="quiz-option" data-correct="false">③ 국민연금이 환헤지를 늘리기 때문</div>
+        <div class="quiz-option" data-correct="false">④ 정부가 주식시장 부양을 위해 돈을 많이 풀기 때문</div>
+        <div class="quiz-explain">한국 주식시장에 1,500조원가량 투자된 외국인들이 지수 급등 시 7~8배 수익을 실현하며 달러로 자금을 빼간다. 이 달러 유출이 원화 약세를 초래한다.</div>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-item fade-in" data-qid="4">
+      <div class="quiz-q">
+        <span class="quiz-num">Q4 · 보통</span>
+        <span class="quiz-q-text">"달러 스마일(Dollar Smile)"이란 무엇을 의미하는가?</span>
+        <span class="quiz-arrow">▼</span>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-type-badge">객관식</div>
+        <div class="quiz-option" data-correct="false">① 달러 환율이 항상 미소짓듯 상승한다는 이론</div>
+        <div class="quiz-option" data-correct="true">② 미국 경기 호황과 글로벌 위기 모두에서 달러 강세가 나타나고, 중간 구간에서만 달러 약세가 오는 구조</div>
+        <div class="quiz-option" data-correct="false">③ 달러 환율이 미소 곡선처럼 서서히 하락한다는 이론</div>
+        <div class="quiz-option" data-correct="false">④ 미국 연준이 웃을 때만 달러가 강해진다는 속설</div>
+        <div class="quiz-explain">달러는 미국 호황 → 달러 강세, 글로벌 위기 → 달러 강세, 미국 침체 우려+완화 → 달러 약세. 이 그래프가 미소(U자) 모양을 형성한다.</div>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="quiz-item fade-in" data-qid="5">
+      <div class="quiz-q">
+        <span class="quiz-num">Q5 · 보통</span>
+        <span class="quiz-q-text">2022~2026년 한국 M2 증가율과 미국 M2 증가율은 각각 얼마인가?</span>
+        <span class="quiz-arrow">▼</span>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-type-badge">객관식</div>
+        <div class="quiz-option" data-correct="false">① 한국 7%, 미국 15%</div>
+        <div class="quiz-option" data-correct="false">② 한국 14%, 미국 10%</div>
+        <div class="quiz-option" data-correct="true">③ 한국 21%(원발표)/14%(기준변경), 미국 4%</div>
+        <div class="quiz-option" data-correct="false">④ 한국 5%, 미국 4%</div>
+        <div class="quiz-explain">한국은행이 기준을 변경해도 한국은 미국보다 3~5배 빠른 속도로 통화를 공급했다. 성장률은 미국의 절반에 불과한데 통화는 3배 이상 찍으면 원화가치가 하락할 수밖에 없다.</div>
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="quiz-item fade-in" data-qid="6">
+      <div class="quiz-q">
+        <span class="quiz-num">Q6 · 보통</span>
+        <span class="quiz-q-text">박종훈 소장이 달러 투자에서 <strong>비추천</strong>하는 상품은?</span>
+        <span class="quiz-arrow">▼</span>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-type-badge">객관식</div>
+        <div class="quiz-option" data-correct="false">① SGOV (달러 단기채 ETF)</div>
+        <div class="quiz-option" data-correct="true">② TQQQ, ARK (레버리지·액티브 ETF)</div>
+        <div class="quiz-option" data-correct="false">③ QQQ (나스닥 추종 패시브 ETF)</div>
+        <div class="quiz-option" data-correct="false">④ 달러 정기예금</div>
+        <div class="quiz-explain">TQQQ는 레버리지 구조 특성상 장기 보유 시 손실이 확정적으로 발생한다. ARK 같은 액티브 펀드는 호황기에 변동성 높은 자산에 집중 투자해 하락기 손실이 패시브보다 크다.</div>
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="quiz-item fade-in" data-qid="7">
+      <div class="quiz-q">
+        <span class="quiz-num">Q7 · 보통</span>
+        <span class="quiz-q-text">국민연금이 해외 투자 비중을 늘리는 이유로 가장 적절한 것은?</span>
+        <span class="quiz-arrow">▼</span>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-type-badge">객관식</div>
+        <div class="quiz-option" data-correct="false">① 정부가 원화 약세를 원하기 때문</div>
+        <div class="quiz-option" data-correct="true">② 향후 자산을 매도해야 할 때 국내 자산이 폭락하는 것을 방지하기 위해</div>
+        <div class="quiz-option" data-correct="false">③ 미국 주식 수익률이 무조건 높기 때문</div>
+        <div class="quiz-option" data-correct="false">④ 환율 수익을 극대화하기 위해</div>
+        <div class="quiz-explain">국민연금이 국내 자산을 팔 때 규모가 너무 커서 자산 가격이 폭락한다. 이를 방지하기 위해 해외 자산 비중을 높이는 것이 장기적으로 옳다.</div>
+      </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="quiz-item fade-in" data-qid="8">
+      <div class="quiz-q">
+        <span class="quiz-num">Q8 · 어려움</span>
+        <span class="quiz-q-text">재정 확대 정책이 장기적으로 원화 약세를 가속화하는 구조적 이유를 설명한 것으로 가장 옳은 것은?</span>
+        <span class="quiz-arrow">▼</span>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-type-badge">객관식</div>
+        <div class="quiz-option" data-correct="false">① 정부가 지출을 늘리면 인플레이션이 발생해 원화가 약해지기 때문</div>
+        <div class="quiz-option" data-correct="true">② 10년 만기 국채로 현재를 살려도 상환 시기에는 베이비부머 은퇴로 납세 인구가 급감해 재정 신인도가 하락하기 때문</div>
+        <div class="quiz-option" data-correct="false">③ 재정 확대를 하면 금리가 올라 원화가 약해지기 때문</div>
+        <div class="quiz-option" data-correct="false">④ 외국인이 한국 국채를 싫어하기 때문</div>
+        <div class="quiz-explain">베이비붐 세대(~74년생)가 10년 내 전원 은퇴하면 납세 인구가 반토막 난다. 오늘 발행한 10년짜리 국채를 갚을 사람이 현저히 줄어들어 재정 지속 가능성이 훼손되고 원화 신뢰도가 하락한다.</div>
+      </div>
+    </div>
+
+    <!-- Q9 OX -->
+    <div class="quiz-item fade-in" data-qid="9">
+      <div class="quiz-q">
+        <span class="quiz-num">Q9 · 쉬움</span>
+        <span class="quiz-q-text">OX 문제: "반도체 수출이 호황이면 원화가치는 반드시 강세가 된다."</span>
+        <span class="quiz-arrow">▼</span>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-type-badge">OX</div>
+        <div class="quiz-option" data-correct="false">O (맞다)</div>
+        <div class="quiz-option" data-correct="true">X (틀리다)</div>
+        <div class="quiz-explain">수출기업이 달러를 해외 법인에 유보하고 원화로 환전하지 않기 때문에, 반도체 호황에도 환율이 1,500원을 넘나드는 역설이 발생한다.</div>
+      </div>
+    </div>
+
+    <!-- Q10 단답형 -->
+    <div class="quiz-item fade-in" data-qid="10">
+      <div class="quiz-q">
+        <span class="quiz-num">Q10 · 어려움</span>
+        <span class="quiz-q-text">박종훈 소장이 현재 권장하는 달러 환전 전략 방식은 무엇인가? (아래 중 가장 정확한 설명 선택)</span>
+        <span class="quiz-arrow">▼</span>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-type-badge">객관식</div>
+        <div class="quiz-option" data-correct="false">① 3년 평균 환율 이하에서만 집중 매수</div>
+        <div class="quiz-option" data-correct="false">② 환율이 급등했을 때 일시에 대량 매수</div>
+        <div class="quiz-option" data-correct="true">③ 자동환전으로 정액 분할매수 + 특정 환율 이하 구간에 3배 추가 매수</div>
+        <div class="quiz-option" data-correct="false">④ 1년 평균 환율 이하에서만 환전</div>
+        <div class="quiz-explain">환율이 기조적 상승 추세인 뉴노멀에서는 타이밍 보다 꾸준한 정액 분할매수(자동환전)가 현실적이다. 다만 환율이 특정 수준보다 낮아지면 3배 적립하는 방식을 병행하면 좋다고 조언한다.</div>
+      </div>
+    </div>
+
+  </div><!-- /container -->
+</div><!-- /quiz-section -->
+
+<footer>
+  <div>박종훈 소장 QA 강의 분석 · 2026년 3월 4주차 · 경제 관점 분석</div>
+  <div style="margin-top:6px;">본 문서는 강의 내용을 요약·정리한 것으로 투자 권유가 아닙니다.</div>
+</footer>
+
+<script>
+// ─── INTERSECTION OBSERVERS ───
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+const chartConfigs = {};
+
+chartConfigs['m2Chart'] = () => {
+  new Chart(document.getElementById('m2Chart'), {
+    type: 'bar',
+    data: {
+      labels: ['한국 M2\n(원발표)', '한국 M2\n(기준변경)', '미국 M2'],
+      datasets: [{
+        label: '통화량 증가율 (%)',
+        data: [21, 14, 4],
+        backgroundColor: ['#e11d48', '#f43f5e', '#2563eb'],
+        borderRadius: 6,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: { label: ctx => ` ${ctx.raw}%` }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { callback: v => v + '%', font: { size: 11 } },
+          grid: { color: '#e5e5e5' }
+        },
+        x: { ticks: { font: { size: 11 } }, grid: { display: false } }
+      }
+    }
+  });
+};
+
+chartConfigs['yenChart'] = () => {
+  new Chart(document.getElementById('yenChart'), {
+    type: 'line',
+    data: {
+      labels: ['2012', '2013', '2014', '2016', '2018', '2020', '2022', '2023', '2024'],
+      datasets: [{
+        label: '엔/달러 환율',
+        data: [75, 97, 110, 115, 110, 107, 132, 145, 160],
+        borderColor: '#e11d48',
+        backgroundColor: 'rgba(225,29,72,0.08)',
+        borderWidth: 2.5,
+        tension: 0.3,
+        fill: true,
+        pointBackgroundColor: '#e11d48',
+        pointRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.raw}엔` } }
+      },
+      scales: {
+        y: {
+          ticks: { callback: v => v + '엔', font: { size: 11 } },
+          grid: { color: '#e5e5e5' }
+        },
+        x: { ticks: { font: { size: 11 } }, grid: { display: false } }
+      }
+    }
+  });
+};
+
+chartConfigs['wonChart'] = () => {
+  new Chart(document.getElementById('wonChart'), {
+    type: 'line',
+    data: {
+      labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
+      datasets: [
+        {
+          label: '원/달러 환율 (계단식)',
+          data: [1200, 1220, 1280, 1260, 1310, 1330, 1390, 1370, 1440, 1480, 1520, 1500],
+          borderColor: '#e11d48',
+          backgroundColor: 'rgba(225,29,72,0.07)',
+          borderWidth: 2.5,
+          tension: 0.2,
+          fill: true,
+          pointRadius: 3,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.raw}원` } },
+        annotation: {}
+      },
+      scales: {
+        y: {
+          ticks: { callback: v => v + '원', font: { size: 11 } },
+          grid: { color: '#e5e5e5' }
+        },
+        x: { ticks: { font: { size: 10 }, color: '#999' }, grid: { display: false } }
+      }
+    }
+  });
+};
+
+const chartObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const canvas = e.target.querySelector('canvas');
+      if (canvas && chartConfigs[canvas.id]) {
+        chartConfigs[canvas.id]();
+        e.target.classList.add('chart-ready');
+        chartObs.unobserve(e.target);
+      }
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+
+// ─── SIMULATOR ───
+const defaults = { principal: 1000, buyRate: 1450, sellRate: 1550, interestRate: 4.0, years: 2 };
+
+function fmt(n) { return n.toLocaleString('ko-KR', { maximumFractionDigits: 0 }); }
+function fmtPct(n) { return n.toFixed(1); }
+
+function updateSim() {
+  const principal = +document.getElementById('principal').value;
+  const buyRate   = +document.getElementById('buyRate').value;
+  const sellRate  = +document.getElementById('sellRate').value;
+  const rate      = +document.getElementById('interestRate').value;
+  const years     = +document.getElementById('years').value;
+
+  document.getElementById('principalVal').textContent = fmt(principal * 10000) + '원';
+  document.getElementById('buyRateVal').textContent   = fmt(buyRate) + '원';
+  document.getElementById('sellRateVal').textContent  = fmt(sellRate) + '원';
+  document.getElementById('rateVal').textContent      = fmtPct(rate) + '%';
+  document.getElementById('yearsVal').textContent     = years + '년';
+
+  const dollarAmt  = (principal * 10000) / buyRate;
+  const interest   = dollarAmt * (rate / 100) * years;
+  const totalDollar = dollarAmt + interest;
+  const finalKRW   = totalDollar * sellRate;
+  const profitKRW  = finalKRW - (principal * 10000);
+  const totalPct   = (profitKRW / (principal * 10000)) * 100;
+  const annualPct  = totalPct / years;
+
+  const fxProfit   = dollarAmt * (sellRate - buyRate);
+  const intProfit  = interest * sellRate;
+
+  document.getElementById('totalReturn').textContent
+    = (profitKRW >= 0 ? '+' : '') + fmt(profitKRW) + '원';
+  document.getElementById('simBreakdown').innerHTML = `
+    환차익: ${fmt(fxProfit)}원 &nbsp;|&nbsp; 이자수익: ${fmt(intProfit)}원<br>
+    총수익률: ${fmtPct(totalPct)}% &nbsp;|&nbsp; 연환산: ${fmtPct(annualPct)}%
+  `;
+  document.getElementById('simSub').textContent
+    = `매수 달러: $${fmt(dollarAmt)} → 최종 원화: ${fmt(finalKRW)}원`;
+}
+
+['principal','buyRate','sellRate','interestRate','years'].forEach(id => {
+  document.getElementById(id).addEventListener('input', updateSim);
+});
+document.getElementById('resetSim').addEventListener('click', () => {
+  Object.entries(defaults).forEach(([k,v]) => {
+    document.getElementById(k).value = v;
+  });
+  updateSim();
+});
+updateSim();
+
+// ─── QUIZ ───
+document.querySelectorAll('.quiz-item').forEach(item => {
+  const header = item.querySelector('.quiz-q');
+  header.addEventListener('click', () => {
+    item.classList.toggle('open');
+  });
+
+  item.querySelectorAll('.quiz-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      if (item.querySelector('.quiz-option.disabled')) return;
+      const isCorrect = opt.dataset.correct === 'true';
+      item.querySelectorAll('.quiz-option').forEach(o => {
+        o.classList.add('disabled');
+        if (o.dataset.correct === 'true') o.classList.add('correct');
+      });
+      if (!isCorrect) opt.classList.add('wrong');
+      const explain = item.querySelector('.quiz-explain');
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
+</body>
+</html>
